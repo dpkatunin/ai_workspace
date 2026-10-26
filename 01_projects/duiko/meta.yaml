@@ -1,6 +1,0 @@
-project_id: duiko
-client: "Дуйко"
-project_name: "Внедрение УНФ + ЗУП"
-config:
-  - unf
-  - zup
