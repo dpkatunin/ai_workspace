@@ -4,19 +4,21 @@
 
 | Папка | Что | Примеры карточек |
 |---|---|---|
-| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `doc-akt-vypolnennyh-rabot`, `doc-sdelnyy-naryad`, `cat-nomenklatura`, `cat-sklady` |
+| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `doc-akt-vypolnennyh-rabot`, `doc-sdelnyy-naryad`, `doc-dopolnitelnye-rashody`, `doc-korrektirovka-postupleniya`, `cat-nomenklatura`, `cat-sklady` |
 | `mechanisms/` | Сквозные механизмы | `mech-rezervirovanie`, `mech-ordernaya-shema` |
 | `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii`, `pb-sebestoimost-rabot` |
-| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii`, `pit-raboty`, `pit-sklad` |
+| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii`, `pit-raboty`, `pit-sklad`, `pit-zakupki` |
 | `cases/` | Паттерны из внедрений | `case-mebel-nestandart` |
 
 ## Приоритет наполнения
 
-Фаза 2:
+Фаза 2 (цель — полный торговый контур, см. `handover.md`):
 1. Контур **работ**: акт, сдельный наряд, грабли — закрыто.
-2. **Склад**: ордерная схема, справочник складов, грабли — закрыто этим спринтом.
-3. Углубление **закупок**: доп. расходы, корректировки поступления.
-4. **Кейсы** из `_source/` (15 шт. — по одному).
+2. **Склад**: ордерная схема, справочник складов, грабли — закрыто.
+3. **Закупки**: доп. расходы, корректировка поступления, грабли — закрыто этим спринтом.
+4. **Ценообразование**: виды цен, скидки, установка цен.
+5. **Деньги**: касса, банк, эквайринг, подотчёт.
+6. **Кейсы** из `_source/` (по 2 за спринт).
 
 ## Готовые карточки
 
@@ -30,24 +32,27 @@
 - `unf30-doc-zakaz-naryad` — Заказ-наряд (выполнение работ).
 - `unf30-doc-akt-vypolnennyh-rabot` — Акт выполненных работ.
 - `unf30-doc-sdelnyy-naryad` — Сдельный наряд (зарплата).
+- `unf30-doc-dopolnitelnye-rashody` — Дополнительные расходы.
+- `unf30-doc-korrektirovka-postupleniya` — Корректировка поступления.
 - `unf30-cat-nomenklatura` — Справочник «Номенклатура» (типы для работ).
 - `unf30-cat-sklady` — Справочник «Склады и магазины».
 
 ### Механизмы
 - `unf30-mech-rezervirovanie` — Резервирование запасов (жёсткий резерв).
-- `unf30-mech-ordernaya-shema` — Ордерная схема (разделение физического и финансового движения).
+- `unf30-mech-ordernaya-shema` — Ордерная схема.
 
 ### Процедуры (playbooks)
 - `unf30-pb-otgruzka-s-rezervom` — отгрузка с резервом (эталон playbook).
-- `unf30-pb-vypusk-produkcii` — выпуск продукции (приоритет).
+- `unf30-pb-vypusk-produkcii` — выпуск продукции.
 - `unf30-pb-sebestoimost-rabot` — расчёт себестоимости работ.
 
 ### Грабли (pitfalls)
 - `unf30-pit-rezervirovanie` — резервы (эталон pitfall).
-- `unf30-pit-proizvodstvo` — производство (приоритет).
+- `unf30-pit-proizvodstvo` — производство.
 - `unf30-pit-specifikacii` — спецификации.
 - `unf30-pit-raboty` — контур работ.
 - `unf30-pit-sklad` — склад.
+- `unf30-pit-zakupki` — закупки.
 
 ### Кейсы
 - `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).

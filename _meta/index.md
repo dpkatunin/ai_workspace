@@ -32,8 +32,8 @@
 - `unf30-pb-otgruzka-s-rezervom` — процедура: отгрузка с резервом.
 - `unf30-pit-rezervirovanie` — грабли: кластер по резервам.
 - `unf30-case-mebel-nestandart` — паттерн: мебельное производство.
-- `unf30-pb-vypusk-produkcii` — процедура: выпуск продукции (приоритет).
-- `unf30-pit-proizvodstvo` — грабли: производство (приоритет).
+- `unf30-pb-vypusk-produkcii` — процедура: выпуск продукции.
+- `unf30-pit-proizvodstvo` — грабли: производство.
 - `unf30-doc-proizvodstvo` — объект: документ «Производство».
 - `unf30-doc-akt-vypolnennyh-rabot` — объект: акт выполненных работ.
 - `unf30-doc-sdelnyy-naryad` — объект: сдельный наряд.
@@ -41,6 +41,9 @@
 - `unf30-mech-ordernaya-shema` — механизм: ордерная схема.
 - `unf30-cat-sklady` — объект: справочник складов.
 - `unf30-pit-sklad` — грабли: склад.
+- `unf30-doc-dopolnitelnye-rashody` — объект: дополнительные расходы.
+- `unf30-doc-korrektirovka-postupleniya` — объект: корректировка поступления.
+- `unf30-pit-zakupki` — грабли: закупки.
 
 ## Правила и архитектура
 
