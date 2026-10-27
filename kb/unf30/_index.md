@@ -4,10 +4,10 @@
 
 | Папка | Что | Примеры карточек |
 |---|---|---|
-| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo` |
-| `mechanisms/` | Сквозные механизмы | резервы, скидки, партии |
-| `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii` |
-| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo` |
+| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `cat-nomenklatura` |
+| `mechanisms/` | Сквозные механизмы | `mech-rezervirovanie` |
+| `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii`, `pb-sebestoimost-rabot` |
+| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii` |
 | `cases/` | Паттерны из внедрений | `case-mebel-nestandart` |
 
 ## Приоритет наполнения
@@ -22,17 +22,25 @@
 ### Объекты
 - `unf30-doc-realizaciya` — Расходная накладная (эталон объекта).
 - `unf30-doc-proizvodstvo` — Производство / Сборка запасов.
+- `unf30-cat-specifikaciya` — Спецификации (рецепты изделий).
+- `unf30-doc-zakaz-na-proizvodstvo` — Заказ на производство (план).
+- `unf30-doc-zakaz-pokupatelya` — Заказ покупателя (обязательство и резерв).
+- `unf30-doc-prikhodnaya-nakladnaya` — Приходная накладная (поступление).
+- `unf30-doc-zakaz-naryad` — Заказ-наряд (выполнение работ).
+- `unf30-cat-nomenklatura` — Справочник «Номенклатура» (типы для работ).
 
 ### Механизмы
-Пока нет. Первый кандидат — `unf30-mech-rezervirovanie`.
+- `unf30-mech-rezervirovanie` — Резервирование запасов (жёсткий резерв).
 
 ### Процедуры (playbooks)
 - `unf30-pb-otgruzka-s-rezervom` — отгрузка с резервом (эталон playbook).
 - `unf30-pb-vypusk-produkcii` — выпуск продукции (приоритет).
+- `unf30-pb-sebestoimost-rabot` — расчёт себестоимости работ.
 
 ### Грабли (pitfalls)
 - `unf30-pit-rezervirovanie` — резервы (эталон pitfall).
 - `unf30-pit-proizvodstvo` — производство (приоритет).
+- `unf30-pit-specifikacii` — спецификации.
 
 ### Кейсы
 - `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).
