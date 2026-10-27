@@ -4,10 +4,10 @@
 
 | Папка | Что | Примеры карточек |
 |---|---|---|
-| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `doc-akt-vypolnennyh-rabot`, `doc-sdelnyy-naryad`, `doc-dopolnitelnye-rashody`, `doc-korrektirovka-postupleniya`, `doc-ustanovka-cen`, `cat-nomenklatura`, `cat-sklady` |
-| `mechanisms/` | Сквозные механизмы | `mech-rezervirovanie`, `mech-ordernaya-shema`, `mech-skidki-nacenki` |
+| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `doc-akt-vypolnennyh-rabot`, `doc-sdelnyy-naryad`, `doc-dopolnitelnye-rashody`, `doc-korrektirovka-postupleniya`, `doc-ustanovka-cen`, `cat-kassy`, `cat-nomenklatura`, `cat-sklady` |
+| `mechanisms/` | Сквозные механизмы | `mech-rezervirovanie`, `mech-ordernaya-shema`, `mech-skidki-nacenki`, `mech-bank-ekvayring` |
 | `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii`, `pb-sebestoimost-rabot` |
-| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii`, `pit-raboty`, `pit-sklad`, `pit-zakupki`, `pit-ceny` |
+| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii`, `pit-raboty`, `pit-sklad`, `pit-zakupki`, `pit-ceny`, `pit-dengi` |
 | `cases/` | Паттерны из внедрений | `case-mebel-nestandart` |
 
 ## Приоритет наполнения
@@ -16,9 +16,9 @@
 1. Контур **работ**: акт, сдельный наряд, грабли — закрыто.
 2. **Склад**: ордерная схема, справочник складов, грабли — закрыто.
 3. **Закупки**: доп. расходы, корректировка поступления, грабли — закрыто.
-4. **Ценообразование**: виды цен, установка цен, скидки/наценки, грабли — закрыто этим спринтом.
-5. **Деньги**: касса, банк, эквайринг, подотчёт. ← **следующий спринт**
-6. **Контрагенты/договоры**: базовая карточка + грабли.
+4. **Ценообразование**: виды цен, установка цен, скидки/наценки, грабли — закрыто.
+5. **Деньги**: касса, банк, эквайринг, подотчёт, грабли — закрыто этим спринтом.
+6. **Контрагенты/договоры**: базовая карточка + грабли. ← **следующий спринт** (после чекпоинта)
 7. **Кейсы** из `_source/` (по 2 за спринт).
 
 ## Готовые карточки
@@ -36,6 +36,7 @@
 - `unf30-doc-dopolnitelnye-rashody` — Дополнительные расходы.
 - `unf30-doc-korrektirovka-postupleniya` — Корректировка поступления.
 - `unf30-doc-ustanovka-cen` — Установка цен номенклатуры (черновик, спринт 4).
+- `unf30-cat-kassy` — Кассы и кассовый контур (черновик, спринт 5).
 - `unf30-cat-nomenklatura` — Справочник «Номенклатура» (типы для работ).
 - `unf30-cat-sklady` — Справочник «Склады и магазины».
 
@@ -43,6 +44,7 @@
 - `unf30-mech-rezervirovanie` — Резервирование запасов (жёсткий резерв).
 - `unf30-mech-ordernaya-shema` — Ордерная схема.
 - `unf30-mech-skidki-nacenki` — Скидки и наценки (черновик, спринт 4).
+- `unf30-mech-bank-ekvayring` — Банк и эквайринг (черновик, спринт 5).
 
 ### Процедуры (playbooks)
 - `unf30-pb-otgruzka-s-rezervom` — отгрузка с резервом (эталон playbook).
@@ -57,6 +59,7 @@
 - `unf30-pit-sklad` — склад.
 - `unf30-pit-zakupki` — закупки.
 - `unf30-pit-ceny` — цены, скидки, наценки (черновик, спринт 4).
+- `unf30-pit-dengi` — касса, банк, эквайринг, подотчёт (черновик, спринт 5).
 
 ### Кейсы
 - `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).
