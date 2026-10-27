@@ -68,12 +68,11 @@ synonyms: [реализация, расходная накладная, отгр
 status: verified
 source: "ИТС, разд. Продажи"
 updated: 2026-10-26
-related: [unf30-doc-zakaz-pokupatelya, unf30-mech-rezervirovanie]
+related: [unf30-pb-otgruzka-s-rezervom, unf30-pit-rezervirovanie]
 ---
 ```
 
 </BDS:create_file>
-
 <BDS:create_file fileName="_meta/conventions.md">
 
 ```markdown
@@ -81,18 +80,36 @@ related: [unf30-doc-zakaz-pokupatelya, unf30-mech-rezervirovanie]
 
 ## ID карточек
 
-Формат: `<config>-<type>-<slug>`.
+Формат: `<config>-<prefix>-<slug>`.
 
 - `config`: `unf30`, `erp`, `zup`, `bp`.
-- `type`: `doc`, `cat`, `reg`, `mech`, `pb`, `pit`, `case`, `adr`.
+- `prefix`: `doc`, `cat`, `reg`, `mech`, `pb`, `pit`, `case`, `adr`.
 - `slug`: латиница, дефисы, без пробелов. Смысловой, не порядковый.
 
 Примеры: `unf30-doc-realizaciya`, `unf30-mech-rezervirovanie`, `unf30-pb-otgruzka-s-rezervom`, `unf30-pit-rezervirovanie`.
 
+## Соответствие `type` и префикса ID
+
+Поле `type` во фронтматтере — это тип карточки (что она описывает). Префикс в `id` — это тип объекта. Для объектов метаданных они расходятся:
+
+| `type` | Префикс `id` | Когда |
+|---|---|---|
+| `object` | `doc` | документ |
+| `object` | `cat` | справочник |
+| `object` | `reg` | регистр |
+| `mechanism` | `mech` | сквозной механизм |
+| `playbook` | `pb` | процедура |
+| `pitfall` | `pit` | кластер грабель |
+| `case` | `case` | паттерн из внедрения |
+| `decision` | `adr` | архитектурное решение |
+| `project` | — | `id` = имя клиента, без префикса |
+
+Это не ошибка, а разное назначение полей. Префикс помогает в навигации по ID, `type` — в машинной фильтрации.
+
 ## Имена файлов
 
-`<type>-<slug>.md` в соответствующей папке:
-- `objects/doc-realizaciya.md`
+`<prefix>-<slug>.md` в соответствующей папке:
+- `objects/doc-realizaciya.md`, `objects/cat-nomenklatura.md`, `objects/reg-zapasy.md`
 - `mechanisms/mech-rezervirovanie.md`
 - `playbooks/pb-otgruzka-s-rezervom.md`
 - `pitfalls/pit-rezervirovanie.md`
@@ -123,6 +140,15 @@ related: [unf30-doc-zakaz-pokupatelya, unf30-mech-rezervirovanie]
 
 Не смешивать. Playbook ссылается на релевантные pitfall в конце.
 
+## Служебные каталоги и служебные символы
+
+- Каталоги с ведущим `_` (`_meta/`, `_source/`) — служебные. `kb/` и `projects/` — рабочие.
+- Служебные теги разметки (например, `</BDS:create_file>`, HTML-комментарии-маркеры) в тело карточек не попадают. Если такой попал — удалить при следующей правке карточки.
+
+## Каталог `_source/`
+
+`_source/` — исходные материалы (старые файлы, выгрузки, черновики), из которых перерабатываются карточки. **Не используется для ответов.** См. ADR-002.
+
 ## Как добавить карточку
 
 1. Выбрать тип и папку.
@@ -130,7 +156,7 @@ related: [unf30-doc-zakaz-pokupatelya, unf30-mech-rezervirovanie]
 3. Заполнить фронтматтер (все обязательные поля).
 4. Записать тело по секциям типа.
 5. Добавить ID в `_index.md` раздела и, если нужно, в `_meta/by-synonym.md`.
-6. Проверить, что нет дублей фактов.
+6. Проверить, что нет дублей фактов и нет ссылок на несуществующие ID.
 
 ## Обновление
 
