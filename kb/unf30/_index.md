@@ -4,7 +4,7 @@
 
 | Папка | Что | Примеры карточек |
 |---|---|---|
-| `objects/` | Документы, справочники, регистры | `doc-realizaciya` |
+| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo` |
 | `mechanisms/` | Сквозные механизмы | резервы, скидки, партии |
 | `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii` |
 | `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo` |
@@ -19,12 +19,23 @@
 
 ## Готовые карточки
 
+### Объекты
 - `unf30-doc-realizaciya` — Расходная накладная (эталон объекта).
+- `unf30-doc-proizvodstvo` — Производство / Сборка запасов.
+
+### Механизмы
+Пока нет. Первый кандидат — `unf30-mech-rezervirovanie`.
+
+### Процедуры (playbooks)
 - `unf30-pb-otgruzka-s-rezervom` — отгрузка с резервом (эталон playbook).
-- `unf30-pit-rezervirovanie` — резервы (эталон pitfall).
-- `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).
 - `unf30-pb-vypusk-produkcii` — выпуск продукции (приоритет).
+
+### Грабли (pitfalls)
+- `unf30-pit-rezervirovanie` — резервы (эталон pitfall).
 - `unf30-pit-proizvodstvo` — производство (приоритет).
+
+### Кейсы
+- `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).
 
 ## Как добавить карточку
 
