@@ -4,18 +4,18 @@
 
 | Папка | Что | Примеры карточек |
 |---|---|---|
-| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `cat-nomenklatura` |
+| `objects/` | Документы, справочники, регистры | `doc-realizaciya`, `doc-proizvodstvo`, `cat-specifikaciya`, `doc-zakaz-na-proizvodstvo`, `doc-zakaz-pokupatelya`, `doc-prikhodnaya-nakladnaya`, `doc-zakaz-naryad`, `doc-akt-vypolnennyh-rabot`, `doc-sdelnyy-naryad`, `cat-nomenklatura` |
 | `mechanisms/` | Сквозные механизмы | `mech-rezervirovanie` |
 | `playbooks/` | Процедуры | `pb-otgruzka-s-rezervom`, `pb-vypusk-produkcii`, `pb-sebestoimost-rabot` |
-| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii` |
+| `pitfalls/` | Кластеры грабель | `pit-rezervirovanie`, `pit-proizvodstvo`, `pit-specifikacii`, `pit-raboty` |
 | `cases/` | Паттерны из внедрений | `case-mebel-nestandart` |
 
 ## Приоритет наполнения
 
-Фаза 2 идёт по контуру **производство и работы**:
-1. Производство: спецификации, заказ, выпуск, себестоимость, брак, давальческое сырьё.
-2. Работы: заказ-наряд, акт, сдельная зарплата, распределение затрат.
-3. Затем — торговый контур: продажи, закупки, склад, деньги.
+Фаза 2:
+1. Контур **работ**: акт, сдельный наряд, грабли — закрыто этим спринтом.
+2. Углубление **торгового контура**: склад (ордерная схема, ячейки), закупки (доп. расходы, корректировки), ценообразование.
+3. **Кейсы** из `_source/` (15 шт. — по одному).
 
 ## Готовые карточки
 
@@ -27,6 +27,8 @@
 - `unf30-doc-zakaz-pokupatelya` — Заказ покупателя (обязательство и резерв).
 - `unf30-doc-prikhodnaya-nakladnaya` — Приходная накладная (поступление).
 - `unf30-doc-zakaz-naryad` — Заказ-наряд (выполнение работ).
+- `unf30-doc-akt-vypolnennyh-rabot` — Акт выполненных работ.
+- `unf30-doc-sdelnyy-naryad` — Сдельный наряд (зарплата).
 - `unf30-cat-nomenklatura` — Справочник «Номенклатура» (типы для работ).
 
 ### Механизмы
@@ -41,6 +43,7 @@
 - `unf30-pit-rezervirovanie` — резервы (эталон pitfall).
 - `unf30-pit-proizvodstvo` — производство (приоритет).
 - `unf30-pit-specifikacii` — спецификации.
+- `unf30-pit-raboty` — контур работ.
 
 ### Кейсы
 - `unf30-case-mebel-nestandart` — мебельное производство (эталон кейса).

@@ -10,4 +10,7 @@
 | выпуск продукции, сборка, производство | `unf30-pb-vypusk-produkcii` | playbook |
 | спецификация, рецепт | `unf30-pb-vypusk-produkcii` | playbook |
 | сдельный наряд, сдельщина | `unf30-pit-proizvodstvo` | pitfall |
+| акт выполненных работ, акт, закрывающий документ | `unf30-doc-akt-vypolnennyh-rabot` | object |
+| сдельный наряд, сдельщина, наряд, выработка | `unf30-doc-sdelnyy-naryad` | object |
+| себестоимость работ, затраты на работы | `unf30-pit-raboty` | pitfall |
 | мебель, нестандарт, индивидуальные заказы | `unf30-case-mebel-nestandart` | case |
