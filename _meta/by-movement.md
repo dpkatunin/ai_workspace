@@ -4,17 +4,18 @@
 
 | Регистр | Документы | Карточки |
 |---|---|---|
-| Запасы | Расходная накладная, Приходная накладная, Производство, Комплектация, Перемещение, Резервирование, Корректировка поступления, Дополнительные расходы | `unf30-doc-realizaciya`, `unf30-pb-vypusk-produkcii`, `unf30-doc-korrektirovka-postupleniya`, `unf30-doc-dopolnitelnye-rashody` |
+| Запасы | Расходная накладная, Приходная накладная, Производство, Комплектация, Перемещение, Резервирование, Корректировка поступления, Дополнительные расходы | `unf30-doc-realizaciya`, `unf30-doc-proizvodstvo`, `unf30-doc-prikhodnaya-nakladnaya`, `unf30-pit-zakupki` |
 | Запасы на складах | Расходная накладная, Приходная накладная, ордера, Перемещение по ячейкам, Корректировка поступления | `unf30-doc-realizaciya`, `unf30-mech-ordernaya-shema`, `unf30-doc-korrektirovka-postupleniya` |
 | Запасы к поступлению на склады | Приходный ордер (при ордерной схеме) | `unf30-mech-ordernaya-shema` |
 | Запасы к расходу со складов | Расходный ордер (при ордерной схеме) | `unf30-mech-ordernaya-shema` |
 | Продажи | Расходная накладная, Акт выполненных работ, Чек ККМ | `unf30-doc-realizaciya`, `unf30-doc-akt-vypolnennyh-rabot` |
 | Расчёты с покупателями | Расходная накладная, Акт выполненных работ, Поступление на счёт, ПКО, Корректировка | `unf30-doc-realizaciya`, `unf30-doc-akt-vypolnennyh-rabot` |
 | Расчёты с поставщиками | Приходная накладная, Дополнительные расходы, Корректировка поступления, Расход со счёта | `unf30-doc-prikhodnaya-nakladnaya`, `unf30-doc-dopolnitelnye-rashody`, `unf30-doc-korrektirovka-postupleniya` |
-| Заказы покупателей | Заказ покупателя, Расходная накладная (закрытие) | `unf30-doc-realizaciya` |
+| Заказы покупателей | Заказ покупателя, Расходная накладная (закрытие) | `unf30-doc-zakaz-pokupatelya`, `unf30-doc-realizaciya` |
 | Предоставленные скидки | Расходная накладная, Чек ККМ | `unf30-doc-realizaciya` |
-| Заказы на производство | Заказ на производство, Производство | `unf30-pb-vypusk-produkcii` |
+| Заказы на производство | Заказ на производство, Производство | `unf30-doc-zakaz-na-proizvodstvo`, `unf30-doc-proizvodstvo` |
 | Этапы производства | Производство (при включённых этапах) | `unf30-pit-proizvodstvo` |
 | Сдельные наряды | Сдельный наряд | `unf30-doc-sdelnyy-naryad` |
 | Расчёты с персоналом | Сдельный наряд, Начисление зарплаты | `unf30-doc-sdelnyy-naryad` |
 | Выпуск продукции | Производство, Сдельный наряд | `unf30-doc-proizvodstvo`, `unf30-doc-sdelnyy-naryad` |
+| Цены номенклатуры | Установка цен номенклатуры | `unf30-doc-ustanovka-cen` |
