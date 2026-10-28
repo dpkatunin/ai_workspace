@@ -88,5 +88,29 @@
     "question": "номенклатура работа или услуга в чём разница",
     "expected": "unf30-cat-nomenklatura",
     "note": "номенклатура"
+  },
+  {
+    "id": "q16",
+    "question": "клиент не находится в справочнике контрагентов",
+    "expected": "unf30-pit-kontragenty",
+    "note": "контрагенты — грабли (draft)"
+  },
+  {
+    "id": "q17",
+    "question": "как найти и объединить дубль контрагента по ИНН",
+    "expected": "unf30-pit-kontragenty",
+    "note": "контрагенты — грабли (draft)"
+  },
+  {
+    "id": "q18",
+    "question": "касса не закрывается в конце дня, что проверить",
+    "expected": "unf30-pit-dengi",
+    "note": "деньги — грабли (draft)"
+  },
+  {
+    "id": "q19",
+    "question": "подотчетник не отчитался, как закрыть выданный аванс",
+    "expected": "unf30-cat-kassy",
+    "note": "кассы (draft); может вытянуть pit-dengi"
   }
 ]
