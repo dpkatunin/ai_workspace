@@ -1,0 +1,9 @@
+# Зависимости MCP-сервера (фаза 1: retrieval без LLM).
+# Установка: py -m pip install -r tools/requirements-mcp.txt
+#
+# mcp>=2.0 — текущая стабильная линия SDK. В v2 FastMCP переименован в
+# MCPServer (mcp.server.mcpserver), host/port передаются в mcp.run().
+mcp>=2.0
+fastembed>=0.4
+pyyaml>=6.0
+numpy>=1.26
