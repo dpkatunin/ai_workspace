@@ -2,7 +2,7 @@
 id: unf30-cat-specifikaciya
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: catalog
 level: kb
 tags: [производство, спецификация, рецепт, материалы, состав]
 synonyms: [спецификация, рецепт, состав изделия, нормы расхода]

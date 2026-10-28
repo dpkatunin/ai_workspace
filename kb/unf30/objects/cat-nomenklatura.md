@@ -2,7 +2,7 @@
 id: unf30-cat-nomenklatura
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: catalog
 level: kb
 tags: [номенклатура, работы, услуги, тип, классификация]
 synonyms: [номенклатура, работа, услуга, типы номенклатуры]

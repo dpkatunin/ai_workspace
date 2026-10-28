@@ -2,7 +2,7 @@
 id: unf30-cat-kassy
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: catalog
 level: kb
 tags: [деньги, касса, пко, рко, подотчёт, наличные]
 synonyms: [касса, кассовые документы, пко, рко, подотчёт, авансовый отчёт]
