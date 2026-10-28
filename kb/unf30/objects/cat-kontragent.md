@@ -1,7 +1,7 @@
 ---
 id: unf30-cat-kontragent
 type: catalog
-status: draft
+status: verified
 title: Контрагенты (справочник)
 synonyms: [контрагент, юрлицо, ИП, контрагент-физлицо]
 updated: 2026-10-28

@@ -18,7 +18,7 @@
   },
   "cat-kontragent": {
     "type": "catalog",
-    "status": "draft",
+    "status": "verified",
     "registers": [
       "РегистрНакопления.ВзаиморасчетыСКонтрагентами",
       "РегистрНакопления.РасчетыСПокупателями",

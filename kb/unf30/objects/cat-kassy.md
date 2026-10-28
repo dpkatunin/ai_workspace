@@ -6,7 +6,7 @@ type: catalog
 level: kb
 tags: [деньги, касса, пко, рко, подотчёт, наличные]
 synonyms: [касса, кассовые документы, пко, рко, подотчёт, авансовый отчёт]
-status: draft
+status: verified
 source: "сводка по разделу «Деньги» УНФ 3.0"
 updated: 2026-10-27
 related: [unf30-mech-bank-ekvayring, unf30-pit-dengi]

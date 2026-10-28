@@ -6,7 +6,7 @@
 
 | Синоним | Карточка | Статус |
 |---|---|---|
-| авансовый отчёт | `unf30-cat-kassy` | draft |
+| авансовый отчёт | `unf30-cat-kassy` | verified |
 | акт | `unf30-doc-akt-vypolnennyh-rabot` | verified |
 | акт выполненных работ | `unf30-doc-akt-vypolnennyh-rabot` | verified |
 | акт о расхождениях | `unf30-doc-korrektirovka-postupleniya` | verified |
@@ -52,16 +52,16 @@
 | изменить цену поступления | `unf30-doc-korrektirovka-postupleniya` | verified |
 | инвентаризация | `unf30-pit-sklad` | verified |
 | индивидуальные заказы | `unf30-case-mebel-nestandart` | verified |
-| ИП | `unf30-cat-kontragent` | draft |
+| ИП | `unf30-cat-kontragent` | verified |
 | исправить приход | `unf30-doc-korrektirovka-postupleniya` | verified |
-| касса | `unf30-cat-kassy` | draft |
+| касса | `unf30-cat-kassy` | verified |
 | касса не закрывается | `unf30-pit-dengi` | draft |
-| кассовые документы | `unf30-cat-kassy` | draft |
+| кассовые документы | `unf30-cat-kassy` | verified |
 | комиссия эквайринга | `unf30-pit-dengi` | draft |
-| контрагент | `unf30-cat-kontragent` | draft |
+| контрагент | `unf30-cat-kontragent` | verified |
 | контрагент не выбирается | `unf30-pit-kontragenty` | draft |
 | контрагент не находится | `unf30-pit-kontragenty` | draft |
-| контрагент-физлицо | `unf30-cat-kontragent` | draft |
+| контрагент-физлицо | `unf30-cat-kontragent` | verified |
 | корректировка долга | `unf30-mech-vzaimoraschety` | draft |
 | корректировка поступления | `unf30-doc-korrektirovka-postupleniya` | verified |
 | корректировка поступления | `unf30-pit-zakupki` | verified |
@@ -85,12 +85,12 @@
 | отгрузить с резервом | `unf30-pb-otgruzka-s-rezervom` | verified |
 | отгрузка | `unf30-doc-realizaciya` | verified |
 | пересортица | `unf30-pit-sklad` | verified |
-| пко | `unf30-cat-kassy` | draft |
+| пко | `unf30-cat-kassy` | verified |
 | план выпуска | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | планирование производства | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | платёжное поручение | `unf30-mech-bank-ekvayring` | draft |
 | погрузка | `unf30-doc-dopolnitelnye-rashody` | verified |
-| подотчёт | `unf30-cat-kassy` | draft |
+| подотчёт | `unf30-cat-kassy` | verified |
 | подотчётник не отчитался | `unf30-pit-dengi` | draft |
 | подразделение | `unf30-cat-sklady` | verified |
 | поступление на счёт | `unf30-mech-bank-ekvayring` | draft |
@@ -114,7 +114,7 @@
 | резервирование | `unf30-mech-rezervirovanie` | verified |
 | ремонт | `unf30-doc-zakaz-naryad` | verified |
 | рецепт | `unf30-cat-specifikaciya` | verified |
-| рко | `unf30-cat-kassy` | draft |
+| рко | `unf30-cat-kassy` | verified |
 | розничный склад | `unf30-cat-sklady` | verified |
 | сборка | `unf30-pb-vypusk-produkcii` | verified |
 | сборка запасов | `unf30-doc-proizvodstvo` | verified |
@@ -143,5 +143,5 @@
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | draft |
-| юрлицо | `unf30-cat-kontragent` | draft |
+| юрлицо | `unf30-cat-kontragent` | verified |
 | ячейки | `unf30-pit-sklad` | verified |

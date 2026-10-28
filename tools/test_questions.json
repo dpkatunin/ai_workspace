@@ -1,0 +1,92 @@
+[
+  {
+    "id": "q01",
+    "question": "клиент говорит цена не подтянулась в реализацию, почему",
+    "expected": "unf30-pit-ceny",
+    "note": "прямой симптом из pit-ceny"
+  },
+  {
+    "id": "q02",
+    "question": "скидка не сработала, хотя условие настроено",
+    "expected": "unf30-pit-ceny",
+    "note": "симптом; mech-skidki-nacenki тоже уместна, но expected — грабли"
+  },
+  {
+    "id": "q03",
+    "question": "в реализации сумма больше ожидаемой, НДС в цене или сверху",
+    "expected": "unf30-pit-ceny",
+    "note": "НДС в цене"
+  },
+  {
+    "id": "q04",
+    "question": "как зарезервировать товар под клиента",
+    "expected": "unf30-mech-rezervirovanie",
+    "note": "механизм резервирования"
+  },
+  {
+    "id": "q05",
+    "question": "склад не работает, приход не проводится",
+    "expected": "unf30-pit-sklad",
+    "note": "склад — грабли"
+  },
+  {
+    "id": "q06",
+    "question": "что такое ордерная схема и зачем она нужна",
+    "expected": "unf30-mech-ordernaya-shema",
+    "note": "ордера"
+  },
+  {
+    "id": "q07",
+    "question": "выпуск продукции не проводится, в чём дело",
+    "expected": "unf30-pit-proizvodstvo",
+    "note": "производство — грабли"
+  },
+  {
+    "id": "q08",
+    "question": "как посчитать себестоимость работ",
+    "expected": "unf30-pb-sebestoimost-rabot",
+    "note": "playbook; pit-raboty тоже уместна"
+  },
+  {
+    "id": "q09",
+    "question": "спецификация не списывает материалы",
+    "expected": "unf30-pit-specifikacii",
+    "note": "спецификации — грабли"
+  },
+  {
+    "id": "q10",
+    "question": "когда нужно делать корректировку поступления",
+    "expected": "unf30-doc-korrektirovka-postupleniya",
+    "note": "документ"
+  },
+  {
+    "id": "q11",
+    "question": "как включить доставку в себестоимость товара",
+    "expected": "unf30-doc-dopolnitelnye-rashody",
+    "note": "допрасходы"
+  },
+  {
+    "id": "q12",
+    "question": "как отгрузить товар с резервом",
+    "expected": "unf30-pb-otgruzka-s-rezervom",
+    "note": "playbook"
+  },
+  {
+    "id": "q13",
+    "question": "сдельный наряд как начислить зарплату сдельщикам",
+    "expected": "unf30-doc-sdelnyy-naryad",
+    "note": "сдельщина"
+  },
+  {
+    "id": "q14",
+    "question": "заказ-наряд для ремонта и монтажа",
+    "expected": "unf30-doc-zakaz-naryad",
+    "note": "работы"
+  },
+  {
+    "id": "q15",
+    "question": "номенклатура работа или услуга в чём разница",
+    "expected": "unf30-cat-nomenklatura",
+    "note": "номенклатура"
+  }
+]
