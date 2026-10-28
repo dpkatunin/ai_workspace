@@ -95,6 +95,19 @@ def test_parse_by_synonym_bullets():
     assert ("реализация", "doc-realizaciya") in pairs
     assert ("отгрузка", "doc-realizaciya") in pairs
 
+def test_parse_by_synonym_complex_table():
+    text = """
+| Синоним | Конфиг | id |
+|---|---|---|
+| касса, кассовые документы, пко | unf30 | cat-kassy |
+"""
+    pairs = parse_by_synonym(text)
+    assert ("касса", "cat-kassy") in pairs
+    assert ("кассовые документы", "cat-kassy") in pairs
+    assert ("пко", "cat-kassy") in pairs
+    # Проверяем, что unf30 не попало
+    assert all(syn.lower() != "unf30" for syn, _ in pairs)
+
 def test_parse_by_synonym_skips_headers():
     text = """
 | Синоним | id |

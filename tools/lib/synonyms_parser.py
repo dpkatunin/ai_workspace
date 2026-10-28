@@ -44,17 +44,19 @@ def parse_by_synonym(text: str) -> list[tuple[str, str]]:
             continue
 
         card_id = m.group(0)
-
         prefix = line[: m.start()]
-        
-        # Если в строке есть разделители таблицы, берем только первую колонку (где лежат синонимы)
-        if "|" in prefix:
-            prefix = prefix.split("|")[0]
 
-        # Разделяем по запятым (в ручном файле перечисления идут через запятую)
-        syns_raw = prefix.split(",")
-        
-        for sr in syns_raw:
+        # Извлекаем текст с синонимами, обрабатывая колонки таблицы
+        if "|" in prefix:
+            # Разбиваем по пайпу, убираем пустые ячейки
+            cells = [c.strip() for c in prefix.split("|") if c.strip()]
+            # Синонимы обычно в первой непустой ячейке (до колонки с id)
+            syns_text = cells[0] if cells else ""
+        else:
+            syns_text = prefix
+
+        # Разделяем по запятым
+        for sr in syns_text.split(","):
             s = sr.strip()
             
             # Удаляем markdown-форматирование и лишние символы
