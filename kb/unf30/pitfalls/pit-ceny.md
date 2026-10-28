@@ -6,7 +6,9 @@ type: pitfall
 level: kb
 tags: [цены, скидки, наценки, ндс, округление, pricing, pitfall]
 synonyms: [цена не подтянулась, ндс в цене, округление цены, скидка не сработала]
-status: draft
+status: verified
+verified_by: admin
+verified_at: 2026-10-28
 source: "сводка по разделу «Ценообразование» УНФ 3.0"
 updated: 2026-10-27
 related: [unf30-doc-ustanovka-cen, unf30-mech-skidki-nacenki, unf30-doc-realizaciya]

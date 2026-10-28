@@ -11,9 +11,9 @@
       "РегистрНакопления.ПредоставленныеСкидки"
     ]
   },
-  "pit-ceny": {
+    "pit-ceny": {
     "type": "pitfall",
-    "status": "draft",
+    "status": "verified",
     "registers": []
   },
   "cat-kontragent": {

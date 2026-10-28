@@ -15,7 +15,7 @@
 | банк | `unf30-mech-bank-ekvayring` | draft |
 | банковский счёт | `unf30-mech-bank-ekvayring` | draft |
 | взаиморасчёты | `unf30-mech-vzaimoraschety` | draft |
-| виды цен | `unf30-doc-ustanovka-cen` | draft |
+| виды цен | `unf30-doc-ustanovka-cen` | verified |
 | включить в себестоимость | `unf30-doc-dopolnitelnye-rashody` | verified |
 | возврат поставщику | `unf30-pit-zakupki` | verified |
 | выписка не загружена | `unf30-pit-dengi` | draft |
@@ -70,12 +70,12 @@
 | монтаж | `unf30-doc-zakaz-naryad` | verified |
 | наряд | `unf30-doc-sdelnyy-naryad` | verified |
 | наценки | `unf30-mech-skidki-nacenki` | draft |
-| ндс в цене | `unf30-pit-ceny` | draft |
+| ндс в цене | `unf30-pit-ceny` | verified |
 | не хватает запасов | `unf30-pit-rezervirovanie` | verified |
 | нестандартные заказы | `unf30-case-mebel-nestandart` | verified |
 | номенклатура | `unf30-cat-nomenklatura` | verified |
 | нормы расхода | `unf30-cat-specifikaciya` | verified |
-| округление цены | `unf30-pit-ceny` | draft |
+| округление цены | `unf30-pit-ceny` | verified |
 | оплата картой | `unf30-mech-bank-ekvayring` | draft |
 | оприходование | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | ордера | `unf30-mech-ordernaya-shema` | verified |
@@ -95,7 +95,7 @@
 | подразделение | `unf30-cat-sklady` | verified |
 | поступление на счёт | `unf30-mech-bank-ekvayring` | draft |
 | поступление товара | `unf30-doc-prikhodnaya-nakladnaya` | verified |
-| прайс | `unf30-doc-ustanovka-cen` | draft |
+| прайс | `unf30-doc-ustanovka-cen` | verified |
 | приход | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | приходная накладная | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | приходный ордер | `unf30-mech-ordernaya-shema` | verified |
@@ -125,7 +125,7 @@
 | сдельщина | `unf30-doc-sdelnyy-naryad` | verified |
 | себестоимость работ | `unf30-pb-sebestoimost-rabot` | verified |
 | себестоимость работ | `unf30-pit-raboty` | verified |
-| скидка не сработала | `unf30-pit-ceny` | draft |
+| скидка не сработала | `unf30-pit-ceny` | verified |
 | скидки | `unf30-mech-skidki-nacenki` | draft |
 | склад | `unf30-cat-sklady` | verified |
 | склад не работает | `unf30-pit-sklad` | verified |
@@ -139,9 +139,9 @@
 | типы номенклатуры | `unf30-cat-nomenklatura` | verified |
 | условия скидок | `unf30-mech-skidki-nacenki` | draft |
 | услуга | `unf30-cat-nomenklatura` | verified |
-| установка цен | `unf30-doc-ustanovka-cen` | draft |
-| цена не подтянулась | `unf30-pit-ceny` | draft |
-| цена номенклатуры | `unf30-doc-ustanovka-cen` | draft |
+| установка цен | `unf30-doc-ustanovka-cen` | verified |
+| цена не подтянулась | `unf30-pit-ceny` | verified |
+| цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | draft |
 | юрлицо | `unf30-cat-kontragent` | draft |
 | ячейки | `unf30-pit-sklad` | verified |

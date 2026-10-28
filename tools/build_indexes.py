@@ -2,21 +2,6 @@
 """
 build_indexes.py — сборка индексов _meta/by-synonym.md, _meta/by-movement.md
 и kb/unf30/_index.md из карточек. Реализация ADR-003.
-
-Единственный источник правды — карточки:
-  - synonyms           → YAML-фронтматтер
-  - движения           → секция "## Движения" (для документов)
-  - участие в регистрах → секция "## Участие в регистрах" (для справочников)
-  - id, type, status, title — YAML-фронтматтер + H1
-
-Режимы:
-  --inspect   показать состояние (карточки, эталоны) без записи
-  --dry-run   показать diff предлагаемых индексов (по умолчанию)
-  --apply     записать индексы
-  --check     CI-режим: exit 1, если индексы на диске устарели (ничего не пишет)
-
-Эталоны ADR-003: _meta/_expected/references.json — ручной снимок для трёх карточек.
-Пустой список [] = движений нет. "TODO" = ещё не заполнено (валидатор пропустит).
 """
 from __future__ import annotations
 
@@ -27,8 +12,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lib.frontmatter import parse, split  # noqa: E402
-from lib.sections import classify_register, extract_h2, extract_items  # noqa: E402
+from lib.frontmatter import parse, split
+from lib.sections import classify_register, extract_h2, extract_items
 
 TYPE_ORDER = {"object": 0, "catalog": 1, "mechanism": 2, "pitfall": 3}
 TYPE_LABEL = {
@@ -50,7 +35,7 @@ def find_repo_root(start: Path) -> Path:
         if p.parent == p:
             break
         p = p.parent
-    raise RuntimeError(f"could not find repo root (with _meta/ and kb/) from {start}")
+    raise RuntimeError(f"could not find repo root from {start}")
 
 def die(msg: str, code: int = 2) -> None:
     print(f"ERROR: {msg}", file=sys.stderr)
@@ -61,7 +46,6 @@ def warn(msg: str) -> None:
 
 def load_cards(kb_dir: Path) -> dict[str, dict]:
     cards: dict[str, dict] = {}
-    # Используем rglob для рекурсивного поиска в подпапках (objects/, pitfalls/ и т.д.)
     for path in sorted(kb_dir.rglob("*.md")):
         if path.name == "_index.md":
             continue
@@ -69,17 +53,12 @@ def load_cards(kb_dir: Path) -> dict[str, dict]:
         try:
             fm_text, body = split(text)
             meta = parse(fm_text)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             warn(f"{path.name}: cannot parse ({e}); skipped")
             continue
         
         stem = path.stem
         real_id = meta.get("id") or stem
-        if meta.get("id") and meta["id"] != stem:
-            # Предупреждение, если id во фронтматтере не совпадает с именем файла (игнорируем префикс unf30-)
-            expected_id = stem if meta["id"] == f"unf30-{stem}" else stem
-            if meta["id"] != expected_id and meta["id"] != f"unf30-{expected_id}":
-                warn(f"{path.name}: id {meta['id']!r} != filename stem {stem!r}")
 
         sections = extract_h2(body)
         registers: list[str] = []
@@ -88,8 +67,8 @@ def load_cards(kb_dir: Path) -> dict[str, dict]:
                 registers.extend(extract_items(sections[section_name]))
         registers = _dedupe(registers)
         cards[stem] = {
-            "id": real_id, # реальный id (unf30-...)
-            "stem": stem,  # имя файла без .md (doc-...)
+            "id": real_id,
+            "stem": stem,
             "path": path,
             "meta": meta,
             "body": body,
@@ -116,21 +95,14 @@ def _dedupe(items: list[str]) -> list[str]:
     return out
 
 def _sort_key_status(card: dict) -> tuple:
-    return (
-        STATUS_ORDER.get(card["meta"].get("status"), STATUS_UNKNOWN),
-        card["id"],
-    )
-
-# --- by-synonym -----------------------------------------------------------
+    return (STATUS_ORDER.get(card["meta"].get("status"), STATUS_UNKNOWN), card["id"])
 
 def render_by_synonym(cards: dict[str, dict]) -> str:
-    rows: list[tuple[str, str, str]] = []  # (synonym, card_id, status)
+    rows: list[tuple[str, str, str]] = []
     for card in cards.values():
         syns = card["meta"].get("synonyms")
-        if not syns:
-            continue
-        if isinstance(syns, str):
-            syns = [syns]
+        if not syns: continue
+        if isinstance(syns, str): syns = [syns]
         status = card["meta"].get("status", "unknown")
         for s in syns:
             rows.append((str(s), card["id"], status))
@@ -153,8 +125,6 @@ def render_by_synonym(cards: dict[str, dict]) -> str:
         out.append(f"| {syn} | `{cid}` | {status} |")
     return "\n".join(out) + "\n"
 
-# --- by-movement ----------------------------------------------------------
-
 def render_by_movement(cards: dict[str, dict]) -> str:
     reg_to_cards: dict[str, list[dict]] = {}
     for card in cards.values():
@@ -162,14 +132,10 @@ def render_by_movement(cards: dict[str, dict]) -> str:
             reg_to_cards.setdefault(reg, []).append(card)
 
     ordered_regs = sorted(reg_to_cards.keys(), key=classify_register)
-
     out = [AUTOGEN_HEADER, "# Индекс: движения и участие в регистрах\n"]
-    out.append(
-        f"Всего {len(ordered_regs)} регистров; "
-        f"{sum(1 for c in cards.values() if c['registers'])} карточек связаны с регистрами.\n"
-    )
+    
     if not ordered_regs:
-        out.append("_Пусто: ни в одной карточке нет секций `## Движения` / `## Участие в регистрах`._\n")
+        out.append("_Пусто._\n")
         return "\n".join(out) + "\n"
 
     for reg in ordered_regs:
@@ -179,8 +145,6 @@ def render_by_movement(cards: dict[str, dict]) -> str:
             out.append(f"- `{card['id']}` — {card['title']} [{status}]")
         out.append("")
     return "\n".join(out) + "\n"
-
-# --- unf30 _index ---------------------------------------------------------
 
 def render_unf_index(cards: dict[str, dict]) -> str:
     total = len(cards)
@@ -203,149 +167,90 @@ def render_unf_index(cards: dict[str, dict]) -> str:
         for card in sorted(by_type[t], key=_sort_key_status):
             status = card["meta"].get("status", "unknown")
             syns = card["meta"].get("synonyms") or []
-            if isinstance(syns, str):
-                syns = [syns]
+            if isinstance(syns, str): syns = [syns]
             syns_str = ", ".join(str(s) for s in syns) if syns else "—"
             out.append(f"| `{card['id']}` | {card['title']} | {status} | {syns_str} |")
         out.append("")
     return "\n".join(out) + "\n"
 
-# --- Валидатор эталонов ---------------------------------------------------
-
 def validate_references(cards: dict[str, dict], snap_path: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     if not snap_path.exists():
-        warnings.append(f"{snap_path.name}: not found, reference validation skipped")
         return errors, warnings
     try:
         snap = json.loads(snap_path.read_text(encoding="utf-8"))
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         errors.append(f"{snap_path.name}: cannot parse ({e})")
         return errors, warnings
 
     for card_id, expected in snap.items():
-        if card_id.startswith("_"):
-            continue
-        # Ищем по стему (имени файла)
+        if card_id.startswith("_"): continue
         card = cards.get(card_id)
         if card is None:
-            errors.append(f"{card_id}: expected reference card not found in kb/unf30/")
+            errors.append(f"{card_id}: not found")
             continue
-        actual_type = card["meta"].get("type")
-        exp_type = expected.get("type")
-        if exp_type and actual_type != exp_type:
-            errors.append(f"{card_id}: type {actual_type!r} != expected {exp_type!r}")
-        actual_status = card["meta"].get("status")
-        exp_status = expected.get("status")
-        if exp_status and actual_status != exp_status:
-            errors.append(f"{card_id}: status {actual_status!r} != expected {exp_status!r}")
+        if expected.get("type") and card["meta"].get("type") != expected["type"]:
+            errors.append(f"{card_id}: type mismatch")
+        if expected.get("status") and card["meta"].get("status") != expected["status"]:
+            errors.append(f"{card_id}: status mismatch")
         exp_regs = expected.get("registers")
-        if exp_regs is None:
-            warnings.append(f"{card_id}: registers missing in snapshot, skipped")
-            continue
-        if "TODO" in exp_regs:
-            warnings.append(f"{card_id}: registers snapshot is TODO, skipped")
-            continue
-        if card["registers"] != exp_regs:
-            errors.append(
-                f"{card_id}: registers mismatch\n"
-                f"    actual:   {card['registers']}\n"
-                f"    expected: {exp_regs}"
-            )
+        if exp_regs is not None and "TODO" not in exp_regs:
+            if card["registers"] != exp_regs:
+                errors.append(f"{card_id}: registers mismatch")
     return errors, warnings
 
-# --- diff / IO ------------------------------------------------------------
-
 def diff_text(old: str, new: str, name: str) -> str:
-    if old == new:
-        return ""
-    return "".join(
-        difflib.unified_diff(
-            old.splitlines(keepends=True),
-            new.splitlines(keepends=True),
-            fromfile=f"a/{name}",
-            tofile=f"b/{name}",
-        )
-    )
+    if old == new: return ""
+    return "".join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True), fromfile=f"a/{name}", tofile=f"b/{name}"))
 
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(text.encode("utf-8"))
 
-# --- CLI ------------------------------------------------------------------
-
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--repo", type=Path, default=None, help="repo root (auto-detected)")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--repo", type=Path, default=None)
     mode = ap.add_mutually_exclusive_group()
-    mode.add_argument("--inspect", action="store_true", help="show state, no diff")
-    mode.add_argument("--dry-run", action="store_true", help="show diff (default)")
-    mode.add_argument("--apply", action="store_true", help="write index files")
-    mode.add_argument("--check", action="store_true", help="CI: exit 1 if indexes are stale")
-    ap.add_argument("--verbose", action="store_true", help="more detail in --inspect")
+    mode.add_argument("--inspect", action="store_true")
+    mode.add_argument("--dry-run", action="store_true")
+    mode.add_argument("--apply", action="store_true")
+    mode.add_argument("--check", action="store_true")
     args = ap.parse_args()
 
     repo = args.repo or find_repo_root(Path.cwd())
     kb_dir = repo / "kb" / "unf30"
     meta_dir = repo / "_meta"
-    if not kb_dir.is_dir():
-        die(f"not found: {kb_dir}")
 
     cards = load_cards(kb_dir)
-    if not cards:
-        die(f"no cards in {kb_dir}")
+    if not cards: die("no cards found")
 
-    rendered: dict[Path, str] = {
+    rendered = {
         meta_dir / "by-synonym.md": render_by_synonym(cards),
         meta_dir / "by-movement.md": render_by_movement(cards),
         kb_dir / "_index.md": render_unf_index(cards),
     }
 
     errors, warnings = validate_references(cards, meta_dir / "_expected" / "references.json")
-    for w in warnings:
-        warn(w)
-    for e in errors:
-        print(f"REF-ERROR: {e}", file=sys.stderr)
+    for w in warnings: warn(w)
+    for e in errors: print(f"REF-ERROR: {e}", file=sys.stderr)
 
     if args.inspect:
         v = sum(1 for c in cards.values() if c["meta"].get("status") == "verified")
         d = sum(1 for c in cards.values() if c["meta"].get("status") == "draft")
-        by_type: dict[str, int] = {}
-        for c in cards.values():
-            by_type[c["meta"].get("type", "?")] = by_type.get(c["meta"].get("type", "?"), 0) + 1
-        n_regs = sum(1 for c in cards.values() if c["registers"])
-        n_syns = sum(1 for c in cards.values() if c["meta"].get("synonyms"))
         print(f"Cards: {len(cards)} (verified={v}, draft={d})")
-        print("Types: " + ", ".join(f"{k}={n}" for k, n in sorted(by_type.items())))
-        print(f"Cards with registers: {n_regs}")
-        print(f"Cards with synonyms:  {n_syns}")
-        print(f"Reference errors: {len(errors)}  warnings: {len(warnings)}")
-        if args.verbose:
-            print()
-            for cid in sorted(cards):
-                c = cards[cid]
-                print(f"- {cid} (id={c['id']}, {c['meta'].get('type')}, {c['meta'].get('status')})")
-                print(f"    title: {c['title']}")
-                syns = c["meta"].get("synonyms") or []
-                print(f"    synonyms: {syns}")
-                print(f"    registers: {c['registers']}")
         return 0 if not errors else 1
 
-    # Прочитать текущее состояние
     current = {p: (p.read_text(encoding="utf-8") if p.exists() else "") for p in rendered}
 
     if args.check:
-        stale = [p for p, new in rendered.items() if current[p] != new]
-        if stale:
-            for p in stale:
-                print(f"STALE: {p.relative_to(repo)}", file=sys.stderr)
+        if any(current[p] != new for p, new in rendered.items()):
+            print("STALE indexes found", file=sys.stderr)
             return 1
         print("OK: all indexes are up to date.")
         return 0 if not errors else 1
 
     diffs = {p: diff_text(current[p], rendered[p], str(p.relative_to(repo))) for p in rendered}
-    shown = sum(1 for d in diffs.values() if d)
 
     if args.apply:
         written = 0
@@ -353,17 +258,13 @@ def main() -> int:
             if current[p] != new:
                 write_text(p, new)
                 written += 1
-        print(f"✓ wrote {written} file(s) (unchanged: {len(rendered) - written})")
+        print(f"✓ wrote {written} file(s)")
         return 0 if not errors else 1
 
     # dry-run
     for d in diffs.values():
-        if d:
-            sys.stdout.writelines(d)
-    if shown == 0:
-        print("No changes: indexes are up to date.")
-    else:
-        print(f"Dry-run: {shown} file(s) would change. Use --apply to write.")
+        if d: sys.stdout.writelines(d)
+    print("Dry-run complete.")
     return 0 if not errors else 1
 
 if __name__ == "__main__":

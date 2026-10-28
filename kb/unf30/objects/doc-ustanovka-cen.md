@@ -6,7 +6,9 @@ type: object
 level: kb
 tags: [цены, виды-цен, регистр-сведений, установка-цен, pricing]
 synonyms: [установка цен, виды цен, цена номенклатуры, прайс]
-status: draft
+status: verified
+verified_by: admin
+verified_at: 2026-10-28
 source: "сводка по разделу «Ценообразование» УНФ 3.0"
 updated: 2026-10-27
 related: [unf30-mech-skidki-nacenki, unf30-pit-ceny, unf30-cat-nomenklatura, unf30-doc-realizaciya]
