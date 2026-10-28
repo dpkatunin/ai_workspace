@@ -3,7 +3,7 @@ Surgical operations on YAML frontmatter inside markdown cards.
 
 Принципы:
 - Никогда не переформатируем YAML через safe_dump целиком — это стирает
-  комментарии и меняет порядок ключей. Только точечная вставка.
+  комментарии и меняет порядок ключей. Только точечная вставка/замена.
 - Все операции возвращают новый текст; файл пишет вызывающий код.
 """
 from __future__ import annotations
@@ -73,6 +73,39 @@ def insert_block_after_key(fm_text: str, after_key: str, new_block: str) -> str:
                 j += 1
             break
     return "\n".join(lines[:insert_at] + new_block.split("\n") + lines[insert_at:])
+
+def replace_or_insert_block(fm_text: str, after_key: str, key: str, new_block: str) -> str:
+    """
+    Заменить существующий блок `key:` на `new_block`.
+    Если ключа нет — вставить после `after_key` (или в конец).
+    """
+    lines = fm_text.split("\n")
+    out = []
+    skipping = False
+    key_re = re.compile(rf"^{re.escape(key)}\s*:")
+    found = False
+
+    for line in lines:
+        if key_re.match(line):
+            out.append(new_block)
+            skipping = True
+            found = True
+            continue
+        
+        if skipping:
+            # Если строка с отступом, начинается с дефиса или пустая — это продолжение старого блока
+            if line.startswith("  ") or line.startswith("-") or line.startswith("\t") or line.strip() == "":
+                continue
+            else:
+                skipping = False
+
+        if not skipping:
+            out.append(line)
+
+    if not found:
+        return insert_block_after_key(fm_text, after_key, new_block)
+
+    return "\n".join(out)
 
 def rebuild(text: str, new_fm: str) -> str:
     """Собрать обратно: ---\\n new_fm \\n---\\n body."""

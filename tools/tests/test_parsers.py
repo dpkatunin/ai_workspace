@@ -1,4 +1,4 @@
-"""Минимальные тесты парсеров. Запуск: pytest tools/tests/test_parsers.py -v"""
+"""Минимальные тесты парсеров. Запуск: py -m pytest tools/tests/test_parsers.py -v"""
 from __future__ import annotations
 
 import sys
@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from lib.frontmatter import parse, rebuild, split  # noqa: E402
+from lib.frontmatter import parse, rebuild, split, replace_or_insert_block  # noqa: E402
 from lib.sections import classify_register, extract_h2, extract_items  # noqa: E402
 from lib.synonyms_parser import parse_by_synonym  # noqa: E402
 
@@ -112,3 +112,20 @@ def test_rebuild_roundtrip():
     fm2, body2 = split(rebuilt)
     assert fm2 == fm
     assert body2 == body
+
+def test_replace_block():
+    text = """---
+id: test
+status: verified
+synonyms: [касса, | unf30]
+other: 1
+---
+Body here.
+"""
+    fm, _ = split(text)
+    new_block = "synonyms:\n  - касса\n  - подотчёт"
+    new_fm = replace_or_insert_block(fm, "status", "synonyms", new_block)
+    
+    assert "synonyms:\n  - касса\n  - подотчёт" in new_fm
+    assert "unf30" not in new_fm
+    assert "other: 1" in new_fm
