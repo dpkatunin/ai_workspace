@@ -2,21 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Лексический baseline-ретривер для RAG по базе знаний УНФ 3.0.
-
-Без эмбеддингов и LLM. Только:
-  - точное вхождение синонима (подстрока для многословных)
-  - пересечение токенов (title / synonyms / body)
-  - IDF-взвешивание (редкие токены ценнее частых)
-
-Метрика: hit@k — доля вопросов, где ожидаемая карточка попала в top-k.
-
-Использование:
-    py tools\\retrieval_baseline.py
-    py tools\\retrieval_baseline.py --top-k 5
-    py tools\\retrieval_baseline.py --show-all
-    py tools\\retrieval_baseline.py --question "почему цена не подтянулась"
+Исправлен рекурсивный поиск файлов в подпапках (rglob).
 """
-
 import argparse
 import json
 import math
@@ -25,10 +12,13 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+# Принудительно переводим вывод в UTF-8 для Windows
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 DEFAULT_KB_DIR = Path("kb/unf30")
 DEFAULT_QUESTIONS = Path("tools/test_questions.json")
 
-# Минимальный стоп-лист. Расширять по мере надобности.
 STOPWORDS = set("""
 и в во не что он на я с со как а то все она так его но да ты к у же вы за бы по только ее мне
 было вот от меня еще нет о из ему теперь когда даже ну вдруг ли если уже или ни быть был него
@@ -41,17 +31,9 @@ STOPWORDS = set("""
 """.split())
 
 def normalize(text: str) -> str:
-    """Lowercase + ё→е. Единая нормализация для вопроса и карточки."""
     return text.lower().replace("ё", "е")
 
 def tokenize(text: str) -> list:
-    """
-    Грубая токенизация под русский без внешних зависимостей:
-    - lower + ё→е
-    - только буквы/цифры
-    - отбрасываем слова короче 3 символов и стоп-слова
-    - усечение до 5 символов (грубый стемминг: ловит падежи/окончания)
-    """
     text = normalize(text)
     tokens = re.findall(r"[a-zа-я0-9]+", text)
     result = []
@@ -64,18 +46,16 @@ def tokenize(text: str) -> list:
     return result
 
 def parse_card(path: Path):
-    """
-    Парсит md-карточку: YAML-шапку (плоский key: value и key: [a, b, c])
-    и тело. Возвращает dict или None, если шапки нет.
-    """
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8-sig") 
     if not text.startswith("---"):
         return None
-    end = text.find("\n---", 4)
-    if end == -1:
+        
+    parts = text.split("---", 2)
+    if len(parts) < 3:
         return None
-    front = text[4:end].strip()
-    body = text[end + 4:].strip()
+        
+    front = parts[1].strip()
+    body = parts[2].strip()
 
     meta = {}
     for line in front.splitlines():
@@ -111,9 +91,9 @@ def parse_card(path: Path):
     }
 
 def load_cards(kb_dir: Path):
-    """Загружает все карточки из каталога, пропуская _index.md и прочие _*."""
     cards = []
-    for p in sorted(kb_dir.glob("*.md")):
+    # ВАЖНО: rglob("*.md") ищет файлы рекурсивно во всех подпапках!
+    for p in sorted(kb_dir.rglob("*.md")):
         if p.name.startswith("_"):
             continue
         c = parse_card(p)
@@ -122,7 +102,6 @@ def load_cards(kb_dir: Path):
     return cards
 
 class CardIndex:
-    """Предвычисленные токены карточки — чтобы не парсить на каждый вопрос."""
     __slots__ = ("card", "title_tokens", "synonym_tokens", "body_tokens", "syn_norm")
 
     def __init__(self, card):
@@ -135,7 +114,6 @@ class CardIndex:
         self.syn_norm = [normalize(s) for s in card["synonyms"] if s]
 
 def compute_idf(indexes):
-    """IDF как в TF-IDF: log((N+1)/(df+1)) + 1. Редкие токены получают больший вес."""
     df = Counter()
     for idx in indexes:
         for t in idx.title_tokens | idx.synonym_tokens | idx.body_tokens:
@@ -148,19 +126,10 @@ def compute_idf(indexes):
     return idf
 
 def score_card(idx, q_norm, q_tokens, idf):
-    """
-    Скоринг карточки под вопрос.
-    Приоритет: синоним-токен > title-токен > body-токен.
-    Плюс бонус за фразовое вхождение многословного синонима.
-    """
     score = 0.0
-
-    # Фразовое совпадение (для многословных синонимов типа "цена не подтянулась")
     for syn in idx.syn_norm:
         if len(syn) >= 6 and syn in q_norm:
             score += 8.0
-
-    # Токены с IDF
     for t in q_tokens:
         w = idf(t)
         if t in idx.synonym_tokens:
@@ -169,11 +138,8 @@ def score_card(idx, q_norm, q_tokens, idf):
             score += 2.0 * w
         elif t in idx.body_tokens:
             score += 0.5 * w
-
-    # Малый бонус за verified — при равенстве выигрывает проверенная карточка
     if idx.card["status"] == "verified":
         score += 0.1
-
     return score
 
 def retrieve(question, indexes, idf, top_k=3):
@@ -184,12 +150,12 @@ def retrieve(question, indexes, idf, top_k=3):
     return scored[:top_k]
 
 def main():
-    ap = argparse.ArgumentParser(description="Лексический baseline-ретривер УНФ 3.0")
+    ap = argparse.ArgumentParser()
     ap.add_argument("--kb-dir", default=str(DEFAULT_KB_DIR))
     ap.add_argument("--questions", default=str(DEFAULT_QUESTIONS))
     ap.add_argument("--top-k", type=int, default=3)
-    ap.add_argument("--show-all", action="store_true", help="показать top-10 для каждого вопроса")
-    ap.add_argument("--question", help="прогнать один вопрос из командной строки")
+    ap.add_argument("--show-all", action="store_true")
+    ap.add_argument("--question")
     args = ap.parse_args()
 
     kb_dir = Path(args.kb_dir)
@@ -199,7 +165,7 @@ def main():
 
     cards = load_cards(kb_dir)
     if not cards:
-        print(f"ERROR: no cards found in {kb_dir}", file=sys.stderr)
+        print(f"ERROR: no cards found in {kb_dir} (or parse error)", file=sys.stderr)
         sys.exit(1)
     print(f"Loaded {len(cards)} cards from {kb_dir}\n")
 
@@ -212,7 +178,6 @@ def main():
         qfile = Path(args.questions)
         if not qfile.exists():
             print(f"WARN: questions file not found: {qfile}", file=sys.stderr)
-            print('Pass --question "..." for ad-hoc test.', file=sys.stderr)
             sys.exit(2)
         questions = json.loads(qfile.read_text(encoding="utf-8"))
 
@@ -230,8 +195,7 @@ def main():
             ids = [tid for tid, _ in top[: args.top_k]]
             ok = any(e in ids for e in exp_list)
             total += 1
-            if ok:
-                hit += 1
+            if ok: hit += 1
             mark = "OK  " if ok else "MISS"
         else:
             mark = "????"
