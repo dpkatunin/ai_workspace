@@ -1,0 +1,6 @@
+{
+  "_comment": "Ручные эталоны. Заполни registers по ЗАМЫСЛУ, не копируй из текущих карточек. [] = движений нет. TODO = пропустить.",
+  "doc-realizaciya": { "type": "object", "status": "verified", "registers": ["TODO"] },
+  "pit-ceny":        { "type": "pitfall", "status": "draft", "registers": [] },
+  "cat-kontragent":  { "type": "catalog", "status": "draft", "registers": ["TODO"] }
+}
