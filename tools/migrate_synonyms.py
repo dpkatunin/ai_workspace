@@ -73,8 +73,12 @@ def load_cards(kb_dir: Path) -> dict[str, dict]:
         except Exception as e:  # noqa: BLE001
             warn(f"{path.name}: cannot parse frontmatter ({e}); skipped")
             continue
-        card_id = meta.get("id") or path.stem
-        cards[card_id] = {"id": card_id, "path": path, "text": text, "meta": meta}
+        
+        # Ключ для сопоставления с by-synonym.md — это имя файла (например, doc-realizaciya).
+        # Реальный id (unf30-doc-realizaciya) сохраняем для справки.
+        stem = path.stem
+        real_id = meta.get("id") or stem
+        cards[stem] = {"id": real_id, "path": path, "text": text, "meta": meta}
     return cards
 
 def plan(cards: dict[str, dict], by_synonym_md: Path, force: bool) -> list[dict]:
@@ -93,24 +97,24 @@ def plan(cards: dict[str, dict], by_synonym_md: Path, force: bool) -> list[dict]
         warn(f"{len(orphan_ids)} orphan card ids in by-synonym.md: {orphan_ids}")
 
     plans: list[dict] = []
-    for card_id, syns in sorted(by_card.items()):
-        if card_id not in cards:
+    for stem, syns in sorted(by_card.items()):
+        if stem not in cards:
             continue
-        card = cards[card_id]
+        card = cards[stem]
         existing = card["meta"].get("synonyms")
         existing_list = list(existing) if isinstance(existing, list) else ([] if existing is None else [existing])
 
         if existing_list and not force:
             if set(existing_list) != set(syns):
                 warn(
-                    f"{card_id}: frontmatter synonyms {existing_list} differ from "
+                    f"{stem}: frontmatter synonyms {existing_list} differ from "
                     f"by-synonym.md {syns}; use --force to overwrite"
                 )
-                plans.append({"id": card_id, "action": "skip-conflict",
+                plans.append({"id": stem, "action": "skip-conflict",
                               "path": card["path"], "synonyms": syns,
                               "old_text": card["text"], "new_text": card["text"]})
             else:
-                plans.append({"id": card_id, "action": "noop",
+                plans.append({"id": stem, "action": "noop",
                               "path": card["path"], "synonyms": syns,
                               "old_text": card["text"], "new_text": card["text"]})
             continue
@@ -119,7 +123,7 @@ def plan(cards: dict[str, dict], by_synonym_md: Path, force: bool) -> list[dict]
         new_block = render_list_block("synonyms", syns)
         new_fm = insert_block_after_key(fm_text, "status", new_block)
         new_text = rebuild(card["text"], new_fm)
-        plans.append({"id": card_id, "action": "insert",
+        plans.append({"id": stem, "action": "insert",
                       "path": card["path"], "synonyms": syns,
                       "old_text": card["text"], "new_text": new_text})
 

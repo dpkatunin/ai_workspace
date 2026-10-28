@@ -72,23 +72,30 @@ def load_cards(kb_dir: Path) -> dict[str, dict]:
         except Exception as e:  # noqa: BLE001
             warn(f"{path.name}: cannot parse ({e}); skipped")
             continue
-        card_id = meta.get("id") or path.stem
-        if meta.get("id") and meta["id"] != path.stem:
-            warn(f"{path.name}: id {meta['id']!r} != filename stem {path.stem!r}")
+        
+        stem = path.stem
+        real_id = meta.get("id") or stem
+        if meta.get("id") and meta["id"] != stem:
+            # Предупреждение, если id во фронтматтере не совпадает с именем файла (игнорируем префикс unf30-)
+            expected_id = stem if meta["id"] == f"unf30-{stem}" else stem
+            if meta["id"] != expected_id and meta["id"] != f"unf30-{expected_id}":
+                warn(f"{path.name}: id {meta['id']!r} != filename stem {stem!r}")
+
         sections = extract_h2(body)
         registers: list[str] = []
         for section_name in ("Движения", "Участие в регистрах"):
             if section_name in sections:
                 registers.extend(extract_items(sections[section_name]))
         registers = _dedupe(registers)
-        cards[card_id] = {
-            "id": card_id,
+        cards[stem] = {
+            "id": real_id, # реальный id (unf30-...)
+            "stem": stem,  # имя файла без .md (doc-...)
             "path": path,
             "meta": meta,
             "body": body,
             "sections": sections,
             "registers": registers,
-            "title": _extract_title(body, meta, card_id),
+            "title": _extract_title(body, meta, stem),
         }
     return cards
 
@@ -220,6 +227,7 @@ def validate_references(cards: dict[str, dict], snap_path: Path) -> tuple[list[s
     for card_id, expected in snap.items():
         if card_id.startswith("_"):
             continue
+        # Ищем по стему (имени файла)
         card = cards.get(card_id)
         if card is None:
             errors.append(f"{card_id}: expected reference card not found in kb/unf30/")
@@ -317,7 +325,7 @@ def main() -> int:
             print()
             for cid in sorted(cards):
                 c = cards[cid]
-                print(f"- {cid} ({c['meta'].get('type')}, {c['meta'].get('status')})")
+                print(f"- {cid} (id={c['id']}, {c['meta'].get('type')}, {c['meta'].get('status')})")
                 print(f"    title: {c['title']}")
                 syns = c["meta"].get("synonyms") or []
                 print(f"    synonyms: {syns}")
