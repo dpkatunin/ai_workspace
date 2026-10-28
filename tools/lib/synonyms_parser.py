@@ -47,11 +47,14 @@ def parse_by_synonym(text: str) -> list[tuple[str, str]]:
         card_id = m.group(0)
 
         prefix = line[: m.start()]
-        # Убрать маркеры bullet/таблицы с начала
-        prefix = re.sub(r"^[\|\-\*\s=]+", "", prefix)
-        # Убрать хвостовые разделители
-        prefix = re.sub(r"[\|\s]+$", "", prefix)
-        prefix = prefix.strip().strip("`*_").strip()
+        # Удаляем markdown-форматирование (жирный шрифт, код)
+        prefix = prefix.replace("**", "").replace("__", "").replace("`", "")
+        
+        # Удаляем с краев пробелы и разделители (палки таблиц, стрелки, тире)
+        prefix = re.sub(r"^[\s\|=\-]+", "", prefix)
+        prefix = re.sub(r"[\s\|=\>\-—–]+$", "", prefix)
+        
+        prefix = prefix.strip()
 
         if not prefix:
             continue
