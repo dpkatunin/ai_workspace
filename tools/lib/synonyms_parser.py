@@ -51,8 +51,9 @@ def parse_by_synonym(text: str) -> list[tuple[str, str]]:
         prefix = prefix.replace("**", "").replace("__", "").replace("`", "")
         
         # Удаляем с краев пробелы и разделители (палки таблиц, стрелки, тире)
+        # Добавлены символы: >, —, –, →, ⇒, :
         prefix = re.sub(r"^[\s\|=\-]+", "", prefix)
-        prefix = re.sub(r"[\s\|=\>\-—–]+$", "", prefix)
+        prefix = re.sub(r"[\s\|=\>\-—–→⇒:]+$", "", prefix)
         
         prefix = prefix.strip()
 
