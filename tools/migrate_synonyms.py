@@ -62,7 +62,8 @@ def info(msg: str) -> None:
 
 def load_cards(kb_dir: Path) -> dict[str, dict]:
     cards: dict[str, dict] = {}
-    for path in sorted(kb_dir.glob("*.md")):
+    # Используем rglob для рекурсивного поиска в подпапках (objects/, pitfalls/ и т.д.)
+    for path in sorted(kb_dir.rglob("*.md")):
         if path.name == "_index.md":
             continue
         text = path.read_text(encoding="utf-8")
