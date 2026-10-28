@@ -3,9 +3,9 @@
 
 Рассчитан на «толерантное» чтение ручного файла. Ожидаемые формы:
 
-    | Синоним | id | Статус |
+    | Синоним | Конфиг | id |
     |---|---|---|
-    | реализация | doc-realizaciya | verified |
+    | касса, кассовые документы | unf30 | cat-kassy |
 
 или:
 
@@ -13,8 +13,7 @@
     - отгрузка — doc-realizaciya
 
 Идентификатор карточки узнаётся по префиксу: doc-*, cat-*, mech-*, pit-*.
-Всё, что в строке стоит перед id (после срезания маркеров списка/таблицы),
-считается синонимом.
+Всё, что в строке стоит перед id, разбивается по запятым и очищается от мусора.
 """
 from __future__ import annotations
 
@@ -25,7 +24,7 @@ _TABLE_SEP_RE = re.compile(r"^\|[\s\-:|]+\|?$")
 
 _HEADER_WORDS = {
     "синоним", "синонимы", "слово", "термин", "id", "карточка",
-    "статус", "название", "псевдоним", "псевдонимы",
+    "статус", "название", "псевдоним", "псевдонимы", "unf30",
 }
 
 def parse_by_synonym(text: str) -> list[tuple[str, str]]:
@@ -47,25 +46,29 @@ def parse_by_synonym(text: str) -> list[tuple[str, str]]:
         card_id = m.group(0)
 
         prefix = line[: m.start()]
-        # Удаляем markdown-форматирование (жирный шрифт, код)
-        prefix = prefix.replace("**", "").replace("__", "").replace("`", "")
         
-        # Удаляем с краев пробелы и разделители (палки таблиц, стрелки, тире)
-        # Добавлены символы: >, —, –, →, ⇒, :
-        prefix = re.sub(r"^[\s\|=\-]+", "", prefix)
-        prefix = re.sub(r"[\s\|=\>\-—–→⇒:]+$", "", prefix)
+        # Если в строке есть разделители таблицы, берем только первую колонку (где лежат синонимы)
+        if "|" in prefix:
+            prefix = prefix.split("|")[0]
+
+        # Разделяем по запятым (в ручном файле перечисления идут через запятую)
+        syns_raw = prefix.split(",")
         
-        prefix = prefix.strip()
+        for sr in syns_raw:
+            s = sr.strip()
+            
+            # Удаляем markdown-форматирование и лишние символы
+            s = s.replace("**", "").replace("__", "").replace("`", "")
+            s = s.strip("«»\"' -—–→|").strip()
+            
+            if not s:
+                continue
+            if s.lower() in _HEADER_WORDS:
+                continue
 
-        if not prefix:
-            continue
-        if prefix.lower() in _HEADER_WORDS:
-            continue
-
-        key = (prefix, card_id)
-        if key in seen:
-            continue
-        seen.add(key)
-        pairs.append(key)
+            key = (s, card_id)
+            if key not in seen:
+                seen.add(key)
+                pairs.append(key)
 
     return pairs
