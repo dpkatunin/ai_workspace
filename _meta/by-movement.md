@@ -2,7 +2,37 @@
 
 # Индекс: движения и участие в регистрах
 
-Всего 25 регистров; 14 карточек связаны с регистрами.
+Всего 27 регистров; 14 карточек связаны с регистрами.
+
+## РегистрНакопления.ВзаиморасчетыСКонтрагентами
+
+- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
+
+## РегистрНакопления.ЗаказыПокупателей
+
+- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
+
+## РегистрНакопления.ПредоставленныеСкидки
+
+- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
+
+## РегистрНакопления.Продажи
+
+- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
+
+## РегистрНакопления.РасчетыСПокупателями
+
+- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
+- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
+
+## РегистрНакопления.РасчетыСПоставщиками
+
+- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
+- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
+
+## РегистрНакопления.ТоварыНаСкладах
+
+- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 
 ## Выпуск продукции
 
@@ -25,10 +55,6 @@
 
 - `unf30-doc-zakaz-pokupatelya` — Документ «Заказ покупателя» [verified]
 
-## Заказы покупателей — измерение «Контрагент».
-
-- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
-
 ## Запасы
 
 - `unf30-doc-akt-vypolnennyh-rabot` — Документ «Акт выполненных работ» [verified]
@@ -36,7 +62,6 @@
 - `unf30-doc-korrektirovka-postupleniya` — Документ «Корректировка поступления» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
 - `unf30-doc-proizvodstvo` — Документ «Производство» (Сборка запасов) [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 - `unf30-doc-zakaz-na-proizvodstvo` — Документ «Заказ на производство» [verified]
 - `unf30-doc-zakaz-naryad` — Документ «Заказ-наряд» [verified]
 - `unf30-doc-zakaz-pokupatelya` — Документ «Заказ покупателя» [verified]
@@ -49,26 +74,19 @@
 
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
 
-## Запасы к расходу со складов
-
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
-
 ## Запасы на складах
 
 - `unf30-doc-korrektirovka-postupleniya` — Документ «Корректировка поступления» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
 - `unf30-doc-proizvodstvo` — Документ «Производство» (Сборка запасов) [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 
 ## Предоставленные скидки
 
 - `unf30-doc-akt-vypolnennyh-rabot` — Документ «Акт выполненных работ» [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 
 ## Продажи
 
 - `unf30-doc-akt-vypolnennyh-rabot` — Документ «Акт выполненных работ» [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 
 ## Прочие доходы и расходы
 
@@ -86,38 +104,24 @@
 
 - `unf30-doc-akt-vypolnennyh-rabot` — Документ «Акт выполненных работ» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 - `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
 
 ## Расчёты с покупателями / поставщиками
 
 - `unf30-cat-kassy` — Справочник «Кассы» и кассовый контур [draft]
 
-## Расчёты с покупателями — измерение «Контрагент»;
-
-- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
-
 ## Расчёты с поставщиками
 
 - `unf30-doc-dopolnitelnye-rashody` — Документ «Дополнительные расходы» [verified]
 - `unf30-doc-korrektirovka-postupleniya` — Документ «Корректировка поступления» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
-- `unf30-doc-realizaciya` — Документ «Расходная накладная» [verified]
 - `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
-
-## Расчёты с поставщиками — измерение «Контрагент»;
-
-- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
 
 ## Сдельные наряды
 
 - `unf30-doc-proizvodstvo` — Документ «Производство» (Сборка запасов) [verified]
 - `unf30-doc-sdelnyy-naryad` — Документ «Сдельный наряд» [verified]
 - `unf30-doc-zakaz-naryad` — Документ «Заказ-наряд» [verified]
-
-## Справочник **не является регистратором** — в регистры не пишет. Он выступает измерением (субконто):
-
-- `unf30-cat-kontragent` — Контрагенты (справочник) [draft]
 
 ## Цены номенклатуры
 
