@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 148 строк у 36 карточек.
+Всего: 156 строк у 38 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -36,6 +36,7 @@
 | доставка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | дубль контрагента | `unf30-pit-kontragenty` | draft |
 | жесткий резерв | `unf30-mech-rezervirovanie` | verified |
+| задачи планирования | `unf30-mech-planirovanie-proizvodstva` | draft |
 | задолженность | `unf30-mech-vzaimoraschety` | draft |
 | заказ клиента | `unf30-doc-zakaz-pokupatelya` | verified |
 | заказ на производство | `unf30-doc-zakaz-na-proizvodstvo` | verified |
@@ -75,6 +76,7 @@
 | наценки | `unf30-mech-skidki-nacenki` | draft |
 | ндс в цене | `unf30-pit-ceny` | verified |
 | не хватает запасов | `unf30-pit-rezervirovanie` | verified |
+| несколько этапов | `unf30-mech-etapy-proizvodstva` | draft |
 | нестандартные заказы | `unf30-case-mebel-nestandart` | verified |
 | номенклатура | `unf30-cat-nomenklatura` | verified |
 | нормы расхода | `unf30-cat-specifikaciya` | verified |
@@ -92,8 +94,10 @@
 | пересортица | `unf30-pit-sklad` | verified |
 | пко | `unf30-cat-kassy` | verified |
 | план выпуска | `unf30-doc-zakaz-na-proizvodstvo` | verified |
+| план производства | `unf30-mech-planirovanie-proizvodstva` | draft |
 | планирование операций | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | планирование производства | `unf30-doc-zakaz-na-proizvodstvo` | verified |
+| планирование производства | `unf30-mech-planirovanie-proizvodstva` | draft |
 | платёжное поручение | `unf30-mech-bank-ekvayring` | draft |
 | погрузка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | подотчёт | `unf30-cat-kassy` | verified |
@@ -102,6 +106,7 @@
 | полуфабрикаты | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | поступление на счёт | `unf30-mech-bank-ekvayring` | draft |
 | поступление товара | `unf30-doc-prikhodnaya-nakladnaya` | verified |
+| поэтапное производство | `unf30-mech-etapy-proizvodstva` | draft |
 | прайс | `unf30-doc-ustanovka-cen` | verified |
 | приход | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | приходная накладная | `unf30-doc-prikhodnaya-nakladnaya` | verified |
@@ -144,13 +149,16 @@
 | спецификация с полуфабрикатами | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | списание на 20.40 | `unf30-pb-sebestoimost-rabot` | verified |
 | справочник складов | `unf30-cat-sklady` | verified |
+| стадии производства | `unf30-mech-etapy-proizvodstva` | draft |
 | типы номенклатуры | `unf30-cat-nomenklatura` | verified |
 | условия скидок | `unf30-mech-skidki-nacenki` | draft |
 | услуга | `unf30-cat-nomenklatura` | verified |
 | установка цен | `unf30-doc-ustanovka-cen` | verified |
 | формулы | `unf30-mech-parametricheskie-specifikacii` | draft |
+| цели производственного учета | `unf30-mech-planirovanie-proizvodstva` | draft |
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | draft |
+| этапы производства | `unf30-mech-etapy-proizvodstva` | draft |
 | юрлицо | `unf30-cat-kontragent` | verified |
 | ячейки | `unf30-pit-sklad` | verified |
