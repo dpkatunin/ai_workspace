@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 149 строк у 38 карточек.
+Всего: 148 строк у 38 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -126,7 +126,6 @@
 | сборка запасов | `unf30-doc-proizvodstvo` | verified |
 | сделать продукцию | `unf30-doc-proizvodstvo` | verified |
 | сдельный наряд | `unf30-doc-sdelnyy-naryad` | verified |
-| сдельный наряд | `unf30-pit-proizvodstvo` | verified |
 | сдельщина | `unf30-doc-sdelnyy-naryad` | verified |
 | себестоимость работ | `unf30-pb-sebestoimost-rabot` | verified |
 | себестоимость работ | `unf30-pit-raboty` | verified |

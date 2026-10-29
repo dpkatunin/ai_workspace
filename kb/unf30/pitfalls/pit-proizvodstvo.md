@@ -5,11 +5,11 @@ config_version: ">=3.0.12"
 type: pitfall
 level: kb
 tags: [производство, выпуск, спецификация, сдельный наряд, брак]
-synonyms: [производство не работает, выпуск не проводится, сдельный наряд]
+synonyms: [производство не работает, выпуск не проводится]
 status: verified
-source: "ИТС, разд. Производство; сводка CoderStar, Корада"
-updated: 2026-10-26
-related: [unf30-pb-vypusk-produkcii, unf30-case-mebel-nestandart]
+source: ИТС, разд. Производство; сводка CoderStar, Корада
+updated: 2026-10-29
+related: [unf30-pb-vypusk-produkcii, unf30-case-mebel-nestandart, unf30-doc-sdelnyy-naryad]
 ---
 
 # Грабли: производство
@@ -46,7 +46,7 @@ related: [unf30-pb-vypusk-produkcii, unf30-case-mebel-nestandart]
 
 **Причина:** Не включена опция «Управление персоналом, начисление зарплаты». Или наряд не закрыт.
 
-**Решение:** Включить опцию в разделе «Зарплата». Проверить, что наряд имеет статус «Закрыт».
+**Решение:** Включить опцию в разделе «Зарплата». Проверить, что наряд имеет статус «Закрыт». Документ-регистратор — `unf30-doc-sdelnyy-naryad`.
 
 ## {#pit-brak} Брак не сохранился
 
@@ -83,4 +83,5 @@ related: [unf30-pb-vypusk-produkcii, unf30-case-mebel-nestandart]
 ## Связанные карточки
 
 - `unf30-pb-vypusk-produkcii` — процедура выпуска.
+- `unf30-doc-sdelnyy-naryad` — документ «Сдельный наряд», которым начисляется зарплата сдельщикам.
 - `unf30-case-mebel-nestandart` — паттерн нестандартного производства.
