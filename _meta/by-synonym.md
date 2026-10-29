@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 139 строк у 34 карточек.
+Всего: 148 строк у 36 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -17,6 +17,7 @@
 | взаиморасчёты | `unf30-mech-vzaimoraschety` | draft |
 | виды цен | `unf30-doc-ustanovka-cen` | verified |
 | включить в себестоимость | `unf30-doc-dopolnitelnye-rashody` | verified |
+| вложенная спецификация | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | возврат поставщику | `unf30-pit-zakupki` | verified |
 | выписка не загружена | `unf30-pit-dengi` | draft |
 | выполнение работ | `unf30-doc-zakaz-naryad` | verified |
@@ -53,6 +54,7 @@
 | инвентаризация | `unf30-pit-sklad` | verified |
 | индивидуальные заказы | `unf30-case-mebel-nestandart` | verified |
 | ИП | `unf30-cat-kontragent` | verified |
+| исполнители | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | исправить приход | `unf30-doc-korrektirovka-postupleniya` | verified |
 | касса | `unf30-cat-kassy` | verified |
 | касса не закрывается | `unf30-pit-dengi` | draft |
@@ -67,6 +69,7 @@
 | корректировка поступления | `unf30-pit-zakupki` | verified |
 | материал не списывается | `unf30-pit-specifikacii` | verified |
 | мебель | `unf30-case-mebel-nestandart` | verified |
+| многоуровневая спецификация | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | монтаж | `unf30-doc-zakaz-naryad` | verified |
 | наряд | `unf30-doc-sdelnyy-naryad` | verified |
 | наценки | `unf30-mech-skidki-nacenki` | draft |
@@ -84,15 +87,19 @@
 | ордерный склад | `unf30-mech-ordernaya-shema` | verified |
 | отгрузить с резервом | `unf30-pb-otgruzka-s-rezervom` | verified |
 | отгрузка | `unf30-doc-realizaciya` | verified |
+| параметрическая спецификация | `unf30-mech-parametricheskie-specifikacii` | draft |
+| параметры | `unf30-mech-parametricheskie-specifikacii` | draft |
 | пересортица | `unf30-pit-sklad` | verified |
 | пко | `unf30-cat-kassy` | verified |
 | план выпуска | `unf30-doc-zakaz-na-proizvodstvo` | verified |
+| планирование операций | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | планирование производства | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | платёжное поручение | `unf30-mech-bank-ekvayring` | draft |
 | погрузка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | подотчёт | `unf30-cat-kassy` | verified |
 | подотчётник не отчитался | `unf30-pit-dengi` | draft |
 | подразделение | `unf30-cat-sklady` | verified |
+| полуфабрикаты | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | поступление на счёт | `unf30-mech-bank-ekvayring` | draft |
 | поступление товара | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | прайс | `unf30-doc-ustanovka-cen` | verified |
@@ -134,12 +141,14 @@
 | состав изделия | `unf30-cat-specifikaciya` | verified |
 | спецификация | `unf30-cat-specifikaciya` | verified |
 | спецификация не работает | `unf30-pit-specifikacii` | verified |
+| спецификация с полуфабрикатами | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | списание на 20.40 | `unf30-pb-sebestoimost-rabot` | verified |
 | справочник складов | `unf30-cat-sklady` | verified |
 | типы номенклатуры | `unf30-cat-nomenklatura` | verified |
 | условия скидок | `unf30-mech-skidki-nacenki` | draft |
 | услуга | `unf30-cat-nomenklatura` | verified |
 | установка цен | `unf30-doc-ustanovka-cen` | verified |
+| формулы | `unf30-mech-parametricheskie-specifikacii` | draft |
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | draft |

@@ -1,0 +1,6 @@
+# Зависимости для извлечения текста из PDF (tools/pdf_extract.py).
+# Установка: py -m pip install -r tools\requirements-pdf.txt
+#
+# PyMuPDF (fitz) — извлечение текста с сохранением порядка чтения.
+# Только для локальных утилит, в MCP-сервер не попадает.
+pymupdf>=1.24
