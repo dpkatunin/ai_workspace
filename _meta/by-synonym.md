@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 156 строк у 38 карточек.
+Всего: 155 строк у 38 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -36,7 +36,7 @@
 | доставка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | дубль контрагента | `unf30-pit-kontragenty` | draft |
 | жесткий резерв | `unf30-mech-rezervirovanie` | verified |
-| задачи планирования | `unf30-mech-planirovanie-proizvodstva` | draft |
+| задачи планирования | `unf30-mech-planirovanie-proizvodstva` | verified |
 | задолженность | `unf30-mech-vzaimoraschety` | draft |
 | заказ клиента | `unf30-doc-zakaz-pokupatelya` | verified |
 | заказ на производство | `unf30-doc-zakaz-na-proizvodstvo` | verified |
@@ -94,10 +94,9 @@
 | пересортица | `unf30-pit-sklad` | verified |
 | пко | `unf30-cat-kassy` | verified |
 | план выпуска | `unf30-doc-zakaz-na-proizvodstvo` | verified |
-| план производства | `unf30-mech-planirovanie-proizvodstva` | draft |
+| план производства | `unf30-mech-planirovanie-proizvodstva` | verified |
 | планирование операций | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | планирование производства | `unf30-doc-zakaz-na-proizvodstvo` | verified |
-| планирование производства | `unf30-mech-planirovanie-proizvodstva` | draft |
 | платёжное поручение | `unf30-mech-bank-ekvayring` | draft |
 | погрузка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | подотчёт | `unf30-cat-kassy` | verified |
@@ -155,7 +154,7 @@
 | услуга | `unf30-cat-nomenklatura` | verified |
 | установка цен | `unf30-doc-ustanovka-cen` | verified |
 | формулы | `unf30-mech-parametricheskie-specifikacii` | draft |
-| цели производственного учета | `unf30-mech-planirovanie-proizvodstva` | draft |
+| цели производственного учета | `unf30-mech-planirovanie-proizvodstva` | verified |
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | draft |
