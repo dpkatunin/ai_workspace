@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 155 строк у 38 карточек.
+Всего: 149 строк у 38 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -23,7 +23,6 @@
 | выполнение работ | `unf30-doc-zakaz-naryad` | verified |
 | выпуск не проводится | `unf30-pit-proizvodstvo` | verified |
 | выпуск продукции | `unf30-doc-proizvodstvo` | verified |
-| выпуск продукции | `unf30-pb-vypusk-produkcii` | verified |
 | выработка | `unf30-doc-sdelnyy-naryad` | verified |
 | два контрагента с одним ИНН | `unf30-pit-kontragenty` | verified |
 | дисконт | `unf30-mech-skidki-nacenki` | verified |
@@ -32,7 +31,6 @@
 | доли стоимости | `unf30-pit-specifikacii` | verified |
 | дополнительные расходы | `unf30-doc-dopolnitelnye-rashody` | verified |
 | допрасходы | `unf30-doc-dopolnitelnye-rashody` | verified |
-| допрасходы | `unf30-pit-zakupki` | verified |
 | доставка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | дубль контрагента | `unf30-pit-kontragenty` | verified |
 | жесткий резерв | `unf30-mech-rezervirovanie` | verified |
@@ -48,7 +46,6 @@
 | зарезервировать под клиента | `unf30-pb-otgruzka-s-rezervom` | verified |
 | зарезервировать товар | `unf30-mech-rezervirovanie` | verified |
 | зарплата сдельщиков | `unf30-doc-sdelnyy-naryad` | verified |
-| зарплата сдельщиков | `unf30-pit-raboty` | verified |
 | затраты на работы | `unf30-pit-raboty` | verified |
 | зачёт | `unf30-mech-vzaimoraschety` | verified |
 | изменить цену поступления | `unf30-doc-korrektirovka-postupleniya` | verified |
@@ -67,7 +64,6 @@
 | контрагент-физлицо | `unf30-cat-kontragent` | verified |
 | корректировка долга | `unf30-mech-vzaimoraschety` | verified |
 | корректировка поступления | `unf30-doc-korrektirovka-postupleniya` | verified |
-| корректировка поступления | `unf30-pit-zakupki` | verified |
 | материал не списывается | `unf30-pit-specifikacii` | verified |
 | мебель | `unf30-case-mebel-nestandart` | verified |
 | многоуровневая спецификация | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
@@ -111,7 +107,6 @@
 | приходная накладная | `unf30-doc-prikhodnaya-nakladnaya` | verified |
 | приходный ордер | `unf30-mech-ordernaya-shema` | verified |
 | производство | `unf30-doc-proizvodstvo` | verified |
-| производство | `unf30-pb-vypusk-produkcii` | verified |
 | производство не работает | `unf30-pit-proizvodstvo` | verified |
 | работа | `unf30-cat-nomenklatura` | verified |
 | расходная накладная | `unf30-doc-realizaciya` | verified |
@@ -130,7 +125,6 @@
 | сборка | `unf30-pb-vypusk-produkcii` | verified |
 | сборка запасов | `unf30-doc-proizvodstvo` | verified |
 | сделать продукцию | `unf30-doc-proizvodstvo` | verified |
-| сделать продукцию | `unf30-pb-vypusk-produkcii` | verified |
 | сдельный наряд | `unf30-doc-sdelnyy-naryad` | verified |
 | сдельный наряд | `unf30-pit-proizvodstvo` | verified |
 | сдельщина | `unf30-doc-sdelnyy-naryad` | verified |

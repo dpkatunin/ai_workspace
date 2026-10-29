@@ -5,11 +5,11 @@ config_version: ">=3.0.12"
 type: playbook
 level: kb
 tags: [производство, выпуск, спецификация, себестоимость]
-synonyms: [выпуск продукции, сборка, производство, сделать продукцию]
+synonyms: [сборка]
 status: verified
-source: "ИТС, разд. Производство; сводка CoderStar, Корада"
-updated: 2026-10-26
-related: [unf30-pit-proizvodstvo, unf30-case-mebel-nestandart]
+source: ИТС, разд. Производство; сводка CoderStar, Корада
+updated: 2026-10-29
+related: [unf30-pit-proizvodstvo, unf30-case-mebel-nestandart, unf30-doc-proizvodstvo]
 ---
 
 # Выпуск продукции
@@ -55,5 +55,6 @@ related: [unf30-pit-proizvodstvo, unf30-case-mebel-nestandart]
 
 ## Связанные карточки
 
+- `unf30-doc-proizvodstvo` — документ, которым фиксируется выпуск.
 - `unf30-pit-proizvodstvo` — грабли производства.
 - `unf30-case-mebel-nestandart` — паттерн нестандартного производства.

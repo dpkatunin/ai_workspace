@@ -5,10 +5,10 @@ config_version: ">=3.0.12"
 type: pitfall
 level: kb
 tags: [закупки, корректировка, допрасходы, возврат, импорт, расхождения]
-synonyms: [закупки не работают, корректировка поступления, допрасходы, возврат поставщику]
+synonyms: [закупки не работают, возврат поставщику]
 status: verified
-source: "ИТС, разд. Закупки; сводка CoderStar, SCloud, RPS-1C"
-updated: 2026-10-27
+source: ИТС, разд. Закупки; сводка CoderStar, SCloud, RPS-1C
+updated: 2026-10-29
 related: [unf30-doc-dopolnitelnye-rashody, unf30-doc-korrektirovka-postupleniya, unf30-doc-prikhodnaya-nakladnaya]
 ---
 

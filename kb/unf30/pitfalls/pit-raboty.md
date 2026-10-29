@@ -5,10 +5,10 @@ config_version: ">=3.0.12"
 type: pitfall
 level: kb
 tags: [работы, себестоимость, зарплата, сдельный наряд, акт]
-synonyms: [себестоимость работ, затраты на работы, зарплата сдельщиков]
+synonyms: [себестоимость работ, затраты на работы]
 status: verified
-source: "ИТС, разд. Работы и Зарплата; сводка CoderStar, Легасофт"
-updated: 2026-10-27
+source: ИТС, разд. Работы и Зарплата; сводка CoderStar, Легасофт
+updated: 2026-10-29
 related: [unf30-doc-akt-vypolnennyh-rabot, unf30-doc-sdelnyy-naryad, unf30-pb-sebestoimost-rabot, unf30-doc-zakaz-naryad]
 ---
 
