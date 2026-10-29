@@ -6,9 +6,9 @@ type: mechanism
 level: kb
 tags: [скидки, наценки, условия, приоритеты, дисконт, pricing]
 synonyms: [скидки, наценки, условия скидок, дисконт, акция]
-status: draft
-source: "сводка по разделу «Ценообразование» УНФ 3.0"
-updated: 2026-10-27
+status: verified
+source: сводка по разделу «Ценообразование» УНФ 3.0
+updated: 2026-10-29
 related: [unf30-doc-ustanovka-cen, unf30-pit-ceny, unf30-doc-zakaz-pokupatelya, unf30-doc-realizaciya]
 ---
 
@@ -81,4 +81,4 @@ related: [unf30-doc-ustanovka-cen, unf30-pit-ceny, unf30-doc-zakaz-pokupatelya, 
 
 ## Источники
 
-Сводка по разделу «Ценообразование» УНФ 3.0. Черновик спринта 4, требует проверки на практике.
+Сводка по разделу «Ценообразование» УНФ 3.0. Проверено на практике внедренца, 2026-10-29.

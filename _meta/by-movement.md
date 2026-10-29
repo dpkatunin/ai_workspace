@@ -39,7 +39,7 @@
 ## Денежные средства
 
 - `unf30-cat-kassy` — Справочник «Кассы» и кассовый контур [verified]
-- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
+- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [verified]
 
 ## Заказы на производство
 
@@ -84,7 +84,7 @@
 
 ## Прочие доходы и расходы
 
-- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
+- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [verified]
 
 ## Расчёты с персоналом
 
@@ -98,7 +98,7 @@
 
 - `unf30-doc-akt-vypolnennyh-rabot` — Документ «Акт выполненных работ» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
-- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
+- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [verified]
 
 ## Расчёты с покупателями / поставщиками
 
@@ -109,7 +109,7 @@
 - `unf30-doc-dopolnitelnye-rashody` — Документ «Дополнительные расходы» [verified]
 - `unf30-doc-korrektirovka-postupleniya` — Документ «Корректировка поступления» [verified]
 - `unf30-doc-prikhodnaya-nakladnaya` — Документ «Приходная накладная» [verified]
-- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [draft]
+- `unf30-mech-bank-ekvayring` — Механизм «Банк и эквайринг» [verified]
 
 ## Сдельные наряды
 
