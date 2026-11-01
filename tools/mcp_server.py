@@ -3,8 +3,8 @@
 MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Python SDK v2).
 
 Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval), чтение мета-файлов и точечное 
-чтение XML-выгрузки конфигурации. Генерацию ответа делает тот, кто вызвал 
-инструмент — BDS, другой агент или человек.
+чтение/поиск по XML-выгрузке конфигурации. Генерацию ответа делает тот, кто 
+вызвал инструмент — BDS, другой агент или человек.
 
 Инструменты:
   search_kb        — top-N карточек по запросу (с фильтрами по type/status/level)
@@ -12,6 +12,7 @@ MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Pyt
   kb_stats         — сколько карточек, из чего состоят
   read_meta_file   — прочитать правила/архитектуру из каталога _meta/
   read_config_file — прочитать XML-файл конфигурации из _raw/unf30_xml
+  search_config    — найти объект конфигурации по подстроке имени
 
 Запуск (из корня репозитория, в активированном .venv):
 
@@ -295,6 +296,59 @@ def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
         return "Ошибка: файл не является текстовым (возможно, бинарный) или имеет другую кодировку."
     except Exception as e:
         return f"Ошибка чтения файла: {e}"
+
+@mcp.tool()
+def search_config(
+    query: str,
+    kind: Optional[str] = None,
+    objects_only: bool = True,
+    limit: int = 50,
+) -> str:
+    """Найти объекты конфигурации 1С по подстроке в имени.
+
+    Используй этот инструмент, когда нужно узнать точное имя документа,
+    справочника, перечисления или регистра. Например: «есть ли документ,
+    фиксирующий выполнение этапа производства?» — запрос «этап» с
+    kind=Document. Инструмент читает реестр ConfigDumpInfo.xml из
+    _raw/unf30_xml и не требует чтения тяжёлых XML-файлов.
+
+    Args:
+        query: подстрока имени, например «этап» или «Спецификац».
+        kind: фильтр по типу: Document, Catalog, Enum, AccumulationRegister,
+              InformationRegister, Report, DataProcessor.
+        objects_only: только сами объекты (без реквизитов и модулей).
+        limit: максимум строк в ответе.
+    """
+    try:
+        from config_search import ConfigIndex
+    except ImportError:
+        return "Ошибка: модуль config_search.py не найден рядом с mcp_server.py."
+
+    index = get_index()
+    repo_root = index.kb_root.parent.parent
+    dump_path = repo_root / "_raw" / "unf30_xml" / "ConfigDumpInfo.xml"
+
+    try:
+        cfg = ConfigIndex(dump_path)
+        rows = cfg.search(
+            query,
+            kind=kind,
+            objects_only=objects_only,
+            limit=limit,
+        )
+    except FileNotFoundError as exc:
+        return f"Ошибка: {exc}"
+    except Exception as exc:
+        return f"Ошибка поиска по конфигурации: {exc}"
+
+    if not rows:
+        return f"Ничего не найдено по запросу «{query}» (kind={kind})."
+
+    lines = [f"Найдено {len(rows)} (лимит {limit}):", ""]
+    for entry in rows:
+        suffix = "" if entry.sub is None else f"  [{entry.sub}]"
+        lines.append(f"- {entry.obj}{suffix}  ({entry.kind})")
+    return "\n".join(lines)
 
 # --------------------------------------------------------------------------- #
 # Запуск
