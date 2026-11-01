@@ -2,14 +2,16 @@
 """
 MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Python SDK v2).
 
-Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval) и чтение мета-файлов.
-Генерацию ответа делает тот, кто вызвал инструмент — BDS, другой агент или человек.
+Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval), чтение мета-файлов и точечное 
+чтение XML-выгрузки конфигурации. Генерацию ответа делает тот, кто вызвал 
+инструмент — BDS, другой агент или человек.
 
 Инструменты:
-  search_kb      — top-N карточек по запросу (с фильтрами по type/status/level)
-  get_card       — полный текст карточки по id
-  kb_stats       — сколько карточек, из чего состоят
-  read_meta_file — прочитать правила/архитектуру из каталога _meta/
+  search_kb        — top-N карточек по запросу (с фильтрами по type/status/level)
+  get_card         — полный текст карточки по id
+  kb_stats         — сколько карточек, из чего состоят
+  read_meta_file   — прочитать правила/архитектуру из каталога _meta/
+  read_config_file — прочитать XML-файл конфигурации из _raw/unf30_xml
 
 Запуск (из корня репозитория, в активированном .venv):
 
@@ -224,7 +226,6 @@ def read_meta_file(rel_path: str) -> str:
                   "design/01-vision.md", "conventions.md", "index.md".
     """
     index = get_index()
-    # Корень репозитория = родитель папки kb/
     repo_root = index.kb_root.parent.parent
     meta_dir = repo_root / "_meta"
 
@@ -233,7 +234,6 @@ def read_meta_file(rel_path: str) -> str:
 
     target_file = (meta_dir / rel_path).resolve()
 
-    # Защита от path traversal (выход за пределы _meta)
     try:
         target_file.relative_to(meta_dir)
     except ValueError:
@@ -246,6 +246,53 @@ def read_meta_file(rel_path: str) -> str:
         with open(target_file, "r", encoding="utf-8") as f:
             content = f.read()
         return f"# Файл: _meta/{rel_path}\n\n{content}"
+    except Exception as e:
+        return f"Ошибка чтения файла: {e}"
+
+@mcp.tool()
+def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
+    """Прочитать XML-файл конфигурации из выгрузки _raw/unf30_xml.
+
+    Используй этот инструмент для проверки фактов в самой конфигурации 1С:
+    наличие объектов, точные имена реквизитов, перечисления, тексты модулей.
+    Не используй для чтения огромных файлов целиком (например, Configuration.xml).
+
+    Args:
+        rel_path: путь относительно каталога _raw/unf30_xml, например
+                  "Documents/РеализацияТоваровУслуг/Ext/ObjectModule.bsl",
+                  "Enums/ВидыОпераций/.../Ext/ObjectModule.bsl".
+        max_chars: лимит символов для чтения (защита от переполнения контекста).
+    """
+    index = get_index()
+    repo_root = index.kb_root.parent.parent
+    config_dir = repo_root / "_raw" / "unf30_xml"
+
+    if not config_dir.exists():
+        return "Ошибка: каталог выгрузки конфигурации '_raw/unf30_xml' не найден."
+
+    target_file = (config_dir / rel_path).resolve()
+
+    # Защита от path traversal
+    try:
+        target_file.relative_to(config_dir)
+    except ValueError:
+        return "Ошибка безопасности: доступ за пределы каталога конфигурации запрещён."
+
+    if not target_file.exists() or not target_file.is_file():
+        return f"Ошибка: файл «{rel_path}» не найден в выгрузке конфигурации."
+
+    # Проверяем расширение (чтобы случайно не прочитать бинарник)
+    if target_file.suffix.lower() not in (".xml", ".bsl", ".txt", ".json"):
+         return f"Ошибка: чтение файлов с расширением '{target_file.suffix}' не поддерживается."
+
+    try:
+        with open(target_file, "r", encoding="utf-8-sig") as f:  # utf-8-sig борется с BOM 1С
+            content = f.read(max_chars + 1)
+            if len(content) > max_chars:
+                content = content[:max_chars] + "\n... (файл обрезан, превышен лимит символов)"
+        return f"# Файл конфигурации: {rel_path}\n\n{content}"
+    except UnicodeDecodeError:
+        return "Ошибка: файл не является текстовым (возможно, бинарный) или имеет другую кодировку."
     except Exception as e:
         return f"Ошибка чтения файла: {e}"
 
