@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 169 строк у 41 карточек.
+Всего: 166 строк у 40 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -25,7 +25,6 @@
 | выпуск продукции | `unf30-doc-proizvodstvo` | verified |
 | выработка | `unf30-doc-sdelnyy-naryad` | verified |
 | два контрагента с одним ИНН | `unf30-pit-kontragenty` | verified |
-| диагностика ошибок | `unf30-pb-diagnostika-integracii` | verified |
 | дисконт | `unf30-mech-skidki-nacenki` | verified |
 | договор не подтягивается | `unf30-pit-kontragenty` | verified |
 | документ не подписывается | `unf30-pit-integracii-edo` | verified |
@@ -57,7 +56,6 @@
 | ИП | `unf30-cat-kontragent` | verified |
 | исполнители | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | исправить приход | `unf30-doc-korrektirovka-postupleniya` | verified |
-| как проверить обмен | `unf30-pb-diagnostika-integracii` | verified |
 | касса | `unf30-cat-kassy` | verified |
 | кассовые документы | `unf30-cat-kassy` | verified |
 | контрагент | `unf30-cat-kontragent` | verified |
@@ -169,7 +167,6 @@
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
 | чек не уходит в офд | `unf30-pit-integracii-ofd` | verified |
-| чек-лист интеграции | `unf30-pb-diagnostika-integracii` | verified |
 | ЭДО не отправляет через прокси | `unf30-pit-integracii-edo` | verified |
 | эквайринг | `unf30-mech-bank-ekvayring` | verified |
 | этапы производства | `unf30-mech-etapy-proizvodstva` | verified |

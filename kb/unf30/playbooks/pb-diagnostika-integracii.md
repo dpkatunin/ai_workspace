@@ -1,17 +1,15 @@
 ---
 id: unf30-pb-diagnostika-integracii
 config: unf30
-config_version: ">=3.0.12"
+config_version: >=3.0.12
 type: playbook
 level: kb
-tags: ['интеграции', 'диагностика', 'чек-лист', 'офд', 'эдо', 'маркетплейсы', 'банк']
-synonyms: ['чек-лист интеграции', 'как проверить обмен', 'диагностика ошибок']
+tags: ['интеграции', 'диагностика', 'playbook']
+synonyms: ['не работает интеграция', 'что проверить при обмене', 'ошибка обмена']
 status: verified
-source: сводка по разделу «Интеграции и маркировка»; внешние материалы TopKoder, ИТС 1С, Spark, 2026-10
+source: сводка по разделу «Интеграции и маркировка»; внешние материалы TopKoder, ИТС 1С, 2026-10
 updated: 2026-11-01
-verified_by: пользователь (внедренец), подтверждено на практике и по ИТС
-verified_at: 2026-11-01
-related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf30-pit-integracii-edo', 'unf30-pit-integracii-bank', 'unf30-pit-nds-ekvayring']
+related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf30-pit-integracii-edo', 'unf30-pit-integracii-bank']
 ---
 
 # Диагностика любой интеграции
@@ -32,7 +30,7 @@ related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf3
 - Маркетплейсы → `unf30-pit-integracii-marketplejsy`
 - ЭДО → `unf30-pit-integracii-edo`
 - Банк и эквайринг → `unf30-pit-integracii-bank`
-- НДС и комиссия эквайринга → `unf30-pit-nds-ekvayring`
+- НДС и комиссия эквайринга → `unf30-pit-dengi`
 
 ## Связи
 
@@ -40,7 +38,7 @@ related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf3
 - `unf30-pit-integracii-marketplejsy`
 - `unf30-pit-integracii-edo`
 - `unf30-pit-integracii-bank`
-- `unf30-pit-nds-ekvayring`
+- `unf30-pit-dengi`
 
 ## Источники
 
