@@ -3,16 +3,16 @@
 MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Python SDK v2).
 
 Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval), чтение мета-файлов и точечное 
-чтение/поиск по XML-выгрузке конфигурации. Генерацию ответа делает тот, кто 
-вызвал инструмент — BDS, другой агент или человек.
+чтение XML-выгрузки конфигурации. Генерацию ответа делает тот, кто вызвал 
+инструмент — BDS, другой агент или человек.
 
 Инструменты:
   search_kb        — top-N карточек по запросу (с фильтрами по type/status/level)
   get_card         — полный текст карточки по id
   kb_stats         — сколько карточек, из чего состоят
   read_meta_file   — прочитать правила/архитектуру из каталога _meta/
-  read_config_file — прочитать XML-файл конфигурации из _raw/unf30_xml
-  search_config    — найти объект конфигурации по подстроке имени
+  search_config    — быстрый поиск по объектам конфигурации (через config_index.json)
+  read_config_file — прочитать XML-файл конфигурации из _raw/unf30_xml (для деталей)
 
 Запуск (из корня репозитория, в активированном .venv):
 
@@ -25,6 +25,7 @@ MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Pyt
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
@@ -142,7 +143,7 @@ def _format_hit(rank: int, card: Card, score: float, body_limit: int = 1500) -> 
 # MCP: объявление инструментов (SDK v2)
 # --------------------------------------------------------------------------- #
 
-from mcp.server import MCPServer  # v2: было mcp.server.fastmcp.FastMCP
+from mcp.server import MCPServer
 from mcp.server.transport_security import TransportSecuritySettings
 
 mcp = MCPServer("unf30-kb")
@@ -217,15 +218,7 @@ def kb_stats() -> str:
 
 @mcp.tool()
 def read_meta_file(rel_path: str) -> str:
-    """Прочитать файл из каталога _meta (правила, архитектура, ADR).
-
-    Используй этот инструмент, чтобы узнать правила работы с базой,
-    архитектуру проекта или текущие планы.
-
-    Args:
-        rel_path: путь относительно каталога _meta, например 
-                  "design/01-vision.md", "conventions.md", "index.md".
-    """
+    """Прочитать файл из каталога _meta (правила, архитектура, ADR)."""
     index = get_index()
     repo_root = index.kb_root.parent.parent
     meta_dir = repo_root / "_meta"
@@ -251,18 +244,77 @@ def read_meta_file(rel_path: str) -> str:
         return f"Ошибка чтения файла: {e}"
 
 @mcp.tool()
-def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
-    """Прочитать XML-файл конфигурации из выгрузки _raw/unf30_xml.
+def search_config(
+    query: str,
+    kind: Optional[str] = None,
+    limit: int = 50
+) -> str:
+    """Найти объекты конфигурации 1С по подстроке в имени или синониме.
 
-    Используй этот инструмент для проверки фактов в самой конфигурации 1С:
-    наличие объектов, точные имена реквизитов, перечисления, тексты модулей.
-    Не используй для чтения огромных файлов целиком (например, Configuration.xml).
+    Использует быстрый предсобранный индекс (config_index.json).
+    Если нужно найти точное имя документа, справочника, перечисления или 
+    регистра, используй этот инструмент ПЕРЕД чтением сырых XML.
 
     Args:
-        rel_path: путь относительно каталога _raw/unf30_xml, например
-                  "Documents/РеализацияТоваровУслуг/Ext/ObjectModule.bsl",
-                  "Enums/ВидыОпераций/.../Ext/ObjectModule.bsl".
-        max_chars: лимит символов для чтения (защита от переполнения контекста).
+        query: подстрока имени или синонима (например, «этап» или «Спецификац»).
+        kind: фильтр по типу: Document, Catalog, Enum, AccumulationRegister,
+              InformationRegister, Report, DataProcessor.
+        limit: максимум строк в ответе.
+    """
+    index = get_index()
+    repo_root = index.kb_root.parent.parent
+    config_dir = repo_root / "_raw" / "unf30_xml"
+    index_file = config_dir / "config_index.json"
+
+    if not index_file.exists():
+        return (
+            "Ошибка: индекс конфигурации не найден. "
+            "Запустите: `py tools/parse_config_index.py`"
+        )
+
+    try:
+        with open(index_file, "r", encoding="utf-8") as f:
+            config_data = json.load(f)
+    except Exception as e:
+        return f"Ошибка чтения индекса конфигурации: {e}"
+
+    query_lower = query.lower()
+    results = []
+
+    for obj in config_data:
+        # Фильтр по типу
+        if kind and obj.get("kind", "").lower() != kind.lower():
+            continue
+            
+        name = obj.get("name", "").lower()
+        synonym = obj.get("synonym", "").lower()
+        
+        if query_lower in name or query_lower in synonym:
+            results.append(obj)
+
+    if not results:
+        return f"В конфигурации не найдено объектов по запросу «{query}» (тип: {kind or 'любой'})."
+
+    # Ограничиваем вывод
+    total_found = len(results)
+    results = results[:limit]
+
+    lines = [f"Найдено объектов: {total_found} (показано {len(results)}):\n"]
+    for obj in results:
+        syn = f" (синоним: «{obj['synonym']}»)" if obj['synonym'] else ""
+        lines.append(f"- **{obj['kind']}**: `{obj['name']}`{syn}")
+
+    if total_found > limit:
+        lines.append(f"\n... (ещё {total_found - limit} объектов скрыто, увеличьте limit)")
+
+    return "\n".join(lines)
+
+@mcp.tool()
+def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
+    """Прочитать XML-файл конфигурации из выгрузки _raw/unf30_xml.
+    
+    Используй для деталей: тексты модулей, полные списки реквизитов.
+    Не используй для чтения огромных файлов целиком.
     """
     index = get_index()
     repo_root = index.kb_root.parent.parent
@@ -273,7 +325,6 @@ def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
 
     target_file = (config_dir / rel_path).resolve()
 
-    # Защита от path traversal
     try:
         target_file.relative_to(config_dir)
     except ValueError:
@@ -282,80 +333,25 @@ def read_config_file(rel_path: str, max_chars: int = 15000) -> str:
     if not target_file.exists() or not target_file.is_file():
         return f"Ошибка: файл «{rel_path}» не найден в выгрузке конфигурации."
 
-    # Проверяем расширение (чтобы случайно не прочитать бинарник)
     if target_file.suffix.lower() not in (".xml", ".bsl", ".txt", ".json"):
          return f"Ошибка: чтение файлов с расширением '{target_file.suffix}' не поддерживается."
 
     try:
-        with open(target_file, "r", encoding="utf-8-sig") as f:  # utf-8-sig борется с BOM 1С
+        with open(target_file, "r", encoding="utf-8-sig") as f:
             content = f.read(max_chars + 1)
             if len(content) > max_chars:
                 content = content[:max_chars] + "\n... (файл обрезан, превышен лимит символов)"
         return f"# Файл конфигурации: {rel_path}\n\n{content}"
     except UnicodeDecodeError:
-        return "Ошибка: файл не является текстовым (возможно, бинарный) или имеет другую кодировку."
+        return "Ошибка: файл не является текстовым."
     except Exception as e:
         return f"Ошибка чтения файла: {e}"
-
-@mcp.tool()
-def search_config(
-    query: str,
-    kind: Optional[str] = None,
-    objects_only: bool = True,
-    limit: int = 50,
-) -> str:
-    """Найти объекты конфигурации 1С по подстроке в имени.
-
-    Используй этот инструмент, когда нужно узнать точное имя документа,
-    справочника, перечисления или регистра. Например: «есть ли документ,
-    фиксирующий выполнение этапа производства?» — запрос «этап» с
-    kind=Document. Инструмент читает реестр ConfigDumpInfo.xml из
-    _raw/unf30_xml и не требует чтения тяжёлых XML-файлов.
-
-    Args:
-        query: подстрока имени, например «этап» или «Спецификац».
-        kind: фильтр по типу: Document, Catalog, Enum, AccumulationRegister,
-              InformationRegister, Report, DataProcessor.
-        objects_only: только сами объекты (без реквизитов и модулей).
-        limit: максимум строк в ответе.
-    """
-    try:
-        from config_search import ConfigIndex
-    except ImportError:
-        return "Ошибка: модуль config_search.py не найден рядом с mcp_server.py."
-
-    index = get_index()
-    repo_root = index.kb_root.parent.parent
-    dump_path = repo_root / "_raw" / "unf30_xml" / "ConfigDumpInfo.xml"
-
-    try:
-        cfg = ConfigIndex(dump_path)
-        rows = cfg.search(
-            query,
-            kind=kind,
-            objects_only=objects_only,
-            limit=limit,
-        )
-    except FileNotFoundError as exc:
-        return f"Ошибка: {exc}"
-    except Exception as exc:
-        return f"Ошибка поиска по конфигурации: {exc}"
-
-    if not rows:
-        return f"Ничего не найдено по запросу «{query}» (kind={kind})."
-
-    lines = [f"Найдено {len(rows)} (лимит {limit}):", ""]
-    for entry in rows:
-        suffix = "" if entry.sub is None else f"  [{entry.sub}]"
-        lines.append(f"- {entry.obj}{suffix}  ({entry.kind})")
-    return "\n".join(lines)
 
 # --------------------------------------------------------------------------- #
 # Запуск
 # --------------------------------------------------------------------------- #
 
 def _build_transport_security(no_dns_protection: bool) -> TransportSecuritySettings:
-    """Настройка DNS-rebinding защиты."""
     if no_dns_protection:
         return TransportSecuritySettings(enable_dns_rebinding_protection=False)
 
