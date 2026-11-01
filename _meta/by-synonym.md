@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 148 строк у 38 карточек.
+Всего: 172 строк у 44 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -25,13 +25,17 @@
 | выпуск продукции | `unf30-doc-proizvodstvo` | verified |
 | выработка | `unf30-doc-sdelnyy-naryad` | verified |
 | два контрагента с одним ИНН | `unf30-pit-kontragenty` | verified |
+| двойная комиссия эквайринга | `unf30-pit-nds-ekvayring` | draft |
+| деньги в пути не отображаются | `unf30-pit-integracii-bank` | draft |
 | дисконт | `unf30-mech-skidki-nacenki` | verified |
 | договор не подтягивается | `unf30-pit-kontragenty` | verified |
+| документ не подписывается | `unf30-pit-integracii-edo` | draft |
 | долг | `unf30-mech-vzaimoraschety` | verified |
 | доли стоимости | `unf30-pit-specifikacii` | verified |
 | дополнительные расходы | `unf30-doc-dopolnitelnye-rashody` | verified |
 | допрасходы | `unf30-doc-dopolnitelnye-rashody` | verified |
 | доставка | `unf30-doc-dopolnitelnye-rashody` | verified |
+| доход УСН уменьшается неправильно | `unf30-pit-nds-ekvayring` | draft |
 | дубль контрагента | `unf30-pit-kontragenty` | verified |
 | жесткий резерв | `unf30-mech-rezervirovanie` | verified |
 | задачи планирования | `unf30-mech-planirovanie-proizvodstva` | verified |
@@ -40,6 +44,7 @@
 | заказ на производство | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | заказ покупателя | `unf30-doc-zakaz-pokupatelya` | verified |
 | заказ-наряд | `unf30-doc-zakaz-naryad` | verified |
+| заказы не приходят с маркетплейса | `unf30-pit-integracii-marketplejsy` | draft |
 | закрывающий документ | `unf30-doc-akt-vypolnennyh-rabot` | verified |
 | закупки не работают | `unf30-pit-zakupki` | verified |
 | зарезервировано | `unf30-pit-rezervirovanie` | verified |
@@ -54,27 +59,37 @@
 | ИП | `unf30-cat-kontragent` | verified |
 | исполнители | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | исправить приход | `unf30-doc-korrektirovka-postupleniya` | verified |
+| как диагностировать обмен | `unf30-pb-diagnostika-integracii` | draft |
 | касса | `unf30-cat-kassy` | verified |
 | касса не закрывается | `unf30-pit-dengi` | verified |
 | кассовые документы | `unf30-cat-kassy` | verified |
 | комиссия эквайринга | `unf30-pit-dengi` | verified |
 | контрагент | `unf30-cat-kontragent` | verified |
+| контрагент не видит документ | `unf30-pit-integracii-edo` | draft |
 | контрагент не выбирается | `unf30-pit-kontragenty` | verified |
 | контрагент не находится | `unf30-pit-kontragenty` | verified |
 | контрагент-физлицо | `unf30-cat-kontragent` | verified |
 | корректировка долга | `unf30-mech-vzaimoraschety` | verified |
 | корректировка поступления | `unf30-doc-korrektirovka-postupleniya` | verified |
+| маркетплейс не синхронизируется | `unf30-pit-integracii-marketplejsy` | draft |
 | материал не списывается | `unf30-pit-specifikacii` | verified |
 | мебель | `unf30-case-mebel-nestandart` | verified |
 | многоуровневая спецификация | `unf30-mech-specifikacii-s-polufabrikatami` | draft |
 | монтаж | `unf30-doc-zakaz-naryad` | verified |
+| МЧД не найдена | `unf30-pit-integracii-edo` | draft |
 | наряд | `unf30-doc-sdelnyy-naryad` | verified |
 | наценки | `unf30-mech-skidki-nacenki` | verified |
+| НДС в проводках по оплате картой | `unf30-pit-nds-ekvayring` | draft |
 | ндс в цене | `unf30-pit-ceny` | verified |
+| НДС не выделяется по эквайрингу | `unf30-pit-nds-ekvayring` | draft |
+| не все чеки переданы в ОФД | `unf30-pit-integracii-ofd` | draft |
+| не работает интеграция | `unf30-pb-diagnostika-integracii` | draft |
 | не хватает запасов | `unf30-pit-rezervirovanie` | verified |
+| неверный API-ключ | `unf30-pit-integracii-marketplejsy` | draft |
 | несколько этапов | `unf30-mech-etapy-proizvodstva` | draft |
 | нестандартные заказы | `unf30-case-mebel-nestandart` | verified |
 | номенклатура | `unf30-cat-nomenklatura` | verified |
+| номенклатура не сопоставлена | `unf30-pit-integracii-marketplejsy` | draft |
 | нормы расхода | `unf30-cat-specifikaciya` | verified |
 | округление цены | `unf30-pit-ceny` | verified |
 | оплата картой | `unf30-mech-bank-ekvayring` | verified |
@@ -85,6 +100,8 @@
 | ордерный склад | `unf30-mech-ordernaya-shema` | verified |
 | отгрузить с резервом | `unf30-pb-otgruzka-s-rezervom` | verified |
 | отгрузка | `unf30-doc-realizaciya` | verified |
+| ошибка обмена что проверить | `unf30-pb-diagnostika-integracii` | draft |
+| ошибка сертификата | `unf30-pit-integracii-edo` | draft |
 | параметрическая спецификация | `unf30-mech-parametricheskie-specifikacii` | draft |
 | параметры | `unf30-mech-parametricheskie-specifikacii` | draft |
 | пересортица | `unf30-pit-sklad` | verified |
@@ -93,6 +110,7 @@
 | план производства | `unf30-mech-planirovanie-proizvodstva` | verified |
 | планирование операций | `unf30-doc-zakaz-na-proizvodstvo` | verified |
 | планирование производства | `unf30-doc-zakaz-na-proizvodstvo` | verified |
+| платеж не разносится при загрузке выписки | `unf30-pit-integracii-bank` | draft |
 | платёжное поручение | `unf30-mech-bank-ekvayring` | verified |
 | погрузка | `unf30-doc-dopolnitelnye-rashody` | verified |
 | подотчёт | `unf30-cat-kassy` | verified |
@@ -111,6 +129,7 @@
 | работа | `unf30-cat-nomenklatura` | verified |
 | расходная накладная | `unf30-doc-realizaciya` | verified |
 | расходный ордер | `unf30-mech-ordernaya-shema` | verified |
+| расхождение чека 1С и ОФД | `unf30-pit-integracii-ofd` | draft |
 | расчет затрат | `unf30-pb-sebestoimost-rabot` | verified |
 | реализация | `unf30-doc-realizaciya` | verified |
 | реализация работ | `unf30-doc-akt-vypolnennyh-rabot` | verified |
@@ -134,6 +153,7 @@
 | склад | `unf30-cat-sklady` | verified |
 | склад не работает | `unf30-pit-sklad` | verified |
 | склады | `unf30-cat-sklady` | verified |
+| смена не закрывается | `unf30-pit-integracii-ofd` | draft |
 | снять резерв | `unf30-pb-otgruzka-s-rezervom` | verified |
 | состав изделия | `unf30-cat-specifikaciya` | verified |
 | спецификация | `unf30-cat-specifikaciya` | verified |
@@ -142,7 +162,9 @@
 | списание на 20.40 | `unf30-pb-sebestoimost-rabot` | verified |
 | справочник складов | `unf30-cat-sklady` | verified |
 | стадии производства | `unf30-mech-etapy-proizvodstva` | draft |
+| счет 57 не работает | `unf30-pit-integracii-bank` | draft |
 | типы номенклатуры | `unf30-cat-nomenklatura` | verified |
+| у контрагента несколько договоров | `unf30-pit-integracii-bank` | draft |
 | условия скидок | `unf30-mech-skidki-nacenki` | verified |
 | услуга | `unf30-cat-nomenklatura` | verified |
 | установка цен | `unf30-doc-ustanovka-cen` | verified |
@@ -150,6 +172,8 @@
 | цели производственного учета | `unf30-mech-planirovanie-proizvodstva` | verified |
 | цена не подтянулась | `unf30-pit-ceny` | verified |
 | цена номенклатуры | `unf30-doc-ustanovka-cen` | verified |
+| чек не уходит в ОФД | `unf30-pit-integracii-ofd` | draft |
+| ЭДО не отправляет через прокси | `unf30-pit-integracii-edo` | draft |
 | эквайринг | `unf30-mech-bank-ekvayring` | verified |
 | этапы производства | `unf30-mech-etapy-proizvodstva` | draft |
 | юрлицо | `unf30-cat-kontragent` | verified |
