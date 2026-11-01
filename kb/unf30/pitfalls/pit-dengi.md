@@ -1,15 +1,15 @@
 ---
 id: unf30-pit-dengi
 config: unf30
-config_version: ">=3.0.12"
+config_version: >=3.0.12
 type: pitfall
 level: kb
-tags: [деньги, касса, банк, эквайринг, подотчёт, pitfall]
-synonyms: [касса не закрывается, подотчётник не отчитался, комиссия эквайринга, выписка не загружена]
+tags: ['деньги', 'касса', 'банк', 'эквайринг', 'подотчёт', 'pitfall']
+synonyms: ['касса не закрывается', 'подотчётник не отчитался', 'комиссия эквайринга', 'выписка не загружена', 'ндс с эквайринга', 'не та комиссия эквайринга']
 status: verified
 source: сводка по разделу «Деньги» УНФ 3.0
-updated: 2026-10-29
-related: [unf30-cat-kassy, unf30-mech-bank-ekvayring]
+updated: 2026-11-01
+related: ['unf30-cat-kassy', 'unf30-mech-bank-ekvayring']
 ---
 
 # Деньги — грабли
