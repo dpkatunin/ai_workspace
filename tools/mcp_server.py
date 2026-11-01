@@ -2,23 +2,14 @@
 """
 MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Python SDK v2).
 
-Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval). Генерацию ответа делает тот,
-кто вызвал инструмент — BDS, другой агент или человек. Это сознательно:
-благодаря такой границе переезд на DeepSeek API / Ollama / YandexGPT позже
-не потребует менять ни карточки, ни поиск — добавится один новый инструмент.
-
-Важно (SDK v2):
-  - FastMCP переименован в MCPServer (mcp.server.mcpserver -> mcp.server);
-  - host/port передаются в mcp.run(), а не через mcp.settings;
-  - по умолчанию включена DNS-rebinding защита: сервер принимает только
-    Origin http://localhost:* / http://127.0.0.1:*. Браузерный клиент (BDS)
-    отправляет свой Origin, поэтому его нужно добавить в allowlist через
-    TransportSecuritySettings.
+Фаза 1: сервер умеет ТОЛЬКО поиск (retrieval) и чтение мета-файлов.
+Генерацию ответа делает тот, кто вызвал инструмент — BDS, другой агент или человек.
 
 Инструменты:
-  search_kb  — top-N карточек по запросу (с фильтрами по type/status/level)
-  get_card   — полный текст карточки по id
-  kb_stats   — сколько карточек, из чего состоят
+  search_kb      — top-N карточек по запросу (с фильтрами по type/status/level)
+  get_card       — полный текст карточки по id
+  kb_stats       — сколько карточек, из чего состоят
+  read_meta_file — прочитать правила/архитектуру из каталога _meta/
 
 Запуск (из корня репозитория, в активированном .venv):
 
@@ -26,10 +17,6 @@ MCP-сервер поиска по базе знаний 1С:УНФ 3.0 (MCP Pyt
     py tools/mcp_server.py --port 8100
     py tools/mcp_server.py --stdio
     py tools/mcp_server.py --kb D:/path/kb/unf30
-
-Переменные окружения: KB_PATH, MCP_HOST, MCP_PORT, MCP_KB_CACHE_DIR,
-MCP_ALLOWED_ORIGINS (через запятую, по умолчанию — https://chat.deepseek.com
-и chrome-extension://*).
 """
 
 from __future__ import annotations
@@ -225,17 +212,49 @@ def kb_stats() -> str:
     lines += [f"  {k}: {v}" for k, v in counter("level").items()]
     return "\n".join(lines)
 
+@mcp.tool()
+def read_meta_file(rel_path: str) -> str:
+    """Прочитать файл из каталога _meta (правила, архитектура, ADR).
+
+    Используй этот инструмент, чтобы узнать правила работы с базой,
+    архитектуру проекта или текущие планы.
+
+    Args:
+        rel_path: путь относительно каталога _meta, например 
+                  "design/01-vision.md", "conventions.md", "index.md".
+    """
+    index = get_index()
+    # Корень репозитория = родитель папки kb/
+    repo_root = index.kb_root.parent.parent
+    meta_dir = repo_root / "_meta"
+
+    if not meta_dir.exists():
+        return "Ошибка: каталог _meta не найден в репозитории."
+
+    target_file = (meta_dir / rel_path).resolve()
+
+    # Защита от path traversal (выход за пределы _meta)
+    try:
+        target_file.relative_to(meta_dir)
+    except ValueError:
+        return "Ошибка безопасности: доступ за пределы каталога _meta запрещён."
+
+    if not target_file.exists() or not target_file.is_file():
+        return f"Ошибка: файл «_meta/{rel_path}» не найден."
+
+    try:
+        with open(target_file, "r", encoding="utf-8") as f:
+            content = f.read()
+        return f"# Файл: _meta/{rel_path}\n\n{content}"
+    except Exception as e:
+        return f"Ошибка чтения файла: {e}"
+
 # --------------------------------------------------------------------------- #
 # Запуск
 # --------------------------------------------------------------------------- #
 
 def _build_transport_security(no_dns_protection: bool) -> TransportSecuritySettings:
-    """Настройка DNS-rebinding защиты.
-
-    По умолчанию SDK разрешает только localhost. Браузерный клиент (BDS)
-    отправляет Origin https://chat.deepseek.com (веб-версия) или
-    chrome-extension://<id> (расширение) — их нужно добавить в allowlist.
-    """
+    """Настройка DNS-rebinding защиты."""
     if no_dns_protection:
         return TransportSecuritySettings(enable_dns_rebinding_protection=False)
 
