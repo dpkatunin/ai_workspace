@@ -9,7 +9,7 @@
 
 ## Текущее состояние
 
-- **Карточки:** 44 штуки в `kb/unf30/` (35 verified, 9 draft).
+- **Карточки:** 46 штук в `kb/unf30/` (38 verified, 8 draft).
 - **MCP:** работает локально на ноутбуке (инструменты: `search_kb`, `get_card`, `kb_stats`, `read_meta_file`, `search_config`, `read_config_file`, `verify_card_facts`).
 - **Git:** `github.com/dpkatunin/ai_workspace`. Ноутбук — редактор, VPS — отложен (но проектируем с учётом переезда).
 - **Сырьё:** в `_source/` лежат 400+ файлов (функциональность, кейсы, PDF).
