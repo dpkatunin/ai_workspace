@@ -141,8 +141,8 @@ def kb_stats() -> str:
     return "\n".join(lines)
 
 @mcp.tool()
-def read_meta_file(rel_path: str) -> str:
-    # Прочитать файл из каталога _meta.
+def read_meta_file(rel_path: str, start_char: int = 0, max_chars: int = 10000) -> str:
+    # Прочитать файл из каталога _meta (с поддержкой пагинации для длинных файлов).
     index = get_index()
     repo_root = index.kb_root.parent.parent
     meta_dir = repo_root / "_meta"
@@ -158,7 +158,20 @@ def read_meta_file(rel_path: str) -> str:
     try:
         with open(target_file, "r", encoding="utf-8") as f:
             content = f.read()
-        return f"# Файл: _meta/{rel_path}\n\n{content}"
+        
+        total_len = len(content)
+        if start_char >= total_len:
+            return f"Достигнут конец файла. Всего символов: {total_len}."
+
+        chunk = content[start_char:start_char + max_chars]
+        end_char = start_char + len(chunk)
+
+        result = f"# Файл: _meta/{rel_path} (символы {start_char}-{end_char} из {total_len})\n\n{chunk}"
+        
+        if end_char < total_len:
+            result += f"\n\n... (файл обрезан, для продолжения вызовите read_meta_file с start_char={end_char})"
+            
+        return result
     except Exception as e:
         return f"Ошибка чтения: {e}"
 
