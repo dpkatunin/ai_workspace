@@ -6,9 +6,11 @@ type: playbook
 level: kb
 tags: ['интеграции', 'диагностика', 'чек-лист', 'офд', 'эдо', 'маркетплейсы', 'банк']
 synonyms: ['чек-лист интеграции', 'как проверить обмен', 'диагностика ошибок']
-status: draft
+status: verified
 source: сводка по разделу «Интеграции и маркировка»; внешние материалы TopKoder, ИТС 1С, Spark, 2026-10
 updated: 2026-11-01
+verified_by: пользователь (внедренец), подтверждено на практике и по ИТС
+verified_at: 2026-11-01
 related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf30-pit-integracii-edo', 'unf30-pit-integracii-bank', 'unf30-pit-nds-ekvayring']
 ---
 
@@ -42,4 +44,4 @@ related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf3
 
 ## Источники
 
-Сводка по разделу «Интеграции и маркировка». Внешние материалы: TopKoder, ИТС 1С, Spark, 2026-10. На практике внедренца не проверялось.
+Сводка по разделу «Интеграции и маркировка». Внешние материалы: TopKoder, ИТС 1С, Spark, 2026-10. Содержание подтверждено внедренцем на практике и по ИТС 2026-11-01.
