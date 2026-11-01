@@ -2,7 +2,7 @@
 
 # Индекс: синонимы
 
-Всего: 181 строк у 46 карточек.
+Всего: 180 строк у 44 карточек.
 
 | Синоним | Карточка | Статус |
 |---|---|---|
@@ -66,7 +66,7 @@
 | кассовые документы | `unf30-cat-kassy` | verified |
 | комиссия эквайринга | `unf30-pit-dengi` | verified |
 | контрагент | `unf30-cat-kontragent` | verified |
-| контрагент не видит | `unf30-pit-edo` | draft |
+| контрагент не видит | `unf30-pit-integracii-edo` | draft |
 | контрагент не видит документ | `unf30-pit-integracii-edo` | draft |
 | контрагент не выбирается | `unf30-pit-kontragenty` | verified |
 | контрагент не находится | `unf30-pit-kontragenty` | verified |
@@ -83,15 +83,15 @@
 | наценки | `unf30-mech-skidki-nacenki` | verified |
 | ндс в цене | `unf30-pit-ceny` | verified |
 | ндс с эквайринга | `unf30-pit-nds-ekvayring` | draft |
-| не выгружается товар | `unf30-pit-marketplejsy` | draft |
+| не выгружается товар | `unf30-pit-integracii-marketplejsy` | draft |
 | не отправлены чеки | `unf30-pit-integracii-ofd` | draft |
-| не подписывается документ | `unf30-pit-edo` | draft |
+| не подписывается документ | `unf30-pit-integracii-edo` | draft |
 | не та комиссия эквайринга | `unf30-pit-nds-ekvayring` | draft |
 | не хватает запасов | `unf30-pit-rezervirovanie` | verified |
 | неверный API-ключ | `unf30-pit-integracii-marketplejsy` | draft |
 | несколько этапов | `unf30-mech-etapy-proizvodstva` | verified |
 | нестандартные заказы | `unf30-case-mebel-nestandart` | verified |
-| нет синхронизации с озон | `unf30-pit-marketplejsy` | draft |
+| нет синхронизации с озон | `unf30-pit-integracii-marketplejsy` | draft |
 | номенклатура | `unf30-cat-nomenklatura` | verified |
 | номенклатура не сопоставлена | `unf30-pit-integracii-marketplejsy` | draft |
 | нормы расхода | `unf30-cat-specifikaciya` | verified |
@@ -104,10 +104,10 @@
 | ордерный склад | `unf30-mech-ordernaya-shema` | verified |
 | отгрузить с резервом | `unf30-pb-otgruzka-s-rezervom` | verified |
 | отгрузка | `unf30-doc-realizaciya` | verified |
-| ошибка маркетплейс | `unf30-pit-marketplejsy` | draft |
+| ошибка маркетплейс | `unf30-pit-integracii-marketplejsy` | draft |
 | ошибка офд | `unf30-pit-integracii-ofd` | draft |
 | ошибка сертификата | `unf30-pit-integracii-edo` | draft |
-| ошибка укэп | `unf30-pit-edo` | draft |
+| ошибка укэп | `unf30-pit-integracii-edo` | draft |
 | параметрическая | `unf30-mech-parametricheskie-specifikacii` | verified |
 | параметрическая спецификация | `unf30-mech-parametricheskie-specifikacii` | verified |
 | параметры | `unf30-mech-parametricheskie-specifikacii` | verified |
@@ -182,7 +182,6 @@
 | чек не уходит в офд | `unf30-pit-integracii-ofd` | draft |
 | чек-лист интеграции | `unf30-pb-diagnostika-integracii` | draft |
 | ЭДО не отправляет через прокси | `unf30-pit-integracii-edo` | draft |
-| эдо не работает | `unf30-pit-edo` | draft |
 | эквайринг | `unf30-mech-bank-ekvayring` | verified |
 | этапы производства | `unf30-mech-etapy-proizvodstva` | verified |
 | юрлицо | `unf30-cat-kontragent` | verified |

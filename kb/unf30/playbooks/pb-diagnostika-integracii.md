@@ -4,11 +4,12 @@ config: unf30
 config_version: ">=3.0.12"
 type: playbook
 level: kb
-tags: [интеграции, диагностика, чек-лист, офд, эдо, маркетплейсы]
-synonyms: [чек-лист интеграции, как проверить обмен, диагностика ошибок]
+tags: ['интеграции', 'диагностика', 'чек-лист', 'офд', 'эдо', 'маркетплейсы', 'банк']
+synonyms: ['чек-лист интеграции', 'как проверить обмен', 'диагностика ошибок']
 status: draft
-source: _source/01_unf/01_unf_functional/15_Интеграции_Ошибки.md
+source: сводка по разделу «Интеграции и маркировка»; внешние материалы TopKoder, ИТС 1С, Spark, 2026-10
 updated: 2026-11-01
+related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf30-pit-integracii-edo', 'unf30-pit-integracii-bank', 'unf30-pit-nds-ekvayring']
 ---
 
 # Диагностика любой интеграции
@@ -23,8 +24,22 @@ updated: 2026-11-01
 4. **Проверьте интернет и настройки прокси.** Если используется прокси-сервер, убедитесь, что 1С и криптопровайдер (КриптоПро) корректно через него ходят.
 5. **Обновите релиз.** Многие ошибки интеграций (особенно с маркетплейсами и ЭДО) исправляются в новых релизах УНФ.
 
+## Дальше — по контуру
+
+- ОФД / кассы → `unf30-pit-integracii-ofd`
+- Маркетплейсы → `unf30-pit-integracii-marketplejsy`
+- ЭДО → `unf30-pit-integracii-edo`
+- Банк и эквайринг → `unf30-pit-integracii-bank`
+- НДС и комиссия эквайринга → `unf30-pit-nds-ekvayring`
+
 ## Связи
+
 - `unf30-pit-integracii-ofd`
-- `unf30-pit-marketplejsy`
-- `unf30-pit-edo`
+- `unf30-pit-integracii-marketplejsy`
+- `unf30-pit-integracii-edo`
+- `unf30-pit-integracii-bank`
 - `unf30-pit-nds-ekvayring`
+
+## Источники
+
+Сводка по разделу «Интеграции и маркировка». Внешние материалы: TopKoder, ИТС 1С, Spark, 2026-10. На практике внедренца не проверялось.
