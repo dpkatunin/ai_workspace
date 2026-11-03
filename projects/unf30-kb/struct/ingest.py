@@ -14,8 +14,7 @@
    - предопределённые в predefined.
 4. Пост-обработка: resolve_links (закрыть граф), build_fts (FTS5, если доступно).
 
-Идемпотентность: повторный ingest того же файла не создаёт дубликатов
-(UNIQUE + INSERT OR IGNORE / SELECT по full_name).
+Идемпотентность: повторный ingest того же файла не создаёт дубликатов.
 """
 import argparse
 import json
@@ -27,8 +26,6 @@ from _common import iter_header, iter_json_files, iter_objects
 
 SCHEMA_PATH = Path(__file__).parent / 'schema.sql'
 
-# ---------- инициализация ----------
-
 def init_db(db_path: Path) -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)
     conn.execute('PRAGMA foreign_keys = ON')
@@ -37,7 +34,7 @@ def init_db(db_path: Path) -> sqlite3.Connection:
     return conn
 
 def build_fts(conn: sqlite3.Connection) -> bool:
-    """Создать FTS5-индекс, если модуль доступен. Возвращает True при успехе."""
+    """Создать FTS5-индекс, если модуль доступен."""
     try:
         conn.execute(
             '''CREATE VIRTUAL TABLE IF NOT EXISTS objects_fts USING fts5(
@@ -49,8 +46,6 @@ def build_fts(conn: sqlite3.Connection) -> bool:
         return True
     except sqlite3.OperationalError:
         return False
-
-# ---------- вставка ----------
 
 def upsert_config(conn, name, version, dump_date, source_file):
     conn.execute(
@@ -165,7 +160,6 @@ def ingest_object(conn, config_id, obj, source_file):
     )
     obj_id = cur.lastrowid
 
-    # Реквизиты шапки / стандартные
     for role, key in (
         ('attribute', 'Реквизиты'),
         ('dimension', 'Измерения'),
@@ -175,7 +169,6 @@ def ingest_object(conn, config_id, obj, source_file):
         for attr in obj.get(key, []):
             insert_attribute(conn, obj_id, attr, role, None, source_file)
 
-    # ТЧ
     for tch in obj.get('ТабличныеЧасти', []):
         tch_name = tch.get('Имя')
         conn.execute(
@@ -186,7 +179,6 @@ def ingest_object(conn, config_id, obj, source_file):
         for attr in tch.get('Реквизиты', []):
             insert_attribute(conn, obj_id, attr, 'attribute', tch_name, source_file)
 
-    # Движения (только у документов)
     for move in obj.get('Движения', []):
         conn.execute(
             '''INSERT OR IGNORE INTO movements
@@ -202,7 +194,6 @@ def ingest_object(conn, config_id, obj, source_file):
         )
         link(conn, obj_id, 'movement', move.get('ПолноеИмя'), source_file)
 
-    # Связи из СвойстваОбъекта
     for owner in props.get('Владельцы', []) or []:
         link(conn, obj_id, 'owner', owner, source_file)
     for reg in props.get('Регистраторы', []) or []:
@@ -210,7 +201,6 @@ def ingest_object(conn, config_id, obj, source_file):
     for based in props.get('ВводитсяНаОсновании', []) or []:
         link(conn, obj_id, 'based_on', based, source_file)
 
-    # Значения перечислений
     for ev in obj.get('ЗначенияПеречисления', []) or []:
         conn.execute(
             '''INSERT OR IGNORE INTO enum_values (object_id, name, synonym)
@@ -218,7 +208,6 @@ def ingest_object(conn, config_id, obj, source_file):
             (obj_id, ev.get('Имя'), ev.get('Синоним')),
         )
 
-    # Предопределённые
     for predef in obj.get('Предопределённые', []) or []:
         conn.execute(
             'INSERT OR IGNORE INTO predefined (object_id, name) VALUES (?, ?)',
@@ -236,8 +225,6 @@ def resolve_links(conn):
            )
            WHERE to_object_id IS NULL'''
     )
-
-# ---------- main ----------
 
 def main() -> None:
     parser = argparse.ArgumentParser(description='Ingest JSON 1С → SQLite')
