@@ -1,0 +1,25 @@
+# Питон
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Базы и данные (не коммитим)
+data/
+*.db
+*.db-journal
+*.db-wal
+
+# Отчёты (генерируются на месте)
+survey*.json
+sample*.json
+slice*.json
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store
