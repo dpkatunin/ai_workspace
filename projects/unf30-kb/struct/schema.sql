@@ -39,11 +39,14 @@ CREATE TABLE IF NOT EXISTS objects (
     value_length INTEGER,
     value_precision INTEGER,
     value_string_length INTEGER,
+    subsystem TEXT,
+    subsystem_path TEXT,
     source_file TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_objects_kind ON objects(kind);
 CREATE INDEX IF NOT EXISTS idx_objects_name ON objects(name);
+CREATE INDEX IF NOT EXISTS idx_objects_subsystem ON objects(subsystem);
 
 -- Реквизиты / измерения / ресурсы / стандартные
 CREATE TABLE IF NOT EXISTS attributes (

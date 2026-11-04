@@ -33,17 +33,40 @@
 
 ## Инструменты
 
-| Инструмент | Параметры | Возвращает | Лимит |
+| Инструмент ↕▾ | Параметры ↕▾ | Возвращает ↕▾ | Лимит ↕▾ |
 |---|---|---|---|
-| `search_objects(query, kind?, limit=20)` | FTS по full_name, name, synonym, comment | `obj:*` с snippet | limit ≤ 20 |
-| `get_object(full_name)` | ПолноеИмя | `obj:*` + реквизиты + ТЧ + движения + значения перечислений + предопределённые | если реквизитов > 30 — обрезать, вернуть `total_attributes` |
-| `get_object_links(full_name, link_type?)` | link_type ∈ {owner, registrator, based_on, movement} | `link:*` | limit 50 |
-| `get_register_writers(register_full_name)` | ПолноеИмя регистра | `link:* registrator` | limit 100 |
-| `get_document_movements(document_full_name)` | ПолноеИмя документа | `move:*` | limit 50 |
-| `get_attribute(object_full_name, attribute_name, types_limit=20)` | + `types_limit` | `attr:*` + `attribute_types` (≤20) | `types_limit` ≤ 20, если больше — `truncated` |
-| `get_enum_values(enum_full_name)` | ПолноеИмя перечисления | `enum:*` | limit 200 |
-| `get_config_info()` | — | `cfg:*` (name, version, dump_date) | — |
-| `validate_names(full_names[])` | Массив `ПолноеИмя` | `{ known: [...], unknown: [...] }` | без лимита (это валидатор) |
+| −`search_objects(query, kind?, subsystem?, limit=20)` | FTS по full_name, name, synonym, comment | `obj:*` с snippet | limit ≤ 20 |
+| −`get_object(full_name, subsystem?, attributes_limit=30)` | ПолноеИмя | `obj:*` + реквизиты + ТЧ + движения + значения перечислений + predefined (заглушка) | реквизитов ≤ 30, типов ≤ 20 |
+| −`get_object_links(full_name, link_type?, subsystem?, limit=50)` | link_type ∈ {owner, registrator, based_on, movement} | `link:*` | limit ≤ 50 |
+| −`get_register_writers(register_full_name, subsystem?, limit=100)` | ПолноеИмя регистра | `link:* registrator` | limit ≤ 100 |
+| −`get_document_movements(document_full_name, subsystem?, limit=50)` | ПолноеИмя документа | `move:*` | limit ≤ 50 |
+| −`get_attribute(object_full_name, attribute_name, types_limit=20)` | + `types_limit` | `attr:*` + `attribute_types` (≤20) | `types_limit` ≤ 20 |
+| −`get_enum_values(enum_full_name, subsystem?, limit=200)` | ПолноеИмя перечисления | `enum:*` | limit ≤ 200 |
+| −`get_config_info()` | — | `cfg:*` (name, version, dump_date, source_file) | — |
+| −`validate_names(full_names[])` | Массив ПолноеИмя | `{ known: [...], unknown: [...] }` | без лимита |
+⚙
+
+## Контрактные согласования (2026-11-04)
+
+- **`predefined`** — оставляем полем в `get_object`, но экспортёр (Romandredan/1c-metadata-json-exporter) не выгружает предопределённые элементы. Сейчас всегда `[]`. Поле сохраняется, чтобы контракт не менялся при смене экспортёра.
+- **`snippet` в `search_objects`** — `synonym` и `comment` короткие (1–2 строки), поэтому отдаются целиком. Если `comment` длиннее 200 символов и содержит совпадение — вырезается ±80 символов с маркерами `...`.
+- **FTS5** — таблица `objects_fts` (content=`objects`, content_rowid=`id`), индексирует `full_name, name, synonym, comment`. LIKE-фолбэка нет.
+- **`object_links.link_type`** — текст: `owner`, `registrator`, `based_on`, `movement`.
+- **`attributes`** — `check_fill`, `role` (attribute / dimension / resource / standard) прямо в таблице. Типы — в `attribute_types` по `attribute_id`.
+- **`config`** — колонки `id, name, version, dump_date, source_file`. ID факта — `cfg:{name}`.
+
+## Стабильные ID фактов
+
+| Префикс ↕▾ | Формат ↕▾ | Пример ↕▾ |
+|---|---|---|
+| −`obj:` | `obj:{full_name}` | `obj:Документ.ЗаказКлиента` |
+| −`attr:` | `attr:{full_name}.{attribute_name}` | `attr:Документ.ЗаказКлиента.Контрагент` |
+| −`tch:` | `tch:{full_name}.{tabular_section_name}` | `tch:Документ.ЗаказКлиента.Товары` |
+| −`move:` | `move:{document_full_name}->{register_full_name}` | `move:Документ.ЗаказКлиента->РегистрНакопления.ЗаказыКлиентов` |
+| −`link:` | `link:{source}.{link_type}.{target}` | `link:Справочник.Номенклатура.owner.Справочник.НоменклатурныеГруппы` |
+| −`enum:` | `enum:{enum_full_name}.{value_name}` | `enum:Перечисление.СтатусыЗаказовКлиентов.Новый` |
+| −`cfg:` | `cfg:{name}` | `cfg:УправлениеНашейФирмой` |
+⚙
 
 ## Примеры
 
@@ -62,7 +85,8 @@
         "properties": {
           "Проведение": "Разрешить",
           "ВводитсяНаОсновании": ["Документ.КоммерческоеПредложениеКлиенту"]
-        }
+        },
+        "predefined": []
       }
     },
     {
@@ -70,7 +94,9 @@
       "type": "attribute",
       "data": {
         "name": "Контрагент",
+        "role": "attribute",
         "types": ["Справочник.Контрагенты"],
+        "types_total": 1,
         "check_fill": "Выдавать ошибку"
       }
     }
@@ -151,11 +177,13 @@ ai_workspace/
 │       ├── README.md
 │       ├── schema.sql
 │       ├── ingest.py
+│       ├── verify.py
 │       ├── survey.py
 │       ├── slice.py
 │       ├── _common.py
 │       ├── architecture.md
 │       ├── tools.md
+│       ├── struct_mcp.py        # ← MCP-сервер слоя STRUCT
 │       ├── requirements.txt
 │       └── .env.example
 ├── tools/mcp_server.py          # существующий MCP (kb/unf30)
@@ -165,36 +193,49 @@ ai_workspace/
 
 ## Что сделано
 
-### 2026-11-04: скаффолд STRUCT-слоя
+### 2026-11-04: STRUCT-слой, подсистема «Продажи» залита
 
 - [x] Схема SQLite (`schema.sql`) — config, objects, attributes, attribute_types,
   tabular_sections, movements, object_links, enum_values, predefined.
-- [x] `ingest.py` — потоковый импорт JSON → SQLite через ijson.
-- [x] `survey.py` — компактный отчёт по папке для отладки и передачи в чат.
-- [x] `slice.py` — вырезать один объект из большого файла.
-- [x] `architecture.md`, `tools.md`, `README.md`, `PROJECT_STATE.md`, `CHAT_HANDOFF.md`.
-- [x] Установлен `ijson 3.6.0`.
+  Добавлены колонки `subsystem`, `subsystem_path` в `objects` + индекс.
+- [x] `ingest.py` — потоковый импорт через ijson, читает подсистему из JSON,
+  проставляет `config_id`, парсит версию/дату.
+- [x] `_common.py` — `iter_documents()`, `rglob` вместо `glob`.
+- [x] `verify.py` — пост-проверка целостности после ingest.
+- [x] `survey.py`, `slice.py` — инструменты разведки.
+- [x] **Первая заливка на реальных данных:** 381 объект подсистемы «Продажи»,
+  4669 реквизитов, 12619 типов, 599 связей, 437 движений, 134 значения
+  перечислений, 262 ТЧ. Все контрольные счётчики сошлись.
+- [x] **`struct_mcp.py` — 9 инструментов слоя STRUCT.** Лимит ответа 15 КБ,
+  `truncated`/`original_size_bytes`, `subsystem` во всех сигнатурах,
+  стабильные ID, валидатор имён.
 
-**Не проверено на реальных данных:** запуск на полной выгрузке УНФ (файлы
-2.91 МБ и 13 МБ не передавались в чат).
+**Формат выгрузки:** `C:\obmen\json_sub` — 381 плоский файл, 2.24 МБ.
+Старая выгрузка `C:\obmen\json` (2 файла) больше не нужна.
 
 ### До 2026-11-04
 
-- [x] Слой KB: карточки по УНФ в `kb/unf30/`, MCP-сервер `unf30-kb` (127.0.0.1:8000).
+- [x] Слой KB: 43 карточки по УНФ в `kb/unf30/`, MCP-сервер `unf30-kb` (127.0.0.1:8000).
 - [x] Контракт `/1c`: маркировка источников, обязательный блок «что не подтверждено».
-- [x] Выбрана внешняя обработка для выгрузки STRUCT: `Romandredan/1c-metadata-json-exporter`.
+- [x] Выбрана внешняя обработка: `Romandredan/1c-metadata-json-exporter`.
 
 ## Что в работе / следующий шаг
 
-1. **Проверить ingest на реальной выгрузке.** Запустить `survey.py` на полной
-   папке, прислать отчёт (5–15 КБ) и один `slice` проблемного объекта.
-   По результатам — поправить ingest.
+1. **Запустить `struct_mcp.py` и проверить на живой БД.**
+   `py projects/unf30-kb/struct/struct_mcp.py --db data/struct.db --port 8001`
+   Проверить: `get_config_info` → УНФ 3.0; `search_objects("Заказ")` →
+   объекты с «Заказ» в имени; `get_object("Документ.ЗаказКлиента")` →
+   ≤30 реквизитов, `truncated: true`; `validate_names([...])` → known/unknown.
 
-2. **Собрать MCP-сервер STRUCT** (`tools/struct_mcp.py`). 8 инструментов из
-   `struct/tools.md`. Все с лимитом 10–15 КБ.
+2. **Валидатор имён — как пост-процессор ответа модели.**
+   `validate_names` уже есть в MCP. Осталось обернуть в пайплайн:
+   все `ПолноеИмя` из ответа LLM → `validate_names` → если `unknown` непуст —
+   пометка в ответ или блок.
 
-3. **Валидатор имён.** Пост-процессор ответа модели. Все `ПолноеИмя` в ответе
-   проверяются через `objects.full_name`. Неизвестное — блок.
+3. **Выгрузить следующую подсистему** («Закупки» или другую) через тот же
+   экспортёр, залить `ingest.py --input <папка> --db data/struct.db`.
+   Подсистема проставится из JSON сама. **Не удалять** `data/struct.db` —
+   новая выгрузка дописывается.
 
 4. **Слой HELP** (справка из `Help/ru.html`) — отдельная папка `help/`, свой FTS.
 
@@ -209,16 +250,30 @@ ai_workspace/
 | Лимит 10–15 КБ на ответ MCP | 1 полный объект в JSON = 30–50 КБ = половина контекста |
 | Валидатор имён — код | Промпт не гарантирует. Только проверка по словарю |
 | `json.load` не используем, `ijson` — да | Файлы полной выгрузки 10–50 МБ. Стримим, не грузим в память |
+| `subsystem` — измерение в objects | Читается из JSON, не из CLI. При заливке «Закупок» проставится сама |
+| `config_id` из `СвойстваКонфигурации.Синоним` | Ключей `Конфигурация`/`Версия`/`ДатаВыгрузки` в JSON нет. Версия — regex, дата — из имени файла |
+| `iter_documents()` — основной итератор | Отдаёт `(header, obj)`. `iter_objects`/`iter_header` — устаревшие обёртки |
+| Поиск файлов — `rglob`, не `glob` | На случай вложенных папок подсистем |
+| `struct_mcp.py` — автодетект колонок через PRAGMA | Устойчивость к минорным расхождениям схемы без падения по KeyError |
+| `predefined: []` — заглушка в контракте | Экспортёр пока не отдаёт. При смене экспортёра контракт ответа не меняется |
+
+## Известные ограничения экспортёра (Romandredan/1c-metadata-json-exporter)
+
+| Что | Статус | Компенсация |
+|---|---|---|
+| `predefined` (предопределённые) | не выгружается | `predefined: []` в контракте как заглушка |
+| `ОпределяемыйТип` — состав | не выгружается | реквизиты с типом определяемого разложены на конкретные |
+| `ЖурналДокументов` — состав | не выгружается | — |
+| `СвойстваКонфигурации` — только `Синоним`, `Поставщик`, режимы | нет `Версия`, `ДатаВыгрузки` | версия — regex, дата — из имени файла |
 
 ## Известные проблемы / TODO
 
 - `survey.py` читает файлы дважды (заголовок + объекты). На 13 МБ — секунды.
-  Если станет медленно — кэшировать header.
 - `ingest.py` не валидирует вход по `schema/metadata-output.schema.json` экспортёра.
-  Добавим после первого запуска.
-- FTS5 на Windows-Python 3.14 обычно встроен, но нужен fallback
-  (см. `build_fts`, возвращает bool).
+- FTS5 на Windows-Python 3.14 обычно встроен, но нужен fallback (см. `build_fts`).
 - `jsonschema` в requirements — пока не используется.
+- В `struct_mcp.py` есть автодетект колонок; после стабилизации схемы можно
+  заменить на явные имена для скорости (не критично — PRAGMA-запрос кэшируется).
 
 ## Как обновлять этот файл
 

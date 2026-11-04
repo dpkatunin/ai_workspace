@@ -3,9 +3,9 @@
 
 Логика:
 1. Создать схему (schema.sql), если БД новая.
-2. Прочитать заголовок (Конфигурация, Версия, ДатаВыгрузки).
+2. Прочитать заголовок (СвойстваКонфигурации, Подсистема).
 3. Пройти по объектам потоком (ijson) и вставить каждый:
-   - строку в objects,
+   - строку в objects (с подсистемой),
    - реквизиты/измерения/ресурсы в attributes + типы в attribute_types,
    - ТЧ в tabular_sections,
    - движения в movements,
@@ -18,11 +18,12 @@
 """
 import argparse
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
 
-from _common import iter_header, iter_json_files, iter_objects
+from _common import iter_documents, iter_json_files
 
 SCHEMA_PATH = Path(__file__).parent / 'schema.sql'
 
@@ -110,7 +111,7 @@ def link(conn, from_id, link_type, to_full_name, source_file):
         (from_id, link_type, to_full_name, source_file),
     )
 
-def ingest_object(conn, config_id, obj, source_file):
+def ingest_object(conn, config_id, header, obj, source_file):
     full_name = obj.get('ПолноеИмя')
     if not full_name:
         return None, False
@@ -129,8 +130,9 @@ def ingest_object(conn, config_id, obj, source_file):
             plan_accounts, plan_calculation_types, max_subconto,
             properties_json, value_types_json,
             value_length, value_precision, value_string_length,
+            subsystem, subsystem_path,
             source_file
-           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
         (
             config_id,
             obj.get('ВидОбъекта'),
@@ -155,6 +157,8 @@ def ingest_object(conn, config_id, obj, source_file):
             obj.get('Длина'),
             obj.get('Точность'),
             obj.get('ДлинаСтроки'),
+            header.get('subsystem'),
+            json.dumps(header.get('subsystem_path'), ensure_ascii=False) if header.get('subsystem_path') else None,
             source_file,
         ),
     )
@@ -226,6 +230,14 @@ def resolve_links(conn):
            WHERE to_object_id IS NULL'''
     )
 
+def _dump_date_from_name(filename: str):
+    """Из 'Документ.Заказ_20261104_020335.json' → '2026-11-04 02:03:35'."""
+    m = re.search(r'_(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})', filename)
+    if not m:
+        return None
+    y, mo, d, h, mi, s = m.groups()
+    return f'{y}-{mo}-{d} {h}:{mi}:{s}'
+
 def main() -> None:
     parser = argparse.ArgumentParser(description='Ingest JSON 1С → SQLite')
     parser.add_argument('--input', required=True, help='Файл или папка с JSON')
@@ -256,19 +268,17 @@ def main() -> None:
         for fp in files:
             print(f'  {fp.name} ({fp.stat().st_size / 1024 / 1024:.1f} МБ)...',
                   file=sys.stderr)
-            header = iter_header(fp)
             config_id = None
-            if header['config_name'] and header['config_version']:
-                config_id = upsert_config(
-                    conn,
-                    header['config_name'],
-                    header['config_version'],
-                    header['dump_date'],
-                    fp.name,
-                )
-
-            for obj in iter_objects(fp):
-                _, inserted = ingest_object(conn, config_id, obj, fp.name)
+            for header, obj in iter_documents(fp):
+                if config_id is None and header.get('config_name'):
+                    config_id = upsert_config(
+                        conn,
+                        header['config_name'],
+                        header.get('config_version') or 'unknown',
+                        _dump_date_from_name(fp.name),
+                        fp.name,
+                    )
+                _, inserted = ingest_object(conn, config_id, header, obj, fp.name)
                 if inserted:
                     total += 1
                 else:
