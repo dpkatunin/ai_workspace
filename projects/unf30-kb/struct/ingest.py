@@ -111,6 +111,30 @@ def link(conn, from_id, link_type, to_full_name, source_file):
         (from_id, link_type, to_full_name, source_file),
     )
 
+def subsystem_fields(header):
+    """Нормализовать подсистему из header.
+
+    Поддерживает два варианта header:
+    - сырой блок JSON: header['Подсистема'] = {Имя, ПолноеИмя, ПутьРодителей}
+    - уже нормализованный header: subsystem / subsystem_path / subsystem_parents
+    Возвращает (subsystem_top_level, subsystem_path_canonical).
+    """
+    raw = header.get('Подсистема') or {}
+    if isinstance(raw, dict) and raw:
+        parents = raw.get('ПутьРодителей') or []
+        leaf = raw.get('Имя')
+        canonical = raw.get('ПолноеИмя')
+    else:
+        parents = header.get('subsystem_parents') or []
+        leaf = header.get('subsystem_leaf') or header.get('subsystem')
+        canonical = header.get('subsystem_path')
+
+    top = (parents[0] if parents else leaf) or header.get('subsystem')
+    if not canonical and leaf:
+        chain = list(parents) + [leaf]
+        canonical = 'Подсистема.' + '.Подсистема.'.join(chain)
+    return top, canonical
+
 def ingest_object(conn, config_id, header, obj, source_file):
     full_name = obj.get('ПолноеИмя')
     if not full_name:
@@ -122,6 +146,7 @@ def ingest_object(conn, config_id, header, obj, source_file):
         return row[0], False
 
     props = obj.get('СвойстваОбъекта') or {}
+    subsystem, subsystem_path = subsystem_fields(header)
     cur = conn.execute(
         '''INSERT INTO objects (
             config_id, kind, name, synonym, full_name, comment,
@@ -157,8 +182,8 @@ def ingest_object(conn, config_id, header, obj, source_file):
             obj.get('Длина'),
             obj.get('Точность'),
             obj.get('ДлинаСтроки'),
-            header.get('subsystem'),
-            json.dumps(header.get('subsystem_path'), ensure_ascii=False) if header.get('subsystem_path') else None,
+            subsystem,
+            subsystem_path,
             source_file,
         ),
     )
