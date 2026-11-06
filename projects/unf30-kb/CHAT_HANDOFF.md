@@ -107,3 +107,5 @@ ai_workspace/
 - **`projects/unf30-kb/PROJECT_STATE.md`** — актуален, обновлён 2026-11-05.
 - **`_meta/conventions.md`** — префиксы карточек, критерии верификации.
 - **`_meta/design/00-START-HERE.md`** — общий дизайн.
+
+2026-11-05: STRUCT зелёный (821 объект, subsystem_path=0 пустых); validate_names пост-процессор = CLI answer_guard.py, автопайплайн отложен; дальше HELP/новые подсистемы, pack-export.ps1 удалить.
