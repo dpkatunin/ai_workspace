@@ -32,19 +32,26 @@ ai_workspace/
 ├── projects/unf30-kb/
 │   ├── PROJECT_STATE.md         # ← этот файл
 │   ├── CHAT_HANDOFF.md          # ← резюме для нового чата
-│   └── struct/                  # ← слой STRUCT (MCP работает)
-│       ├── README.md
+│   ├── struct/                  # ← слой STRUCT (MCP работает, порт 8001)
+│   │   ├── README.md
+│   │   ├── schema.sql
+│   │   ├── ingest.py
+│   │   ├── verify.py
+│   │   ├── survey.py
+│   │   ├── slice.py
+│   │   ├── _common.py
+│   │   ├── architecture.md
+│   │   ├── tools.md             # 9 инструментов
+│   │   ├── struct_mcp.py        # ← MCP-сервер слоя STRUCT (v2 SDK)
+│   │   ├── answer_guard.py      # ← CLI-постпроцессор validate_names (вариант А)
+│   │   ├── requirements.txt
+│   │   └── .env.example
+│   └── help/                    # ← слой HELP (справка из Help/ru.html, порт 8002)
 │       ├── schema.sql
-│       ├── ingest.py
-│       ├── verify.py
-│       ├── survey.py
-│       ├── slice.py
-│       ├── _common.py
-│       ├── architecture.md
-│       ├── tools.md             # 9 инструментов
-│       ├── struct_mcp.py        # ← MCP-сервер слоя STRUCT (v2 SDK)
-│       ├── requirements.txt
-│       └── .env.example
+│       ├── ingest_help.py       # заливка Help/ru.html → data/help.db
+│       ├── verify_help.py       # контроль целостности
+│       ├── help_search.py       # CLI-поиск (FTS5)
+│       └── help_mcp.py          # ← MCP-сервер слоя HELP, 5 инструментов
 ├── tools/mcp_server.py          # KB-сервер (порт 8000)
 └── _meta/                       # conventions, design
 
@@ -55,20 +62,54 @@ ai_workspace/
 | Слой | Что это | Инструмент | Статус |
 |---|---|---|---|
 | **KB** | 43 ручные карточки (`kb/unf30/`) | `unf30-kb` (порт 8000) | ✅ Работает |
-| **STRUCT** | SQLite из JSON-выгрузки метаданных | `struct-unf30` (порт 8001) | ✅ **4 подсистемы, 821 объект, проверен** |
+| **STRUCT** | SQLite из JSON-выгрузки метаданных | `struct-unf30` (порт 8001) | ✅ **Запущен и проверен** |
+| **HELP** | SQLite из справки конфигурации (`Help/ru.html`) | `help-unf30` (порт 8002) | ✅ **Запущен и проверен** |
 | **XML-конфигурация** | Выгрузка конфигурации 1С в XML | `search_config` в `unf30-kb` | ✅ Работает |
 
 ## Что сделано
 
-### 2026-11-05: STRUCT доведён до 4 подсистем, `subsystem_path` закрыт
+### 2026-11-06: слой HELP построен и запущен
 
-- [x] **Залиты и проверены 4 подсистемы:** Продажи 381, Деньги 217, Закупки 153, Склад 70; всего 821 объект.
-- [x] **Контроль целостности зелёный:** дубликатов `full_name` нет; `objects_fts` присутствует; дочерние таблицы: `attributes` 8923, `movements` 921, `object_links` 431, `tabular_sections` 445, `enum_values` 274.
-- [x] **`subsystem_path` заполнен.** После чистой пересборки `check_zakupki.py` показывает `subsystem_path не заполнен == 0`.
-- [x] **Правило подсистем подтверждено исходными JSON:** верхний уровень в `objects.subsystem` = `Подсистема.ПутьРодителей[0]`, если родители есть, иначе `Подсистема.Имя`; канонический `objects.subsystem_path` = `Подсистема.ПолноеИмя`; отображаемый путь = `ПутьРодителей + [Подсистема.Имя]` через ` / `.
-- [x] **Вложенность подтверждена:** `Документ.ОтчетОРозничныхПродажах` → `Подсистема.Продажи.Подсистема.РозничныеПродажи`, верхняя подсистема остаётся `Продажи`.
-- [x] **Схема связей проверена:** `attributes.object_id → objects.id`, `attribute_types.attribute_id → attributes.id`. Прямой FK `attribute_types → objects` не нужен; сообщение `check_zakupki.py` про `.schema` для `attribute_types` считать ложноположительным.
-- [x] **Кодировка консоли исправлена:** UTF-8/`PYTHONIOENCODING` для `check_zakupki.py`.
+- [x] **Разведка формата справки.** `Help/ru.html` — UTF-8 (с BOM), MSHTML-мусор
+  (`<style>`, `v8help://`, `CommonPicture.*`) чистится парсером; заголовок = `<h1>`,
+  разделы = `<h2>`, якоря = `<a name>`.
+- [x] **`ingest_help.py`, `verify_help.py`, `help_search.py`, `schema.sql`.**
+  Идемпотентность по относительному пути (INSERT OR REPLACE), кодировки:
+  utf-8-sig → utf-8 → cp1251. Файлы макетов (`Templates/.../Ext/Template/ru.html`)
+  отфильтрованы — это не справка.
+- [x] **Залита вся справка УНФ: 1487 статей** (object 848, form 599, subsystem 39,
+  configuration 1, other 1), ссылок 4166 (object_help 2406, anchor 699,
+  external_its 518, external 259, other 284). Привязка к объектам метаданных:
+  1486/1487. FTS5 в синхроне (1487/1487).
+- [x] **`help_mcp.py` — MCP-сервер слоя HELP, порт 8002, 5 инструментов**
+  (`help_search`, `help_get_article`, `help_get_object_articles`, `help_get_links`,
+  `help_stats`). Каркас = копия `struct_mcp.py` (SDK v2, `transport_security` в `run()`).
+  Живой прогон: `initialize` + `tools/list` прошли, все 5 инструментов видны.
+- [x] **Мост STRUCT↔HELP заложен:** внутренние ссылки справки вида
+  `Document.ЗаказПокупателя.Form.ФормаДокумента/Help` разобраны в
+  `help_links.to_object_full_name` (2406 шт.).
+- [x] **Переезд проверок в Kimi Code Desktop:** smoke-тесты verify.py и
+  check_zakupki.py зелёные из-под Desktop (сессии по workspace, вход через kimi.ai OAuth).
+
+### 2026-11-05: STRUCT — 4 подсистемы, пересборка, answer_guard
+
+- [x] **Залиты 4 подсистемы:** Продажи 381, Деньги 217, Закупки 153, Склад 70 —
+  **всего 821 объект** (attributes 8923, attribute_types 18216, object_links 1321,
+  movements 921, enum_values 274, tabular_sections 445, config 1).
+- [x] **`subsystem_path` починен** (было 821 пустых → стало 0). Ключевое: `ingest.py`
+  пропускает существующие `full_name` без обновления, поэтому изменение маппинга
+  требует **радикальной чистой пересборки** (backup → полный reingest → swap), а не
+  инкрементальной дозаливки. Правило подсистемы: `subsystem` = `ПутьРодителей[0]`
+  или `Подсистема.Имя`, `subsystem_path` = `Подсистема.ПолноеИмя`.
+- [x] **Расхождение object_links закрыто:** 1321 (все строки) vs 431 (resolved,
+  `to_object_id IS NOT NULL`) — разные метрики, не баг. 890 unresolved — ссылки на
+  регистры, не попавшие в выгрузку. Дозаливка регистров закроет их автоматически
+  (`resolve_links` после ingest), пересборка не нужна.
+- [x] **`answer_guard.py` — пост-процессор validate_names (вариант А, ручной CLI).**
+  Проверяет `Вид.Имя` по `objects.full_name`, подсказки только того же вида,
+  `--annotate`/`--strict` (exit 2). Без интеграции в BDS.
+- [x] **UTF-8 дисциплина в PowerShell:** `chcp 65001` + `python -X utf8`;
+  вместо `python -c` — here-string `$code = @'...'@ | python -X utf8 -`.
 
 ### 2026-11-04 (вечер): STRUCT MCP слой запущен
 
@@ -99,13 +140,22 @@ ai_workspace/
 
 ## Что в работе / следующий шаг
 
-1. **Обертка валидатора в пост-процессор ответа модели.** Инструмент `validate_names` уже есть в `struct-unf30`. Нужно встроить его в пайплайн: все `ПолноеИмя` из ответа LLM → `validate_names` → если `unknown` непуст — пометка в ответ или блок.
+1. **Подключить `help-unf30` (порт 8002) к клиенту** (BDS / Kimi Code) и проверить
+   вызовы `help_search` / `help_get_object_articles` из реального диалога.
+   Запуск: `.venv\Scripts\python.exe projects/unf30-kb/help/help_mcp.py --db projects/unf30-kb/help/data/help.db --port 8002`.
 
-2. **Опционально поправить `check_zakupki.py`.** Для `attribute_types` не требовать прямой FK на `objects`; проверять через `attribute_types → attributes → objects` или через `PRAGMA foreign_key_list`.
+2. **Довыгрузить регистры** (экспортёр → `ingest.py` в ту же `struct.db`) — закроет
+   890 unresolved object_links автоматически через `resolve_links`. Только если нужен
+   полный граф движений.
 
-3. **Слой HELP** (справка из `Help/ru.html`) — отдельная папка `help/`, свой FTS.
+3. **Мелочи:** удалить `pack-export.ps1` (создан по ошибке); опционально подписать
+   метрику object_links в `check_zakupki.py` как «resolved»; нормализация окончаний
+   для FTS справки (unicode61 не знает морфологии: «зарезервировать» ≠ «резервировать»).
 
-4. **Дальнейшие подсистемы/обновления STRUCT.** Для новых объектов дописывание в `data/struct.db` допустимо, но при изменении маппинга существующих строк (как с `subsystem_path`) делать чистую пересборку: `ingest.py` существующие `full_name` пропускает и не обновляет их.
+4. **Связка STRUCT↔HELP** как отдельный инструмент/представление: по
+   `help_links.to_object_full_name` уже сейчас можно строить «объект → его справка»
+   (2406 разобранных ссылок), осталось решить, нужен ли отдельный инструмент
+   или достаточно связки `get_object` + `help_get_object_articles`.
 
 ## Ключевые решения (с обоснованием)
 
@@ -126,16 +176,12 @@ ai_workspace/
 | `predefined: []` — заглушка в контракте | Экспортёр пока не отдаёт. При смене экспортёра контракт ответа не меняется |
 | **MCP SDK v2:** `transport_security` в `run()` | В v2.3.0 `MCPServer.__init__` его не принимает. Передача в `run()` — как в KB-сервере. Иначе 403 |
 | **Имена объектов УНФ отличаются от УТ 11** | `ЗаказПокупателя` (не `ЗаказКлиента`), `Номенклатура` (не `Товары`). Валидатор это ловит |
-
-
-Дополнение 2026-11-05:
-
-| Решение | Обоснование |
-|---|---|
-| `subsystem_path` — из блока `Подсистема`, не из имени файла | В JSON уже есть `ПолноеИмя` и `ПутьРодителей`; вложенность (`Продажи / РозничныеПродажи`) подтверждена |
-| Для изменения маппинга существующих строк — чистая пересборка | `ingest.py` идемпотентно пропускает существующие `full_name` и не обновляет их поля |
-| `attribute_types` проверять через `attributes` | Прямого FK `attribute_types → objects` нет по дизайну; путь `attribute_types → attributes → objects` подтверждён PRAGMA |
-| После любой заливки/пересборки — рестарт MCP STRUCT 8001 | Иначе MCP может держать старое соединение/кэш схемы |
+| **ingest.py пропускает существующие full_name** | Идемпотентность = пропуск, НЕ update. Изменение маппинга полей → чистая пересборка; добавление новых подсистем → обычная дозаливка |
+| **HELP: статья = один файл `Help/ru.html`** | Файл и есть естественный чанк; относительный путь — стабильный ID (`INSERT OR REPLACE` по path) |
+| **HELP: фильтр по каталогу `Help` в пути** | `Templates/.../Ext/Template/ru.html` — тексты макетов, не справка; без фильтра засоряют базу |
+| **HELP: уровень `Ext/` в путях выгрузки** | Реальные пути `Documents/X/Ext/Help/ru.html`; классификатор пропускает `Ext` и `Help`, разбирает остальную цепочку |
+| **HELP: object_full_name из пути файла** | Папки выгрузки (`Documents`, `Catalogs`, …) маппятся в русские виды; вложенные подсистемы → `Подсистема.А.Подсистема.Б` |
+| **help_mcp.py = копия каркаса struct_mcp.py** | Один проверенный паттерн SDK v2, меняются только запросы и порт (8002) |
 
 ## Известные ограничения экспортёра (Romandredan/1c-metadata-json-exporter)
 
@@ -148,22 +194,11 @@ ai_workspace/
 
 ## Известные проблемы / TODO
 
+- FTS5 (unicode61) не знает русской морфологии: поиск «резервировать» не найдёт «зарезервировать». Кандидат на доработку HELP-слоя.
 - `survey.py` читает файлы дважды (заголовок + объекты). На 13 МБ — секунды.
 - `ingest.py` не валидирует вход по `schema/metadata-output.schema.json` экспортёра.
 - FTS5 на Windows-Python 3.14 обычно встроен, но нужен fallback (см. `build_fts`).
 - В `struct_mcp.py` есть автодетект колонок; после стабилизации схемы можно заменить на явные имена для скорости (не критично — PRAGMA-запрос кэшируется).
-
-### 2026-11-05: STRUCT стабилизирован, пост-процессор validate_names = CLI
-
-- [x] STRUCT доведён до 4 подсистем: Продажи 381, Деньги 217, Закупки 153, Склад 70; всего 821 объект.
-- [x] Дубликатов `full_name` нет; `objects_fts` есть; `subsystem_path` заполнен (`не заполнен == 0`).
-- [x] Правило подсистем: `objects.subsystem` = верхний уровень (`ПутьРодителей[0]` или `Подсистема.Имя`); `objects.subsystem_path` = `Подсистема.ПолноеИмя`; вложенность подтверждена на `Продажи / РозничныеПродажи`.
-- [x] Схема связей проверена: `attributes.object_id → objects.id`, `attribute_types.attribute_id → attributes.id`; прямой FK `attribute_types → objects` не нужен, замечание `check_zakupki.py` считать ложноположительным до опциональной правки.
-- [x] Кодировка консоли для проверок: UTF-8/`PYTHONIOENCODING`, запуск Python с `-X utf8`.
-- [x] Пост-процессор имён: выбран вариант А — ручной CLI `projects/unf30-kb/struct/answer_guard.py`; BDS/автопайплайн сознательно не трогаем. Проверено: `Документ.ЗаказПокупателя` known, `Справочник.Товары` unknown, подсказки только того же вида.
-- [x] Удалить `pack-export.ps1` — файла в рабочей копии нет (проверено 2026-11-06: glob по workspace и git такого файла не знают).
-- [ ] Опционально поправить `check_zakupki.py`: `attribute_types` проверять через `attributes`/`PRAGMA foreign_key_list`.
-- `object_links`: total = 1321 (verify.py), resolved = 431 (check_zakupki.py). Unresolved 890 — ссылки на регистры вне выгрузки; не ошибка. Для полного графа довыгрузить регистры и залить в ту же БД (resolve_links закроет ссылки автоматически).
 
 ## Как обновлять этот файл
 
