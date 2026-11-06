@@ -3,7 +3,7 @@
 Скопируй этот файл целиком в начало нового чата с DeepSeek (или другим
 ассистентом), чтобы он быстро понял, где мы и что делать дальше.
 
-Обновлён: 2026-11-06. Заменяет предыдущую версию.
+Обновлён: 2026-11-06 (вечер). Заменяет предыдущую версию.
 
 ---
 
@@ -20,7 +20,7 @@
 | Слой | Что это | MCP-инструменты | Статус |
 |---|---|---|---|
 | **KB** (`kb/unf30/`) | 43 ручные карточки (`pit-`, `mech-`, `pb-`, `case-`, `cat-`, `doc-`) | `search_kb`, `get_card`, `kb_stats`, `verify_card_facts` | Работает (порт 8000) |
-| **STRUCT** (`projects/unf30-kb/struct/data/struct.db`) | SQLite из JSON-выгрузки метаданных | `search_objects`, `get_object`, ... (9 штук) | **Работает (порт 8001)**, 821 объект, 4 подсистемы |
+| **STRUCT** (`projects/unf30-kb/struct/data/struct.db`) | SQLite из JSON-выгрузки метаданных | `search_objects`, `get_object`, ... (9 штук) | **Работает (порт 8001)**, 16 909 объектов, ВСЯ конфигурация (56 подсистем) |
 | **HELP** (`projects/unf30-kb/help/data/help.db`) | SQLite из справки конфигурации (`Help/ru.html`) | `help_search`, `help_get_article`, `help_get_object_articles`, `help_get_links`, `help_stats` | **Работает (порт 8002)**, 1487 статей |
 | **XML-конфигурация** | Выгрузка конфигурации 1С в XML | `search_config`, `read_config_file` | Работает (по контракту /1c) |
 
@@ -29,10 +29,13 @@
 ```
 
 ai_workspace/
+├── .kimi-code/mcp.json          # MCP для Kimi Code (struct/help — stdio автозапуск, kb — http:8000)
+├── AGENTS.md                    # правила ответов агента по УНФ
 ├── kb/unf30/                    # KB слой (43 карточки)
 ├── projects/unf30-kb/
 │   ├── PROJECT_STATE.md         # ← актуален, обновлён 2026-11-06
 │   ├── CHAT_HANDOFF.md          # ← ты читаешь его
+│   ├── KIMI_CODE_ИНСТРУКЦИЯ.md    # ← как задавать вопросы в Kimi Code + 5 тестовых задач
 │   ├── struct/                  # STRUCT слой (порт 8001)
 │   │   ├── struct_mcp.py        # ✅ MCP-сервер (v2 SDK), 9 инструментов
 │   │   ├── tools.md             # описание инструментов
@@ -41,7 +44,7 @@ ai_workspace/
 │   │   ├── verify.py            # проверка целостности
 │   │   ├── answer_guard.py      # CLI-постпроцессор validate_names (вариант А)
 │   │   ├── _common.py           # утилиты
-│   │   └── data/struct.db       # ✅ 821 объект, 4 подсистемы (Продажи/Деньги/Закупки/Склад)
+│   │   └── data/struct.db       # ✅ 16 909 объектов, ВСЯ конфигурация (56 подсистем)
 │   └── help/                    # HELP слой (порт 8002)
 │       ├── ingest_help.py       # заливка Help/ru.html → SQLite
 │       ├── verify_help.py       # контроль целостности
@@ -67,23 +70,22 @@ ai_workspace/
 9. **`config_id` из `СвойстваКонфигурации.Синоним`.** Версия парсится regex, дата — из имени файла.
 10. **MCP SDK v2 (mcp 2.3.0):** `transport_security` передаётся в `run()`, а **не** в `MCPServer(...)`. Если передать в конструктор — BDS получит 403 при подключении.
 
-## Состояние STRUCT-базы (2026-11-05, verify.py)
+## Состояние STRUCT-базы (2026-11-06, verify.py — полная заливка)
 
 | Метрика | Значение |
 |---|---|
-| objects | **821** (Продажи 381, Деньги 217, Закупки 153, Склад 70) |
-| attributes | 8923 |
-| attribute_types | 18216 |
-| object_links | 1321 всего / 431 resolved / 890 unresolved |
-| movements | 921 |
-| enum_values | 274 |
-| tabular_sections | 445 |
+| objects | **16 909** (56 подсистем — вся конфигурация УНФ 3.0) |
+| attributes | 54 673 |
+| attribute_types | 195 710 |
+| object_links | 3 627 (незакрытых стало меньше: регистры теперь в базе) |
+| movements | 1 602 |
+| enum_values | 9 216 |
+| tabular_sections | 2 115 |
 | config | 1 строка: УНФ 3.0 |
 
-**object_links — не баг, а метрики:** 890 unresolved указывают на регистры, не
-попавшие в выгрузку. Дозаливка регистров в ту же БД закроет их автоматически
-(`resolve_links` после ingest). Пересборка нужна только для изменения маппинга
-полей существующих строк (ingest пропускает существующие full_name).
+ingest.py пропускает существующие full_name → изменение маппинга полей = чистая
+пересборка; дозаливка новых объектов = обычный запуск (rglob обходит вложенные
+папки сам). `resolve_links` докрывает ссылки после каждой заливки.
 
 ## Состояние HELP-базы (2026-11-06, verify_help.py)
 
@@ -103,15 +105,16 @@ ai_workspace/
 
 ## Что делать (следующий шаг)
 
-1. **Подключить `help-unf30` (8002) к клиенту** (BDS / Kimi Code), проверить
-   `help_search` / `help_get_object_articles` в реальном диалоге.
-2. **Довыгрузить регистры** в ту же struct.db — закроет 890 unresolved
-   object_links автоматически. Только если нужен полный граф.
-3. **Мелочи:** удалить `pack-export.ps1`; опционально: подписать метрику
-   object_links в check_zakupki.py как «resolved»; нормализация окончаний для FTS HELP.
-4. **Связка STRUCT↔HELP:** 2406 ссылок `help_links.to_object_full_name` уже
+1. **Приёмка контура в Kimi Code:** 5 тестовых задачек из
+   `projects/unf30-kb/KIMI_CODE_ИНСТРУКЦИЯ.md`. Настройка: открыть папку
+   `ai_workspace` в Kimi Code Desktop → Trust this folder → НОВАЯ сессия →
+   `/mcp` (struct-unf30 и help-unf30 должны быть connected — они stdio,
+   запускаются сами; unf30-kb — только если запущено его окно на 8000).
+2. **Связка STRUCT↔HELP:** 2406 ссылок `help_links.to_object_full_name`
    разобраны; решить — отдельный инструмент или связка `get_object` +
    `help_get_object_articles`.
+3. **Мелочи:** опционально: подписать метрику object_links в check_zakupki.py
+   как «resolved»; нормализация окончаний для FTS HELP (морфология).
 
 ## Окружение
 
@@ -120,7 +123,9 @@ ai_workspace/
 - MCP-сервер KB: `.venv\Scripts\python.exe tools/mcp_server.py --no-dns-protection` (порт 8000)
 - MCP-сервер STRUCT: `.venv\Scripts\python.exe projects/unf30-kb/struct/struct_mcp.py --db projects/unf30-kb/struct/data/struct.db --port 8001`
 - MCP-сервер HELP: `.venv\Scripts\python.exe projects/unf30-kb/help/help_mcp.py --db projects/unf30-kb/help/data/help.db --port 8002`
-- В BDS подключены: `unf30-kb` (8000), `struct-unf30` (8001); `help-unf30` (8002) — к подключению
+- В BDS подключены: `unf30-kb` (8000), `struct-unf30` (8001)
+- Kimi Code Desktop: `.kimi-code/mcp.json` + `AGENTS.md` в корне ai_workspace;
+  struct-unf30/help-unf30 — stdio (автозапуск), unf30-kb — http://127.0.0.1:8000/mcp (ручной запуск)
 - UTF-8 дисциплина: `chcp 65001` + `python -X utf8`; вместо `python -c` — here-string `$code = @'...'@ | python -X utf8 -`
 
 **Важно про PowerShell:** красный текст в консоли от `py` (например, `CategoryInfo: NotSpecified`, `RemoteException`) — это **не ошибка**. PowerShell так показывает вывод Python в stderr. Смотри на последнюю строку (`INFO: Application startup complete.`) — она и есть результат.

@@ -1,13 +1,31 @@
 {
   "mcpServers": {
-    "unf30-kb": {
-      "url": "http://127.0.0.1:8000/mcp"
-    },
     "struct-unf30": {
-      "url": "http://127.0.0.1:8001/mcp"
+      "command": "C:\\ai_workSpaceGitHub\\ai_workspace\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-X",
+        "utf8",
+        "C:\\ai_workSpaceGitHub\\ai_workspace\\projects\\unf30-kb\\struct\\struct_mcp.py",
+        "--db",
+        "C:\\ai_workSpaceGitHub\\ai_workspace\\projects\\unf30-kb\\struct\\data\\struct.db",
+        "--transport",
+        "stdio"
+      ]
     },
     "help-unf30": {
-      "url": "http://127.0.0.1:8002/mcp"
+      "command": "C:\\ai_workSpaceGitHub\\ai_workspace\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-X",
+        "utf8",
+        "C:\\ai_workSpaceGitHub\\ai_workspace\\projects\\unf30-kb\\help\\help_mcp.py",
+        "--db",
+        "C:\\ai_workSpaceGitHub\\ai_workspace\\projects\\unf30-kb\\help\\data\\help.db",
+        "--transport",
+        "stdio"
+      ]
+    },
+    "unf30-kb": {
+      "url": "http://127.0.0.1:8000/mcp"
     }
   }
 }

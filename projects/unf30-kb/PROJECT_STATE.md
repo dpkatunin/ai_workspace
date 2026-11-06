@@ -28,6 +28,8 @@
 ```
 
 ai_workspace/
+├── .kimi-code/mcp.json          # MCP-серверы для Kimi Code (struct/help — stdio, kb — http)
+├── AGENTS.md                    # правила ответов агента по УНФ (validate_names, fact_id)
 ├── kb/unf30/                    # слой KB (43 карточки)
 ├── projects/unf30-kb/
 │   ├── PROJECT_STATE.md         # ← этот файл
@@ -67,6 +69,26 @@ ai_workspace/
 | **XML-конфигурация** | Выгрузка конфигурации 1С в XML | `search_config` в `unf30-kb` | ✅ Работает |
 
 ## Что сделано
+
+### 2026-11-06 (вечер): залита ВСЯ конфигурация; Kimi Code подключён к слоям
+
+- [x] **Полная JSON-выгрузка всех подсистем** (`C:\obmen\json_sub`, каждый раздел
+  в своей подпапке — `rglob` обошёл без доработок ingest.py). Итог verify.py:
+  **objects 16 909 (56 подсистем)**, attributes 54 673, attribute_types 195 710,
+  object_links 3 627, movements 1 602, enum_values 9 216, tabular_sections 2 115,
+  config 1, объектов без config_id 0. Старые 4 подсистемы не задвоились
+  (Продажи 381 / Закупки 153 / Деньги 217 / Склад 70 — те же числа).
+- [x] **Регистры теперь в базе** — movements выросли 921 → 1 602, часть из 890
+  unresolved object_links закрылась автоматически через `resolve_links`.
+- [x] **Kimi Code Desktop подключён к слоям:** `ai_workspace/.kimi-code/mcp.json`
+  (struct-unf30 и help-unf30 через stdio — Kimi Code запускает их сам, окна
+  PowerShell не нужны; unf30-kb — http на 8000, нужен ручной запуск) +
+  `ai_workspace/AGENTS.md` (правила ответов: validate_names, «нет данных», fact_id).
+  Проектные MCP-серверы требуют Trust this folder и новой сессии.
+- [x] **`pack-export.ps1` удалён пользователем** (был создан по ошибочному пониманию
+  схемы — выгрузка полностью локальная).
+- [x] **Памятка `projects/unf30-kb/KIMI_CODE_ИНСТРУКЦИЯ.md`:** настройка,
+  формулировки вопросов, критерии приёмки, 5 тестовых задачек с эталонами.
 
 ### 2026-11-06: слой HELP построен и запущен
 
@@ -140,22 +162,18 @@ ai_workspace/
 
 ## Что в работе / следующий шаг
 
-1. **Подключить `help-unf30` (порт 8002) к клиенту** (BDS / Kimi Code) и проверить
-   вызовы `help_search` / `help_get_object_articles` из реального диалога.
-   Запуск: `.venv\Scripts\python.exe projects/unf30-kb/help/help_mcp.py --db projects/unf30-kb/help/data/help.db --port 8002`.
+1. **Приёмка контура в Kimi Code:** прогнать 5 тестовых задачек из
+   `projects/unf30-kb/KIMI_CODE_ИНСТРУКЦИЯ.md` (вопрос → STRUCT/HELP →
+   проверенный ответ с fact_id и validate_names).
 
-2. **Довыгрузить регистры** (экспортёр → `ingest.py` в ту же `struct.db`) — закроет
-   890 unresolved object_links автоматически через `resolve_links`. Только если нужен
-   полный граф движений.
-
-3. **Мелочи:** удалить `pack-export.ps1` (создан по ошибке); опционально подписать
-   метрику object_links в `check_zakupki.py` как «resolved»; нормализация окончаний
-   для FTS справки (unicode61 не знает морфологии: «зарезервировать» ≠ «резервировать»).
-
-4. **Связка STRUCT↔HELP** как отдельный инструмент/представление: по
+2. **Связка STRUCT↔HELP** как отдельный инструмент/представление: по
    `help_links.to_object_full_name` уже сейчас можно строить «объект → его справка»
    (2406 разобранных ссылок), осталось решить, нужен ли отдельный инструмент
    или достаточно связки `get_object` + `help_get_object_articles`.
+
+3. **Мелочи:** опционально подписать метрику object_links в `check_zakupki.py`
+   как «resolved»; нормализация окончаний для FTS справки (unicode61 не знает
+   морфологии: «зарезервировать» ≠ «резервировать»).
 
 ## Ключевые решения (с обоснованием)
 
@@ -182,6 +200,7 @@ ai_workspace/
 | **HELP: уровень `Ext/` в путях выгрузки** | Реальные пути `Documents/X/Ext/Help/ru.html`; классификатор пропускает `Ext` и `Help`, разбирает остальную цепочку |
 | **HELP: object_full_name из пути файла** | Папки выгрузки (`Documents`, `Catalogs`, …) маппятся в русские виды; вложенные подсистемы → `Подсистема.А.Подсистема.Б` |
 | **help_mcp.py = копия каркаса struct_mcp.py** | Один проверенный паттерн SDK v2, меняются только запросы и порт (8002) |
+| **Kimi Code: stdio-запуск struct/help** | Kimi Code сам стартует python-процессы из `.kimi-code/mcp.json`; окна PowerShell не нужны. Проектный mcp.json требует Trust + новой сессии |
 
 ## Известные ограничения экспортёра (Romandredan/1c-metadata-json-exporter)
 
