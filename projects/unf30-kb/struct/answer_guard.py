@@ -1,9 +1,18 @@
 """
-answer_guard.py — пост-процессор ответов LLM для проекта unf30-kb.
+answer_guard.py — пост-процессор ответов LLM для проекта unf30-kb. v1.1
 
 Задача: перед показом ответа вытащить кандидатов в полные имена 1С
 (Документ.ЗаказПокупателя, Справочник.Номенклатура, Подсистема.Продажи...)
-и проверить их по STRUCT SQLite objects.full_name.
+и проверить их по STRUCT SQLite.
+
+v1.1 — иерархическая проверка глубоких путей (3+ сегмента):
+  Объект.Реквизит            -> known (реквизит подтверждён по attributes)
+  Перечисление.Х.Значение    -> known (значение подтверждено по enum_values)
+  Объект.ТЧ.Реквизит         -> known (цепочка по tabular_sections + attributes)
+  Объект.<нечто> без подтверждения -> warn (объект есть, хвост не проверен:
+                                 формы и прочее, чего нет в STRUCT)
+  Ничего не нашлось          -> unknown (кандидат на галлюцинацию)
+--strict даёт exit 2 ТОЛЬКО при unknown; warn не блокирует.
 
 Зависимости: только stdlib. MCP не требуется — читаем struct.db напрямую.
 
@@ -90,24 +99,112 @@ def suggest(conn, full_name: str, limit: int = 3):
     ).fetchall()
     return [dict(r) for r in rows]
 
+# --- v1.1: иерархическая проверка глубоких путей -------------------------
+
+def _fk_col(conn, table: str, *options: str):
+    """Первое существующее имя FK-колонки таблицы (как _col в struct_mcp)."""
+    try:
+        cols = {r[1] for r in conn.execute(f'PRAGMA table_info({table})')}
+    except sqlite3.Error:
+        return None
+    for opt in options:
+        if opt in cols:
+            return opt
+    return None
+
+
+def _object_row(conn, full_name: str):
+    return conn.execute('SELECT * FROM objects WHERE full_name = ?', (full_name,)).fetchone()
+
+
+def _enum_value_ok(conn, enum_row, value: str) -> bool:
+    fk = _fk_col(conn, 'enum_values', 'enum_id', 'object_id', 'owner_id')
+    if not fk:
+        return False
+    return conn.execute(
+        f'SELECT 1 FROM enum_values WHERE {fk} = ? AND name = ? LIMIT 1',
+        (enum_row['id'], value)).fetchone() is not None
+
+
+def _attr_ok(conn, object_id, name: str) -> bool:
+    fk = _fk_col(conn, 'attributes', 'object_id', 'obj_id', 'owner_id')
+    if not fk:
+        return False
+    return conn.execute(
+        f'SELECT 1 FROM attributes WHERE {fk} = ? AND name = ? LIMIT 1',
+        (object_id, name)).fetchone() is not None
+
+
+def _ts_ok(conn, object_id, name: str) -> bool:
+    fk = _fk_col(conn, 'tabular_sections', 'object_id', 'obj_id', 'owner_id')
+    if not fk:
+        return False
+    return conn.execute(
+        f'SELECT 1 FROM tabular_sections WHERE {fk} = ? AND name = ? LIMIT 1',
+        (object_id, name)).fetchone() is not None
+
+
+def resolve_deep(conn, cand: str):
+    """Глубокий путь Вид.Имя.<хвост>: ищем самый длинный префикс-объект и
+    проверяем хвост (значение перечисления / реквизит / ТЧ.Реквизит).
+
+    Возвращает (status, object_dict|None, tail):
+      'enum-value' | 'attribute' | 'tail-miss' | 'unknown'."""
+    segs = [p for p in cand.split('.') if p]
+    for cut in range(len(segs) - 1, 1, -1):
+        prefix = '.'.join(segs[:cut])
+        row = _object_row(conn, prefix)
+        if not row:
+            continue
+        obj = dict(row)
+        tail = segs[cut:]
+        if obj.get('kind') == 'Перечисление' and len(tail) == 1:
+            ok = _enum_value_ok(conn, row, tail[0])
+            return ('enum-value' if ok else 'tail-miss'), obj, '.'.join(tail)
+        owner = row['id']
+        for i, seg in enumerate(tail):
+            if _attr_ok(conn, owner, seg):
+                continue  # реквизит объекта/ТЧ
+            if i < len(tail) - 1 and _ts_ok(conn, owner, seg):
+                continue  # промежуточная табличная часть
+            return 'tail-miss', obj, '.'.join(tail)
+        return 'attribute', obj, '.'.join(tail)
+    return 'unknown', None, '.'.join(segs[2:])
+
+
 def guard(text: str, db_path: Path, do_suggest: bool = True):
     candidates = extract_candidates(text)
     if not candidates:
-        return {'candidates': [], 'known': [], 'unknown': []}, None
+        return {'candidates': [], 'known': [], 'warn': [], 'unknown': []}, None
 
     found, conn = load_objects(db_path, candidates)
     try:
-        known, unknown = [], []
+        known, warn, unknown = [], [], []
         for name in candidates:
             row = found.get(name)
             if row:
+                row = dict(row)
+                row['matched_as'] = name
                 known.append(row)
+                continue
+            status, obj, tail = resolve_deep(conn, name)
+            if status in ('enum-value', 'attribute'):
+                obj = dict(obj)
+                obj['matched_as'] = name
+                obj['via'] = status
+                obj['tail'] = tail
+                known.append(obj)
+            elif status == 'tail-miss':
+                warn.append({'full_name': name,
+                             'object': obj['full_name'],
+                             'tail': tail})
             else:
                 item = {'full_name': name}
                 if do_suggest:
                     item['suggestions'] = suggest(conn, name)
                 unknown.append(item)
-        return {'candidates': candidates, 'known': known, 'unknown': unknown}, conn
+        return {'candidates': candidates, 'known': known,
+                'warn': warn, 'unknown': unknown}, conn
     finally:
         conn.close()
 
@@ -115,10 +212,19 @@ def guard(text: str, db_path: Path, do_suggest: bool = True):
 def annotation_md(report) -> str:
     lines = ['', '---', '### validate_names (STRUCT)']
     unk = report['unknown']
-    if not unk:
+    warn = report.get('warn') or []
+    if not unk and not warn:
         lines.append(f"Проверено имён: {len(report['candidates'])}; неизвестных нет.")
         return '\n'.join(lines)
-    lines.append(f"Проверено имён: {len(report['candidates'])}; **неизвестных: {len(unk)}**.")
+    lines.append(
+        f"Проверено имён: {len(report['candidates'])}; "
+        f"**неизвестных: {len(unk)}**; с оговорками: {len(warn)}."
+    )
+    for item in warn:
+        lines.append(
+            f"- `~ {item['full_name']}` — объект `{item['object']}` существует, "
+            f"хвост «{item['tail']}» не подтверждён (нет в STRUCT или опечатка)"
+        )
     for item in unk:
         lines.append(f"- `? {item['full_name']}` — в objects.full_name не найдено")
         for s in item.get('suggestions') or []:
