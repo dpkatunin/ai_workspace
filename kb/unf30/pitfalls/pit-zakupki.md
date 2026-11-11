@@ -2,14 +2,25 @@
 id: unf30-pit-zakupki
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: [закупки, корректировка, допрасходы, возврат, импорт, расхождения]
 synonyms: [закупки не работают, возврат поставщику]
 status: verified
 source: ИТС, разд. Закупки; сводка CoderStar, SCloud, RPS-1C
 updated: 2026-10-29
-related: [unf30-doc-dopolnitelnye-rashody, unf30-doc-korrektirovka-postupleniya, unf30-doc-prikhodnaya-nakladnaya]
+objects:
+  - Документ.ПриходнаяНакладная
+  - Документ.ЗаказПоставщику
+  - Документ.РасходнаяНакладная
+  - Документ.АктОРасхождениях
+  - Документ.КорректировкаПоступления
+  - Документ.ДополнительныеРасходы
+  - Документ.РасходыПриИмпорте
+links:
+  - doc-dopolnitelnye-rashody
+  - doc-korrektirovka-postupleniya
+  - doc-prikhodnaya-nakladnaya
 ---
 
 # Грабли: закупки

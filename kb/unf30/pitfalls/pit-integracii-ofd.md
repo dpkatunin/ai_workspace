@@ -2,7 +2,7 @@
 id: unf30-pit-integracii-ofd
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: ['интеграции', 'офд', 'кассы', 'чеки', 'ккт', 'pitfall']
 synonyms: ['ошибка офд', 'чек не уходит в офд', 'не отправлены чеки', 'смена не закрывается']
@@ -11,7 +11,13 @@ source: сводка по разделу «Интеграции и маркир�
 updated: 2026-11-01
 verified_by: пользователь (внедренец), подтверждено на практике и по ИТС
 verified_at: 2026-11-01
-related: ['unf30-pb-diagnostika-integracii', 'unf30-cat-kassy']
+objects:
+  - Справочник.КассыККМ
+  - Справочник.Номенклатура
+  - Перечисление.СтавкиНДС
+links:
+  - pb-diagnostika-integracii
+  - cat-kassy
 ---
 
 # Интеграция с ОФД (Кассы и чеки)

@@ -2,14 +2,25 @@
 id: unf30-mech-skidki-nacenki
 config: unf30
 config_version: ">=3.0.12"
-type: mechanism
+type: mech
 level: kb
 tags: [скидки, наценки, условия, приоритеты, дисконт, pricing]
 synonyms: [скидки, наценки, условия скидок, дисконт, акция]
 status: verified
 source: сводка по разделу «Ценообразование» УНФ 3.0
 updated: 2026-10-29
-related: [unf30-doc-ustanovka-cen, unf30-pit-ceny, unf30-doc-zakaz-pokupatelya, unf30-doc-realizaciya]
+objects:
+  - Справочник.ВидыЦен
+  - Документ.УстановкаЦенНоменклатуры
+  - Справочник.ВидыСкидокНаценок
+  - Справочник.ДисконтныеКарты
+  - Документ.ЗаказПокупателя
+  - Документ.РасходнаяНакладная
+links:
+  - unf30-doc-ustanovka-cen
+  - unf30-pit-ceny
+  - unf30-doc-zakaz-pokupatelya
+  - unf30-doc-realizaciya
 ---
 
 # Механизм «Скидки и наценки»

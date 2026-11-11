@@ -2,14 +2,23 @@
 id: unf30-doc-akt-vypolnennyh-rabot
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [работы, продажи, акт, выручка, долг, реализация, закрывающий]
 synonyms: [акт выполненных работ, акт, реализация работ, закрывающий документ]
 status: verified
 source: "ИТС, разд. Работы и Продажи; сводка CoderStar, Легасофт"
 updated: 2026-10-27
-related: [unf30-doc-zakaz-naryad, unf30-pb-sebestoimost-rabot, unf30-pit-raboty]
+objects:
+  - Документ.АктВыполненныхРабот
+  - Документ.ЗаказПокупателя
+  - РегистрНакопления.Продажи
+  - РегистрНакопления.РасчетыСПокупателями
+  - РегистрНакопления.ПредоставленныеСкидки
+links:
+  - unf30-doc-zakaz-naryad
+  - unf30-pb-sebestoimost-rabot
+  - unf30-pit-raboty
 ---
 
 # Документ «Акт выполненных работ»

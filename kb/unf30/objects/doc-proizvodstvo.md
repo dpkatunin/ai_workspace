@@ -2,7 +2,7 @@
 id: unf30-doc-proizvodstvo
 config: unf30
 config_version: ">=3.0.14"
-type: object
+type: doc
 level: kb
 tags: [производство, выпуск, сборка, материалы, отходы, брак]
 synonyms: [выпуск продукции, производство, сборка запасов, сделать продукцию]
@@ -11,7 +11,18 @@ verified_by: admin
 verified_at: 2026-11-01
 source: "ИТС, разд. Производство; сводка CoderStar, Корада; сверено с XML-выгрузкой УНФ 3.0.14.159"
 updated: 2026-11-01
-related: [unf30-pb-vypusk-produkcii, unf30-pit-proizvodstvo, unf30-mech-etapy-proizvodstva]
+objects:
+  - Документ.СборкаЗапасов
+  - Перечисление.ВидыОперацийСборкаЗапасов
+  - Документ.ЗаказНаПроизводство
+  - Справочник.Спецификации
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.ВыпускПродукции
+  - РегистрНакопления.ЭтапыПроизводства
+links:
+  - unf30-pb-vypusk-produkcii
+  - unf30-pit-proizvodstvo
+  - unf30-mech-etapy-proizvodstva
 ---
 
 # Документ «Производство» (Сборка запасов)

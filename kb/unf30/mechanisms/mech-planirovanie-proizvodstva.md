@@ -2,14 +2,24 @@
 id: unf30-mech-planirovanie-proizvodstva
 config: unf30
 config_version: ">=3.0.12"
-type: mechanism
+type: mech
 level: kb
 tags: [производство, планирование, задачи, цели, ресурсы]
 synonyms: [цели производственного учета, задачи планирования, план производства]
 status: verified
 source: "1С:Идея, статья «Себестоимость производства в 1С:УНФ», 2023"
 updated: 2026-10-29
-related: [unf30-doc-zakaz-na-proizvodstvo, unf30-doc-proizvodstvo, unf30-doc-sdelnyy-naryad, unf30-cat-specifikaciya]
+objects:
+  - Справочник.Спецификации
+  - Документ.ЗаказНаПроизводство
+  - Документ.СборкаЗапасов
+  - Документ.СдельныйНаряд
+  - Отчет.НормативныйСоставИзделия
+links:
+  - unf30-doc-zakaz-na-proizvodstvo
+  - unf30-doc-proizvodstvo
+  - unf30-doc-sdelnyy-naryad
+  - unf30-cat-specifikaciya
 ---
 
 # Механизм: Планирование производства

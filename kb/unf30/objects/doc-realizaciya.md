@@ -2,14 +2,24 @@
 id: unf30-doc-realizaciya
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [продажи, отгрузка, резерв, ндс, возврат]
 synonyms: [реализация, расходная накладная, отгрузка]
 status: verified
 source: "ИТС, разд. Продажи; сводка по статьям CoderStar, SCloud"
 updated: 2026-10-29
-related: [unf30-pb-otgruzka-s-rezervom, unf30-pit-rezervirovanie]
+objects:
+  - Документ.РасходнаяНакладная
+  - Документ.ЗаказПокупателя
+  - Документ.СчетНаОплату
+  - РегистрНакопления.ЗапасыНаСкладах
+  - РегистрНакопления.Продажи
+  - РегистрНакопления.РасчетыСПокупателями
+  - РегистрНакопления.ПредоставленныеСкидки
+links:
+  - unf30-pb-otgruzka-s-rezervom
+  - unf30-pit-rezervirovanie
 ---
 
 # Документ «Расходная накладная»

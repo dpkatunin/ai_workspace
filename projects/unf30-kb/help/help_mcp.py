@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 help_mcp.py — MCP-сервер слоя HELP (УНФ 3.0): справка конфигурации из Help/ru.html.
 
 Каркас скопирован с struct_mcp.py один в один:
@@ -12,7 +12,12 @@ help_get_links, help_stats.
 
 Запуск (из корня ai_workspace/):
     .venv\Scripts\python.exe projects/unf30-kb/help/help_mcp.py \
-        --db projects/unf30-kb/help/data/help.db --port 8002
+        --db projects/unf30-kb/help/data/help.db \
+        --struct-db projects/unf30-kb/struct/data/struct.db --port 8002
+
+Анти-зацикливание (2026-11-09): пустые ответы help_get_object_articles/help_get_article
+снабжаются meta.verdict — счётчиком повторов, вердиктом struct.db
+(объект есть/нет в конфигурации, похожие имена) и на пределе повторов — stop-директивой.
 """
 
 from __future__ import annotations
@@ -53,7 +58,7 @@ except ImportError:
     except ImportError:
         print(
             "Не установлен пакет 'mcp' в этом интерпретаторе.\n"
-            "Установите:  <путь-к-venv>\Scripts\python.exe -m pip install \"mcp[cli]\"",
+            "Установите:  <путь-к-venv>\\Scripts\\python.exe -m pip install \"mcp[cli]\"",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -74,6 +79,13 @@ SNIPPET_RADIUS = 80
 
 _db_path_global: Path = DEFAULT_DB
 _conn_global: Optional[sqlite3.Connection] = None
+
+# Анти-зацикливание: сервер помнит негативные ответы и на повторном запросе
+# выдаёт однозначный вердикт вместо очередного пустого JSON.
+# Ключ: (имя инструмента, аргумент) -> число повторов.
+_struct_db_path: Optional[Path] = None
+_miss_counts: dict[tuple[str, str], int] = {}
+MISS_REPEAT_LIMIT = 2  # столько раз можно получить пустой ответ; дальше — STOP-вердикт
 
 def _conn() -> sqlite3.Connection:
     global _conn_global
@@ -246,7 +258,11 @@ def _do_help_get_article(
             ("%" + path,),
         )
     if not rows:
-        return [], [path], {"truncated": False, "total": 0}
+        return [], [path], {
+            "truncated": False, "total": 0,
+            **_miss_verdict("help_get_article", path),
+        }
+    _miss_counts.pop(("help_get_article", path), None)
     facts = [_article_fact(r, [], with_text=True) for r in rows]
     links = _rows(
         conn,
@@ -256,6 +272,65 @@ def _do_help_get_article(
     facts[0]["data"]["links"] = links[:50]
     facts[0]["data"]["links_total"] = len(links)
     return facts, [], {"truncated": len(rows) > 1, "total": len(rows)}
+
+def _verdict_struct(object_full_name: str) -> Optional[dict]:
+    """Проверить ПолноеИмя в struct.db (если сервер запущен с --struct-db).
+    Возвращает None, если struct.db не подключён."""
+    if _struct_db_path is None or not _struct_db_path.exists():
+        return None
+    conn = sqlite3.connect(str(_struct_db_path))
+    try:
+        row = conn.execute(
+            "SELECT full_name, kind FROM objects WHERE full_name = ?",
+            (object_full_name,),
+        ).fetchone()
+        if row:
+            return {"in_config": True, "kind": row[1]}
+        # Мягкая подсказка: объекта нет, но есть ли похожие по суффиксу имени?
+        like = conn.execute(
+            "SELECT full_name FROM objects WHERE full_name LIKE ? LIMIT 5",
+            ("%.%" + object_full_name.split(".")[-1],),
+        ).fetchall()
+        return {
+            "in_config": False,
+            "similar": [r[0] for r in like],
+        }
+    finally:
+        conn.close()
+
+
+def _miss_verdict(tool: str, arg: str, object_full_name: Optional[str] = None) -> dict:
+    """Счётчик повторов + вердикт для пустого ответа. Гасит зацикливание LLM:
+    на N-й повтор явно говорим 'объекта/статьи нет — не повторяй запрос'."""
+    key = (tool, arg)
+    n = _miss_counts.get(key, 0) + 1
+    _miss_counts[key] = n
+    verdict: dict[str, Any] = {"repeat": n, "empty_result": True}
+    if object_full_name is not None:
+        sv = _verdict_struct(object_full_name)
+        if sv is not None:
+            verdict["struct"] = sv
+            if sv.get("in_config"):
+                verdict["meaning"] = (
+                    "объект есть в конфигурации, но статей справки по нему нет; "
+                    "запрос исчерпан — не повторяй его, ищи через help_search или соседние объекты"
+                )
+            else:
+                verdict["meaning"] = (
+                    "такого объекта нет в конфигурации (struct.db): возможно, "
+                    "неверное ПолноеИмя или объект из другой редакции/МП-контура; "
+                    "не повторяй запрос"
+                )
+                if sv.get("similar"):
+                    verdict["similar_in_struct"] = sv["similar"]
+    if n > MISS_REPEAT_LIMIT:
+        verdict["stop"] = (
+            f"запрос '{tool}({arg})' уже выполнялся {n} раз с пустым результатом. "
+            "Дальнейшие повторы бесполезны — смени стратегию: help_search по словам, "
+            "проверь ПолноеИмя через struct-слой или переформулируй вопрос."
+        )
+    return verdict
+
 
 def _do_help_get_object_articles(
     conn: sqlite3.Connection,
@@ -268,7 +343,11 @@ def _do_help_get_object_articles(
         (object_full_name,),
     )
     if not rows:
-        return [], [object_full_name], {"truncated": False, "total": 0}
+        return [], [object_full_name], {
+            "truncated": False, "total": 0,
+            **_miss_verdict("help_get_object_articles", object_full_name, object_full_name),
+        }
+    _miss_counts.pop(("help_get_object_articles", object_full_name), None)
     facts = [_article_fact(r, []) for r in rows]
     return facts, [], {"truncated": len(rows) >= 50, "total": len(rows)}
 
@@ -450,13 +529,26 @@ def main() -> None:
         choices=["streamable-http", "sse", "stdio"],
     )
     ap.add_argument(
+        "--struct-db",
+        default=None,
+        help="Путь к struct.db: для вердиктов 'объект есть/нет в конфигурации' "
+        "на пустые ответы (опционально, но рекомендуется).",
+    )
+    ap.add_argument(
         "--no-dns-protection",
         action="store_true",
         help="Отключить DNS-rebinding protection (как у KB-сервера).",
     )
     args = ap.parse_args()
 
+    global _struct_db_path
+
     _db_path_global = Path(args.db).resolve()
+    if args.struct_db:
+        _struct_db_path = Path(args.struct_db).resolve()
+        if not _struct_db_path.exists():
+            print(f"[help_mcp] WARN: --struct-db не найдена: {_struct_db_path}", file=sys.stderr)
+            _struct_db_path = None
     if not _db_path_global.exists():
         print(f"[help_mcp] БД не найдена: {_db_path_global}", file=sys.stderr)
         sys.exit(1)
@@ -470,6 +562,7 @@ def main() -> None:
         f"[help_mcp] SDK:       mcp v{_SDK_VERSION} "
         f"({'MCPServer' if _SDK_VERSION == 2 else 'FastMCP'})\n"
         f"[help_mcp] transport: {args.transport}\n"
+        f"[help_mcp] struct_db: {_struct_db_path or 'не подключена (вердикты недоступны)'}\n"
         f"[help_mcp] endpoint:  http://{args.host}:{args.port}/mcp",
         file=sys.stderr,
     )

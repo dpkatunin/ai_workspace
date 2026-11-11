@@ -1,10 +1,21 @@
 ---
 id: unf30-cat-kontragent
-type: catalog
+type: cat
 status: verified
 title: Контрагенты (справочник)
 synonyms: [контрагент, юрлицо, ИП, контрагент-физлицо]
 updated: 2026-10-29
+objects:
+  - Справочник.Контрагенты
+  - Справочник.ДоговорыКонтрагентов
+  - РегистрНакопления.РасчетыСПокупателями
+  - РегистрНакопления.РасчетыСПоставщиками
+  - РегистрНакопления.ЗаказыПокупателей
+links:
+  - unf30-mech-vzaimoraschety
+  - unf30-pit-kontragenty
+  - unf30-doc-prikhodnaya-nakladnaya
+  - unf30-doc-realizaciya
 ---
 
 # Контрагенты (справочник)

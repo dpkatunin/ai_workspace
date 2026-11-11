@@ -2,14 +2,24 @@
 id: unf30-pit-rezervirovanie
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: [резерв, продажи, закупки, склад]
 synonyms: [резерв, зарезервировано, не хватает запасов]
 status: verified
 source: "Практика внедрений; сводка CoderStar, RPS-1C"
 updated: 2026-10-26
-related: [unf30-doc-realizaciya, unf30-pb-otgruzka-s-rezervom]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.РасходнаяНакладная
+  - Документ.ЗаказПоставщику
+  - Документ.РезервированиеЗапасов
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.ЗапасыНаСкладах
+links:
+  - doc-realizaciya
+  - pb-otgruzka-s-rezervom
+  - mech-rezervirovanie
 ---
 
 # Грабли: резервирование запасов

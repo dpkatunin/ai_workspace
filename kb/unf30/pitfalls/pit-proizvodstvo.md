@@ -2,14 +2,24 @@
 id: unf30-pit-proizvodstvo
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: [производство, выпуск, спецификация, сдельный наряд, брак]
 synonyms: [производство не работает, выпуск не проводится]
 status: verified
 source: ИТС, разд. Производство; сводка CoderStar, Корада
 updated: 2026-10-29
-related: [unf30-pb-vypusk-produkcii, unf30-case-mebel-nestandart, unf30-doc-sdelnyy-naryad]
+objects:
+  - Документ.ЗаказНаПроизводство
+  - Документ.СборкаЗапасов
+  - Документ.СдельныйНаряд
+  - Документ.ОтчетОПереработке
+  - Справочник.Спецификации
+  - РегистрНакопления.ЭтапыПроизводства
+links:
+  - unf30-pb-vypusk-produkcii
+  - unf30-case-mebel-nestandart
+  - unf30-doc-sdelnyy-naryad
 ---
 
 # Грабли: производство

@@ -2,14 +2,24 @@
 id: unf30-mech-rezervirovanie
 config: unf30
 config_version: ">=3.0.12"
-type: mechanism
+type: mech
 level: kb
 tags: [резерв, продажи, закупки, склад, механизм]
 synonyms: [резервирование, резерв, зарезервировать товар, жесткий резерв]
 status: verified
 source: "ИТС, разд. Склад; сводка CoderStar, RPS-1C"
 updated: 2026-10-27
-related: [unf30-doc-zakaz-pokupatelya, unf30-pit-rezervirovanie, unf30-pb-otgruzka-s-rezervom]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.РасходнаяНакладная
+  - Документ.РезервированиеЗапасов
+  - Документ.ЗаказПоставщику
+  - Отчет.ОстаткиТоваров
+  - РегистрНакопления.Запасы
+links:
+  - unf30-doc-zakaz-pokupatelya
+  - unf30-pit-rezervirovanie
+  - unf30-pb-otgruzka-s-rezervom
 ---
 
 # Механизм: Резервирование запасов

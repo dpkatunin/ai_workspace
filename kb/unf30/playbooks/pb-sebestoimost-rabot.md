@@ -2,14 +2,25 @@
 id: unf30-pb-sebestoimost-rabot
 config: unf30
 config_version: ">=3.0.12"
-type: playbook
+type: pb
 level: kb
 tags: [работы, себестоимость, затраты, распределение, 20.40]
 synonyms: [себестоимость работ, расчет затрат, списание на 20.40]
 status: verified
 source: "ИТС, разд. Работы; сводка CoderStar, Легасофт"
 updated: 2026-10-27
-related: [unf30-doc-zakaz-naryad, unf30-cat-nomenklatura]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.СдельныйНаряд
+  - Документ.ПриходнаяНакладная
+  - Документ.РаспределениеЗатрат
+  - Справочник.Номенклатура
+  - Перечисление.ТипыНоменклатуры
+links:
+  - doc-zakaz-naryad
+  - cat-nomenklatura
+  - pit-raboty
+  - doc-sdelnyy-naryad
 ---
 
 # Расчёт себестоимости работ

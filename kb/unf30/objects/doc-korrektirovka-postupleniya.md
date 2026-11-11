@@ -2,14 +2,24 @@
 id: unf30-doc-korrektirovka-postupleniya
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [закупки, корректировка, цена, количество, исправление]
 synonyms: [корректировка поступления, исправить приход, изменить цену поступления, акт о расхождениях]
 status: verified
 source: "ИТС, разд. Закупки; сводка CoderStar, SCloud"
 updated: 2026-10-27
-related: [unf30-doc-prikhodnaya-nakladnaya, unf30-doc-dopolnitelnye-rashody, unf30-pit-zakupki]
+objects:
+  - Документ.КорректировкаПоступления
+  - Документ.ПриходнаяНакладная
+  - Документ.АктОРасхождениях
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.РасчетыСПоставщиками
+  - РегистрНакопления.ЗапасыНаСкладах
+links:
+  - unf30-doc-prikhodnaya-nakladnaya
+  - unf30-doc-dopolnitelnye-rashody
+  - unf30-pit-zakupki
 ---
 
 # Документ «Корректировка поступления»

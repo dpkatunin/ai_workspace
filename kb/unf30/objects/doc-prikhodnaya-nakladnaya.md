@@ -2,14 +2,24 @@
 id: unf30-doc-prikhodnaya-nakladnaya
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [закупки, поступление, приход, остатки, долг]
 synonyms: [приходная накладная, поступление товара, оприходование, приход]
 status: verified
 source: "ИТС, разд. Закупки; сводка CoderStar, SCloud"
 updated: 2026-10-27
-related: [unf30-mech-rezervirovanie, unf30-doc-zakaz-pokupatelya]
+objects:
+  - Документ.ПриходнаяНакладная
+  - Документ.ЗаказПоставщику
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.ЗапасыНаСкладах
+  - РегистрНакопления.ЗапасыКПоступлениюНаСклады
+  - РегистрНакопления.РасчетыСПоставщиками
+  - РегистрНакопления.РасчетыСПокупателями
+links:
+  - unf30-mech-rezervirovanie
+  - unf30-doc-zakaz-pokupatelya
 ---
 
 # Документ «Приходная накладная»

@@ -2,14 +2,22 @@
 id: unf30-cat-nomenklatura
 config: unf30
 config_version: ">=3.0.12"
-type: catalog
+type: cat
 level: kb
 tags: [номенклатура, работы, услуги, тип, классификация]
 synonyms: [номенклатура, работа, услуга, типы номенклатуры]
 status: verified
 source: "ИТС, разд. Номенклатура; сводка CoderStar, Корада"
 updated: 2026-10-27
-related: [unf30-doc-zakaz-naryad, unf30-doc-proizvodstvo, unf30-pb-sebestoimost-rabot]
+objects:
+  - Справочник.Номенклатура
+  - Перечисление.ТипыНоменклатуры
+  - Документ.АктВыполненныхРабот
+  - Документ.СдельныйНаряд
+links:
+  - unf30-doc-zakaz-naryad
+  - unf30-doc-proizvodstvo
+  - unf30-pb-sebestoimost-rabot
 ---
 
 # Справочник «Номенклатура» (в контексте работ)

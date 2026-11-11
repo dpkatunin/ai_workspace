@@ -2,7 +2,7 @@
 id: unf30-mech-etapy-proizvodstva
 config: unf30
 config_version: ">=3.0.14"
-type: mechanism
+type: mech
 level: kb
 tags: [производство, этапы, поэтапное производство, настройки, спецификации]
 synonyms: [этапы производства, поэтапное производство, несколько этапов, стадии производства, выполнение этапов]
@@ -11,7 +11,17 @@ verified_by: admin
 verified_at: 2026-11-01
 source: "1С:Идея, статья «Себестоимость производства в 1С:УНФ», 2023; сверено с XML-выгрузкой УНФ 3.0.14.159"
 updated: 2026-11-01
-related: [unf30-cat-specifikaciya, unf30-mech-specifikacii-s-polufabrikatami, unf30-doc-proizvodstvo]
+objects:
+  - Справочник.ЭтапыПроизводства
+  - Перечисление.ТипыЭтаповПроизводства
+  - Справочник.ВидыПроизводства
+  - Документ.СборкаЗапасов
+  - РегистрНакопления.ЭтапыПроизводства
+  - Обработка.ВыполнениеЭтапов
+links:
+  - unf30-cat-specifikaciya
+  - unf30-mech-specifikacii-s-polufabrikatami
+  - unf30-doc-proizvodstvo
 ---
 
 # Механизм: Этапы производства

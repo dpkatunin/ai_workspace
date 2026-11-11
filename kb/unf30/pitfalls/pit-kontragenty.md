@@ -2,13 +2,20 @@
 id: unf30-pit-kontragenty
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: [контрагенты, дубли, договор, справочник, pitfall]
 synonyms: [дубль контрагента, два контрагента с одним ИНН, контрагент не находится, договор не подтягивается, контрагент не выбирается]
 status: verified
 updated: 2026-10-29
-related: [unf30-cat-kontragent, unf30-mech-vzaimoraschety]
+objects:
+  - Справочник.Контрагенты
+  - Справочник.ДоговорыКонтрагентов
+  - РегистрНакопления.РасчетыСПокупателями
+  - РегистрНакопления.РасчетыСПоставщиками
+links:
+  - cat-kontragent
+  - mech-vzaimoraschety
 ---
 
 # Контрагенты — грабли

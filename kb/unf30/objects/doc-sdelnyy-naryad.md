@@ -2,14 +2,25 @@
 id: unf30-doc-sdelnyy-naryad
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [зарплата, сдельная, наряд, производство, работы, выработка]
 synonyms: [сдельный наряд, сдельщина, наряд, выработка, зарплата сдельщиков]
 status: verified
 source: "ИТС, разд. Производство и Зарплата; сводка CoderStar, Легасофт"
 updated: 2026-10-27
-related: [unf30-doc-proizvodstvo, unf30-doc-zakaz-naryad, unf30-pb-sebestoimost-rabot, unf30-pit-raboty]
+objects:
+  - Документ.СдельныйНаряд
+  - Документ.ЗаказНаПроизводство
+  - Документ.НачислениеЗарплаты
+  - РегистрНакопления.СдельныеНаряды
+  - РегистрНакопления.ВыпускПродукции
+  - РегистрНакопления.РасчетыСПерсоналом
+links:
+  - unf30-doc-proizvodstvo
+  - unf30-doc-zakaz-naryad
+  - unf30-pb-sebestoimost-rabot
+  - unf30-pit-raboty
 ---
 
 # Документ «Сдельный наряд»

@@ -2,13 +2,25 @@
 id: unf30-mech-vzaimoraschety
 config: unf30
 config_version: ">=3.0.12"
-type: mechanism
+type: mech
 level: kb
 tags: [взаиморасчёты, расчёты, задолженность, договор, акт-сверки]
 synonyms: [взаиморасчёты, задолженность, долг, акт сверки, зачёт, корректировка долга]
 status: verified
 updated: 2026-10-29
-related: [unf30-cat-kontragent, unf30-pit-kontragenty, unf30-doc-realizaciya, unf30-doc-prikhodnaya-nakladnaya]
+objects:
+  - РегистрНакопления.РасчетыСПокупателями
+  - РегистрНакопления.РасчетыСПоставщиками
+  - Справочник.Контрагенты
+  - Справочник.ДоговорыКонтрагентов
+  - Документ.РасходнаяНакладная
+  - Документ.ПриходнаяНакладная
+  - Отчет.АктСверки
+links:
+  - unf30-cat-kontragent
+  - unf30-pit-kontragenty
+  - unf30-doc-realizaciya
+  - unf30-doc-prikhodnaya-nakladnaya
 ---
 
 # Взаиморасчёты с контрагентами

@@ -1,15 +1,24 @@
 ---
 id: unf30-pb-diagnostika-integracii
 config: unf30
-config_version: >=3.0.12
-type: playbook
+config_version: ">=3.0.12"
+type: pb
 level: kb
 tags: ['интеграции', 'диагностика', 'playbook']
 synonyms: ['не работает интеграция', 'что проверить при обмене', 'ошибка обмена']
 status: verified
 source: сводка по разделу «Интеграции и маркировка»; внешние материалы TopKoder, ИТС 1С, 2026-10
 updated: 2026-11-01
-related: ['unf30-pit-integracii-ofd', 'unf30-pit-integracii-marketplejsy', 'unf30-pit-integracii-edo', 'unf30-pit-integracii-bank']
+objects:
+  - Обработка.ЖурналРегистрации
+  - РегистрСведений.СтатусыДокументов
+  - Справочник.КлючиДоступа
+links:
+  - pit-integracii-ofd
+  - pit-integracii-marketplejsy
+  - pit-integracii-edo
+  - pit-integracii-bank
+  - pit-dengi
 ---
 
 # Диагностика любой интеграции

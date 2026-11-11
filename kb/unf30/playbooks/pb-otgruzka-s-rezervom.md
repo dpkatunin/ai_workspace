@@ -2,14 +2,23 @@
 id: unf30-pb-otgruzka-s-rezervom
 config: unf30
 config_version: ">=3.0.12"
-type: playbook
+type: pb
 level: kb
 tags: [продажи, отгрузка, резерв, склад]
 synonyms: [отгрузить с резервом, снять резерв, зарезервировать под клиента]
 status: verified
 source: "Практика внедрений; сводка CoderStar"
 updated: 2026-10-26
-related: [unf30-doc-realizaciya, unf30-pit-rezervirovanie]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.РасходнаяНакладная
+  - Документ.РезервированиеЗапасов
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.ЗапасыНаСкладах
+links:
+  - doc-realizaciya
+  - pit-rezervirovanie
+  - mech-rezervirovanie
 ---
 
 # Отгрузка с резервом

@@ -1,0 +1,322 @@
+{
+  "totals": {
+    "files": 44,
+    "clean": 44,
+    "with_warn": 0,
+    "with_unknown": 0,
+    "candidates": 23,
+    "known": 23,
+    "warn": 0,
+    "unknown": 0
+  },
+  "files": [
+    {
+      "file": "kb\\unf30\\_index.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\cases\\case-mebel-nestandart.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-bank-ekvayring.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-etapy-proizvodstva.md",
+      "candidates": 4,
+      "known": 4,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-ordernaya-shema.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-parametricheskie-specifikacii.md",
+      "candidates": 1,
+      "known": 1,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-planirovanie-proizvodstva.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-rezervirovanie.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-skidki-nacenki.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-specifikacii-s-polufabrikatami.md",
+      "candidates": 1,
+      "known": 1,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-vzaimoraschety.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-kassy.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-kontragent.md",
+      "candidates": 3,
+      "known": 3,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-nomenklatura.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-sklady.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-specifikaciya.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-akt-vypolnennyh-rabot.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-dopolnitelnye-rashody.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-korrektirovka-postupleniya.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-prikhodnaya-nakladnaya.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-proizvodstvo.md",
+      "candidates": 9,
+      "known": 9,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-realizaciya.md",
+      "candidates": 5,
+      "known": 5,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-sdelnyy-naryad.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-ustanovka-cen.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-na-proizvodstvo.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-naryad.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-pokupatelya.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-ceny.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-dengi.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-bank.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-edo.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-marketplejsy.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-ofd.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-kontragenty.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-proizvodstvo.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-raboty.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-rezervirovanie.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-sklad.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-specifikacii.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-zakupki.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-diagnostika-integracii.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-otgruzka-s-rezervom.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-sebestoimost-rabot.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-vypusk-produkcii.md",
+      "candidates": 0,
+      "known": 0,
+      "warn": [],
+      "unknown": []
+    }
+  ]
+}

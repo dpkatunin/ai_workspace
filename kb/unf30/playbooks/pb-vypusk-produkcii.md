@@ -2,16 +2,23 @@
 id: unf30-pb-vypusk-produkcii
 config: unf30
 config_version: ">=3.0.12"
-type: playbook
+type: pb
 level: kb
 tags: [производство, выпуск, спецификация, себестоимость]
 synonyms: [сборка]
 status: verified
 source: ИТС, разд. Производство; сводка CoderStar, Корада
 updated: 2026-10-29
-related: [unf30-pit-proizvodstvo, unf30-case-mebel-nestandart, unf30-doc-proizvodstvo]
+objects:
+  - Документ.ЗаказНаПроизводство
+  - Документ.СборкаЗапасов
+  - Отчет.ОстаткиТоваров
+  - Документ.ПриходнаяНакладная
+links:
+  - unf30-pit-proizvodstvo
+  - unf30-case-mebel-nestandart
+  - unf30-doc-proizvodstvo
 ---
-
 # Выпуск продукции
 
 ## Когда применять

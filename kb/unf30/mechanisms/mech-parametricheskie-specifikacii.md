@@ -2,7 +2,7 @@
 id: unf30-mech-parametricheskie-specifikacii
 config: unf30
 config_version: ">=3.0.14"
-type: mechanism
+type: mech
 level: kb
 tags: [производство, мебель, спецификации, параметрические, формулы]
 synonyms: [параметрическая спецификация, формулы, параметры, параметрическая]
@@ -11,7 +11,17 @@ verified_by: admin
 verified_at: 2026-11-01
 source: "1С:Идея, статья «Производство продукции в мебельных компаниях…», 2023; сверено с XML-выгрузкой УНФ 3.0.14.159"
 updated: 2026-11-01
-related: [unf30-cat-specifikaciya, unf30-doc-zakaz-na-proizvodstvo, unf30-doc-proizvodstvo, unf30-pit-specifikacii]
+objects:
+  - Справочник.Спецификации
+  - Справочник.ВидыПроизводства
+  - Документ.ЗаказПокупателя
+  - Документ.ЗаказНаПроизводство
+links:
+  - unf30-cat-specifikaciya
+  - unf30-mech-specifikacii-s-polufabrikatami
+  - unf30-doc-zakaz-na-proizvodstvo
+  - unf30-doc-proizvodstvo
+  - unf30-pit-specifikacii
 ---
 
 # Механизм: Параметрические спецификации

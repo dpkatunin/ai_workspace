@@ -2,14 +2,22 @@
 id: unf30-doc-zakaz-naryad
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [работы, услуги, ремонт, заказ-наряд, трудозатраты]
 synonyms: [заказ-наряд, ремонт, монтаж, выполнение работ]
 status: verified
 source: "ИТС, разд. Работы; сводка CoderStar, Легасофт"
 updated: 2026-10-27
-related: [unf30-cat-nomenklatura, unf30-pb-sebestoimost-rabot]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.АктВыполненныхРабот
+  - Справочник.Номенклатура
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.СдельныеНаряды
+links:
+  - unf30-cat-nomenklatura
+  - unf30-pb-sebestoimost-rabot
 ---
 
 # Документ «Заказ-наряд»

@@ -2,14 +2,23 @@
 id: unf30-doc-zakaz-pokupatelya
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [продажи, заказ, резерв, обязательство]
 synonyms: [заказ покупателя, заказ клиента, резерв товара]
 status: verified
 source: "ИТС, разд. Продажи; сводка CoderStar, SCloud"
 updated: 2026-10-27
-related: [unf30-mech-rezervirovanie, unf30-doc-realizaciya, unf30-pit-rezervirovanie]
+objects:
+  - Документ.ЗаказПокупателя
+  - Документ.РасходнаяНакладная
+  - Документ.СчетНаОплату
+  - РегистрНакопления.ЗаказыПокупателей
+  - РегистрНакопления.Запасы
+links:
+  - unf30-mech-rezervirovanie
+  - unf30-doc-realizaciya
+  - unf30-pit-rezervirovanie
 ---
 
 # Документ «Заказ покупателя»

@@ -2,14 +2,24 @@
 id: unf30-pit-specifikacii
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: [спецификация, производство, материалы, себестоимость]
 synonyms: [спецификация не работает, материал не списывается, доли стоимости]
 status: verified
 source: "Практика внедрений; сводка CoderStar, Корада"
 updated: 2026-10-27
-related: [unf30-cat-specifikaciya, unf30-doc-proizvodstvo, unf30-pit-proizvodstvo]
+objects:
+  - Справочник.Спецификации
+  - Перечисление.ТипыСтрокСоставаСпецификации
+  - Документ.ЗаказНаПроизводство
+  - Документ.СборкаЗапасов
+  - РегистрНакопления.Запасы
+links:
+  - cat-specifikaciya
+  - doc-proizvodstvo
+  - pit-proizvodstvo
+  - mech-parametricheskie-specifikacii
 ---
 
 # Грабли: спецификации

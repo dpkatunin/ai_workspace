@@ -2,14 +2,21 @@
 id: unf30-doc-dopolnitelnye-rashody
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [закупки, себестоимость, доставка, распределение, допрасходы]
 synonyms: [дополнительные расходы, допрасходы, доставка, погрузка, включить в себестоимость]
 status: verified
 source: "ИТС, разд. Закупки; сводка CoderStar, SCloud"
 updated: 2026-10-27
-related: [unf30-doc-prikhodnaya-nakladnaya, unf30-pit-zakupki]
+objects:
+  - Документ.ДополнительныеРасходы
+  - Документ.ПриходнаяНакладная
+  - РегистрНакопления.Запасы
+  - РегистрНакопления.РасчетыСПоставщиками
+links:
+  - unf30-doc-prikhodnaya-nakladnaya
+  - unf30-pit-zakupki
 ---
 
 # Документ «Дополнительные расходы»

@@ -2,7 +2,7 @@
 id: unf30-pit-integracii-marketplejsy
 config: unf30
 config_version: ">=3.0.12"
-type: pitfall
+type: pit
 level: kb
 tags: ['интеграции', 'маркетплейсы', 'Ozon', 'Wildberries', 'обмен', 'pitfall']
 synonyms: ['маркетплейс не синхронизируется', 'неверный API-ключ', 'заказы не приходят с маркетплейса', 'номенклатура не сопоставлена', 'ошибка маркетплейс', 'нет синхронизации с озон', 'не выгружается товар']
@@ -11,7 +11,14 @@ source: сводка по разделу «Интеграции и маркир�
 updated: 2026-11-01
 verified_by: пользователь (внедренец), подтверждено на практике и по ИТС
 verified_at: 2026-11-01
-related: ['unf30-pit-dengi', 'unf30-pb-diagnostika-integracii']
+objects:
+  - Справочник.Номенклатура
+  - Справочник.КлючиДоступа
+  - Документ.ЗаказПокупателя
+  - РегистрНакопления.Запасы
+links:
+  - pb-diagnostika-integracii
+  - pit-dengi
 ---
 
 # Маркетплейсы — грабли

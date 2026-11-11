@@ -1,0 +1,767 @@
+{
+  "totals": {
+    "files": 44,
+    "legacy": 1,
+    "anchored": 43,
+    "broken_anchors": 0,
+    "broken_links": 0,
+    "no_verified_against": 43,
+    "bad_id": 0,
+    "bad_type": 0
+  },
+  "cards": [
+    {
+      "file": "kb\\unf30\\cases\\case-mebel-nestandart.md",
+      "id": "unf30-case-mebel-nestandart",
+      "type": "case",
+      "objects_ok": [
+        "Документ.ЗаказНаПроизводство",
+        "Справочник.Спецификации",
+        "РегистрНакопления.ЭтапыПроизводства",
+        "Документ.СдельныйНаряд",
+        "РегистрНакопления.СдельныеНаряды",
+        "РегистрНакопления.ЗаказыНаПроизводство"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-bank-ekvayring.md",
+      "id": "unf30-mech-bank-ekvayring",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.БанковскиеСчета",
+        "Документ.ПоступлениеНаСчет",
+        "Документ.РасходСоСчета",
+        "Документ.ПлатежноеПоручение",
+        "РегистрНакопления.РасчетыПоЭквайрингу",
+        "РегистрНакопления.ДенежныеСредства",
+        "РегистрНакопления.ДоходыИРасходы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-etapy-proizvodstva.md",
+      "id": "unf30-mech-etapy-proizvodstva",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.ЭтапыПроизводства",
+        "Перечисление.ТипыЭтаповПроизводства",
+        "Справочник.ВидыПроизводства",
+        "Документ.СборкаЗапасов",
+        "РегистрНакопления.ЭтапыПроизводства",
+        "Обработка.ВыполнениеЭтапов"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-ordernaya-shema.md",
+      "id": "unf30-mech-ordernaya-shema",
+      "type": "mech",
+      "objects_ok": [
+        "Документ.ПриходныйОрдер",
+        "Документ.РасходныйОрдер",
+        "Документ.ПриходнаяНакладная",
+        "Документ.РасходнаяНакладная",
+        "Документ.ПеремещениеЗапасов",
+        "РегистрНакопления.ЗапасыНаСкладах"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-parametricheskie-specifikacii.md",
+      "id": "unf30-mech-parametricheskie-specifikacii",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.Спецификации",
+        "Справочник.ВидыПроизводства",
+        "Документ.ЗаказПокупателя",
+        "Документ.ЗаказНаПроизводство"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-planirovanie-proizvodstva.md",
+      "id": "unf30-mech-planirovanie-proizvodstva",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.Спецификации",
+        "Документ.ЗаказНаПроизводство",
+        "Документ.СборкаЗапасов",
+        "Документ.СдельныйНаряд",
+        "Отчет.НормативныйСоставИзделия"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-rezervirovanie.md",
+      "id": "unf30-mech-rezervirovanie",
+      "type": "mech",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.РасходнаяНакладная",
+        "Документ.РезервированиеЗапасов",
+        "Документ.ЗаказПоставщику",
+        "Отчет.ОстаткиТоваров",
+        "РегистрНакопления.Запасы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-skidki-nacenki.md",
+      "id": "unf30-mech-skidki-nacenki",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.ВидыЦен",
+        "Документ.УстановкаЦенНоменклатуры",
+        "Справочник.ВидыСкидокНаценок",
+        "Справочник.ДисконтныеКарты",
+        "Документ.ЗаказПокупателя",
+        "Документ.РасходнаяНакладная"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-specifikacii-s-polufabrikatami.md",
+      "id": "unf30-mech-specifikacii-s-polufabrikatami",
+      "type": "mech",
+      "objects_ok": [
+        "Справочник.Спецификации",
+        "Перечисление.ТипыСтрокСоставаСпецификации",
+        "Справочник.Номенклатура",
+        "Справочник.ВидыПроизводства",
+        "Документ.ЗаказПокупателя",
+        "Документ.ЗаказНаПроизводство"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\mechanisms\\mech-vzaimoraschety.md",
+      "id": "unf30-mech-vzaimoraschety",
+      "type": "mech",
+      "objects_ok": [
+        "РегистрНакопления.РасчетыСПокупателями",
+        "РегистрНакопления.РасчетыСПоставщиками",
+        "Справочник.Контрагенты",
+        "Справочник.ДоговорыКонтрагентов",
+        "Документ.РасходнаяНакладная",
+        "Документ.ПриходнаяНакладная",
+        "Отчет.АктСверки"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-kassy.md",
+      "id": "unf30-cat-kassy",
+      "type": "cat",
+      "objects_ok": [
+        "Справочник.Кассы",
+        "Справочник.КассыККМ",
+        "Документ.ПоступлениеВКассу",
+        "Документ.РасходИзКассы",
+        "Документ.АвансовыйОтчет",
+        "РегистрНакопления.ДенежныеСредства",
+        "РегистрНакопления.РасчетыСПодотчетниками"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-kontragent.md",
+      "id": "unf30-cat-kontragent",
+      "type": "cat",
+      "objects_ok": [
+        "Справочник.Контрагенты",
+        "Справочник.ДоговорыКонтрагентов",
+        "РегистрНакопления.РасчетыСПокупателями",
+        "РегистрНакопления.РасчетыСПоставщиками",
+        "РегистрНакопления.ЗаказыПокупателей"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-nomenklatura.md",
+      "id": "unf30-cat-nomenklatura",
+      "type": "cat",
+      "objects_ok": [
+        "Справочник.Номенклатура",
+        "Перечисление.ТипыНоменклатуры",
+        "Документ.АктВыполненныхРабот",
+        "Документ.СдельныйНаряд"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-sklady.md",
+      "id": "unf30-cat-sklady",
+      "type": "cat",
+      "objects_ok": [
+        "Справочник.СтруктурныеЕдиницы",
+        "Перечисление.ТипыСтруктурныхЕдиниц",
+        "ФункциональнаяОпция.УчетПоЯчейкам",
+        "РегистрНакопления.ЗапасыНаСкладах",
+        "РегистрНакопления.ЗапасыКПоступлениюНаСклады"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\cat-specifikaciya.md",
+      "id": "unf30-cat-specifikaciya",
+      "type": "cat",
+      "objects_ok": [
+        "Справочник.Спецификации",
+        "Перечисление.ТипыСтрокСоставаСпецификации",
+        "Справочник.Номенклатура",
+        "Документ.ЗаказНаПроизводство",
+        "Документ.СборкаЗапасов"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-akt-vypolnennyh-rabot.md",
+      "id": "unf30-doc-akt-vypolnennyh-rabot",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.АктВыполненныхРабот",
+        "Документ.ЗаказПокупателя",
+        "РегистрНакопления.Продажи",
+        "РегистрНакопления.РасчетыСПокупателями",
+        "РегистрНакопления.ПредоставленныеСкидки"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-dopolnitelnye-rashody.md",
+      "id": "unf30-doc-dopolnitelnye-rashody",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.ДополнительныеРасходы",
+        "Документ.ПриходнаяНакладная",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.РасчетыСПоставщиками"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-korrektirovka-postupleniya.md",
+      "id": "unf30-doc-korrektirovka-postupleniya",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.КорректировкаПоступления",
+        "Документ.ПриходнаяНакладная",
+        "Документ.АктОРасхождениях",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.РасчетыСПоставщиками",
+        "РегистрНакопления.ЗапасыНаСкладах"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-prikhodnaya-nakladnaya.md",
+      "id": "unf30-doc-prikhodnaya-nakladnaya",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.ПриходнаяНакладная",
+        "Документ.ЗаказПоставщику",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.ЗапасыНаСкладах",
+        "РегистрНакопления.ЗапасыКПоступлениюНаСклады",
+        "РегистрНакопления.РасчетыСПоставщиками",
+        "РегистрНакопления.РасчетыСПокупателями"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-proizvodstvo.md",
+      "id": "unf30-doc-proizvodstvo",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.СборкаЗапасов",
+        "Перечисление.ВидыОперацийСборкаЗапасов",
+        "Документ.ЗаказНаПроизводство",
+        "Справочник.Спецификации",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.ВыпускПродукции",
+        "РегистрНакопления.ЭтапыПроизводства"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-realizaciya.md",
+      "id": "unf30-doc-realizaciya",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.РасходнаяНакладная",
+        "Документ.ЗаказПокупателя",
+        "Документ.СчетНаОплату",
+        "РегистрНакопления.ЗапасыНаСкладах",
+        "РегистрНакопления.Продажи",
+        "РегистрНакопления.РасчетыСПокупателями",
+        "РегистрНакопления.ПредоставленныеСкидки"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-sdelnyy-naryad.md",
+      "id": "unf30-doc-sdelnyy-naryad",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.СдельныйНаряд",
+        "Документ.ЗаказНаПроизводство",
+        "Документ.НачислениеЗарплаты",
+        "РегистрНакопления.СдельныеНаряды",
+        "РегистрНакопления.ВыпускПродукции",
+        "РегистрНакопления.РасчетыСПерсоналом"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-ustanovka-cen.md",
+      "id": "unf30-doc-ustanovka-cen",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.УстановкаЦенНоменклатуры",
+        "Справочник.ВидыЦен",
+        "РегистрСведений.ЦеныНоменклатуры",
+        "Справочник.Номенклатура"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-na-proizvodstvo.md",
+      "id": "unf30-doc-zakaz-na-proizvodstvo",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.ЗаказНаПроизводство",
+        "Справочник.Спецификации",
+        "Документ.СборкаЗапасов",
+        "Документ.СдельныйНаряд",
+        "РегистрНакопления.ЗаказыНаПроизводство",
+        "РегистрНакопления.Запасы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-naryad.md",
+      "id": "unf30-doc-zakaz-naryad",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.АктВыполненныхРабот",
+        "Справочник.Номенклатура",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.СдельныеНаряды"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\objects\\doc-zakaz-pokupatelya.md",
+      "id": "unf30-doc-zakaz-pokupatelya",
+      "type": "doc",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.РасходнаяНакладная",
+        "Документ.СчетНаОплату",
+        "РегистрНакопления.ЗаказыПокупателей",
+        "РегистрНакопления.Запасы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-ceny.md",
+      "id": "unf30-pit-ceny",
+      "type": "pit",
+      "objects_ok": [
+        "РегистрСведений.ЦеныНоменклатуры",
+        "Документ.УстановкаЦенНоменклатуры",
+        "Справочник.ВидыЦен",
+        "Справочник.ВидыСкидокНаценок",
+        "РегистрНакопления.ПредоставленныеСкидки",
+        "Документ.РасходнаяНакладная"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-dengi.md",
+      "id": "unf30-pit-dengi",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.Кассы",
+        "Справочник.КассыККМ",
+        "Документ.ПоступлениеВКассу",
+        "Документ.РасходИзКассы",
+        "РегистрНакопления.ДенежныеСредства",
+        "РегистрНакопления.РасчетыСПодотчетниками",
+        "РегистрНакопления.РасчетыПоЭквайрингу"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-bank.md",
+      "id": "unf30-pit-integracii-bank",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.БанковскиеСчета",
+        "Документ.ПоступлениеНаСчет",
+        "Документ.РасходСоСчета",
+        "Справочник.ДоговорыКонтрагентов",
+        "РегистрНакопления.РасчетыПоЭквайрингу"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-edo.md",
+      "id": "unf30-pit-integracii-edo",
+      "type": "pit",
+      "objects_ok": [
+        "РегистрСведений.СтатусыДокументов",
+        "Обработка.НастройкиЭДО",
+        "ОбщийМодуль.МашиночитаемыеДоверенности"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-marketplejsy.md",
+      "id": "unf30-pit-integracii-marketplejsy",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.Номенклатура",
+        "Справочник.КлючиДоступа",
+        "Документ.ЗаказПокупателя",
+        "РегистрНакопления.Запасы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-integracii-ofd.md",
+      "id": "unf30-pit-integracii-ofd",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.КассыККМ",
+        "Справочник.Номенклатура",
+        "Перечисление.СтавкиНДС"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-kontragenty.md",
+      "id": "unf30-pit-kontragenty",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.Контрагенты",
+        "Справочник.ДоговорыКонтрагентов",
+        "РегистрНакопления.РасчетыСПокупателями",
+        "РегистрНакопления.РасчетыСПоставщиками"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-proizvodstvo.md",
+      "id": "unf30-pit-proizvodstvo",
+      "type": "pit",
+      "objects_ok": [
+        "Документ.ЗаказНаПроизводство",
+        "Документ.СборкаЗапасов",
+        "Документ.СдельныйНаряд",
+        "Документ.ОтчетОПереработке",
+        "Справочник.Спецификации",
+        "РегистрНакопления.ЭтапыПроизводства"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-raboty.md",
+      "id": "unf30-pit-raboty",
+      "type": "pit",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.СдельныйНаряд",
+        "Документ.ПриходнаяНакладная",
+        "Документ.РаспределениеЗатрат",
+        "Перечисление.ТипыНоменклатуры",
+        "РегистрНакопления.СдельныеНаряды",
+        "РегистрНакопления.РасчетыСПерсоналом"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-rezervirovanie.md",
+      "id": "unf30-pit-rezervirovanie",
+      "type": "pit",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.РасходнаяНакладная",
+        "Документ.ЗаказПоставщику",
+        "Документ.РезервированиеЗапасов",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.ЗапасыНаСкладах"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-sklad.md",
+      "id": "unf30-pit-sklad",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.СтруктурныеЕдиницы",
+        "ФункциональнаяОпция.УчетПоЯчейкам",
+        "Документ.СборкаЗапасов",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.ЗапасыНаСкладах",
+        "РегистрНакопления.ЗапасыКПоступлениюНаСклады"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-specifikacii.md",
+      "id": "unf30-pit-specifikacii",
+      "type": "pit",
+      "objects_ok": [
+        "Справочник.Спецификации",
+        "Перечисление.ТипыСтрокСоставаСпецификации",
+        "Документ.ЗаказНаПроизводство",
+        "Документ.СборкаЗапасов",
+        "РегистрНакопления.Запасы"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\pitfalls\\pit-zakupki.md",
+      "id": "unf30-pit-zakupki",
+      "type": "pit",
+      "objects_ok": [
+        "Документ.ПриходнаяНакладная",
+        "Документ.ЗаказПоставщику",
+        "Документ.РасходнаяНакладная",
+        "Документ.АктОРасхождениях",
+        "Документ.КорректировкаПоступления",
+        "Документ.ДополнительныеРасходы",
+        "Документ.РасходыПриИмпорте"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-diagnostika-integracii.md",
+      "id": "unf30-pb-diagnostika-integracii",
+      "type": "pb",
+      "objects_ok": [
+        "Обработка.ЖурналРегистрации",
+        "РегистрСведений.СтатусыДокументов",
+        "Справочник.КлючиДоступа"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-otgruzka-s-rezervom.md",
+      "id": "unf30-pb-otgruzka-s-rezervom",
+      "type": "pb",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.РасходнаяНакладная",
+        "Документ.РезервированиеЗапасов",
+        "РегистрНакопления.Запасы",
+        "РегистрНакопления.ЗапасыНаСкладах"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-sebestoimost-rabot.md",
+      "id": "unf30-pb-sebestoimost-rabot",
+      "type": "pb",
+      "objects_ok": [
+        "Документ.ЗаказПокупателя",
+        "Документ.СдельныйНаряд",
+        "Документ.ПриходнаяНакладная",
+        "Документ.РаспределениеЗатрат",
+        "Справочник.Номенклатура",
+        "Перечисление.ТипыНоменклатуры"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    },
+    {
+      "file": "kb\\unf30\\playbooks\\pb-vypusk-produkcii.md",
+      "id": "unf30-pb-vypusk-produkcii",
+      "type": "pb",
+      "objects_ok": [
+        "Документ.ЗаказНаПроизводство",
+        "Документ.СборкаЗапасов",
+        "Отчет.ОстаткиТоваров",
+        "Документ.ПриходнаяНакладная"
+      ],
+      "objects_broken": [],
+      "links_broken": [],
+      "warnings": [
+        "нет verified_against (штамп сверки)"
+      ]
+    }
+  ],
+  "legacy": [
+    "kb\\unf30\\_index.md"
+  ]
+}

@@ -2,14 +2,25 @@
 id: unf30-mech-ordernaya-shema
 config: unf30
 config_version: ">=3.0.12"
-type: mechanism
+type: mech
 level: kb
 tags: [склад, ордер, ордерная схема, кладовщик, разделение]
 synonyms: [ордерная схема, ордерный склад, приходный ордер, расходный ордер, ордера]
 status: verified
 source: "ИТС, разд. Склад; сводка CoderStar, SCloud"
 updated: 2026-10-27
-related: [unf30-cat-sklady, unf30-doc-prikhodnaya-nakladnaya, unf30-doc-realizaciya, unf30-pit-sklad]
+objects:
+  - Документ.ПриходныйОрдер
+  - Документ.РасходныйОрдер
+  - Документ.ПриходнаяНакладная
+  - Документ.РасходнаяНакладная
+  - Документ.ПеремещениеЗапасов
+  - РегистрНакопления.ЗапасыНаСкладах
+links:
+  - unf30-cat-sklady
+  - unf30-doc-prikhodnaya-nakladnaya
+  - unf30-doc-realizaciya
+  - unf30-pit-sklad
 ---
 
 # Механизм: Ордерная схема

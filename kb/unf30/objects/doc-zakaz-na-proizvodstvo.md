@@ -2,14 +2,26 @@
 id: unf30-doc-zakaz-na-proizvodstvo
 config: unf30
 config_version: ">=3.0.12"
-type: object
+type: doc
 level: kb
 tags: [производство, заказ, план, планирование, резерв, исполнители, операции]
 synonyms: [заказ на производство, план выпуска, планирование производства, планирование операций, исполнители]
 status: verified
 source: "ИТС, разд. Производство; сводка CoderStar, Корада; 1С:Идея, статья «Производство продукции в мебельных компаниях…», 2023, стр. 4–5"
 updated: 2026-10-29
-related: [unf30-cat-specifikaciya, unf30-doc-proizvodstvo, unf30-pit-proizvodstvo, unf30-mech-parametricheskie-specifikacii, unf30-mech-specifikacii-s-polufabrikatami]
+objects:
+  - Документ.ЗаказНаПроизводство
+  - Справочник.Спецификации
+  - Документ.СборкаЗапасов
+  - Документ.СдельныйНаряд
+  - РегистрНакопления.ЗаказыНаПроизводство
+  - РегистрНакопления.Запасы
+links:
+  - unf30-cat-specifikaciya
+  - unf30-doc-proizvodstvo
+  - unf30-pit-proizvodstvo
+  - unf30-mech-parametricheskie-specifikacii
+  - unf30-mech-specifikacii-s-polufabrikatami
 ---
 
 # Документ «Заказ на производство»

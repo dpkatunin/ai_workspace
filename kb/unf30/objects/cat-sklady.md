@@ -2,14 +2,22 @@
 id: unf30-cat-sklady
 config: unf30
 config_version: ">=3.0.12"
-type: catalog
+type: cat
 level: kb
 tags: [склад, справочник, структурные единицы, ячейки, ордерный]
 synonyms: [склады, склад, справочник складов, розничный склад, подразделение]
 status: verified
 source: "ИТС, разд. Склад; сводка CoderStar, RPS-1C"
 updated: 2026-10-27
-related: [unf30-mech-ordernaya-shema, unf30-pit-sklad]
+objects:
+  - Справочник.СтруктурныеЕдиницы
+  - Перечисление.ТипыСтруктурныхЕдиниц
+  - ФункциональнаяОпция.УчетПоЯчейкам
+  - РегистрНакопления.ЗапасыНаСкладах
+  - РегистрНакопления.ЗапасыКПоступлениюНаСклады
+links:
+  - unf30-mech-ordernaya-shema
+  - unf30-pit-sklad
 ---
 
 # Справочник «Склады и магазины»
